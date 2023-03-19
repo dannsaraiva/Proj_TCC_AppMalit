@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 
 //Estilização.
-import styles from '../../../Style';
+import styles from '../styles/Style';
 
 //Configuração do calendário.
 import { Calendar, LocaleConfig } from 'react-native-calendars';

@@ -3,7 +3,7 @@ import { View, Image } from 'react-native';
 import Lottie from 'lottie-react-native';
 
 //Estilização.
-import styles from '../../../Style';
+import styles from '../styles/Style';
 import { useNavigation } from '@react-navigation/native';
 
 const TelaLogo = () => {
@@ -14,7 +14,7 @@ const TelaLogo = () => {
                 <Image style={styles.logoCarregamento}
                     source={require('../images/Logo_Malit.png')} />
                 <Lottie style={styles.jsonCarregamento}
-                    source={require('../../assets/loading/loading.json')}
+                    source={require('../componentes/loading.json')}
                     autoPlay
                     speed={0.4}
                     loop

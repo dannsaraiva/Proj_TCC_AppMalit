@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, BackHandler, Alert } from 'react-native';
 
 //Estilização.
-import styles from '../../../Style';
+import styles from '../styles/Style';
 
 const TelaMenu = ({ navigation }) => {
   useEffect(() => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, Button } from 'react-native';
 
 //Estilização da página.
-import styles from '../../../Style';
+import styles from '../styles/Style';
 
 const TelaMeusMedicamentos = ({ navigation }) => {
     return (

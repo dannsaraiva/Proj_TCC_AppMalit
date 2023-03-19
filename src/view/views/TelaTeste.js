@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert, BackHandler } from 'react-native';
 
 //Estilização.
-import styles from '../../../Style';
+import styles from '../styles/Style';
 
 const TelaTeste = ({ navigation }) => {
     useEffect(() => {

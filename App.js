@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //Importação das telas.
+import Logo from './src/view/views/TelaLogo';
 import Login from './src/view/views/TelaLogin';
 import Cadastro from './src/view/views/TelaCadastro';
 import RecuperarSenha from './src/view/views/TelaRecuperarSenha';
@@ -13,7 +14,6 @@ import TesteMaleta from './src/view/views/TelaTeste';
 import Chat from './src/view/views/TelaChatComprar';
 import Ajuda from './src/view/views/TelaAjuda';
 import Agenda from './src/view/views/TelaAgenda';
-import Logo from './src/view/views/TelaLogo';
 import CadastroMedicamento from './src/view/views/TelaCadastroMedicamento';
 import MeusMedicamentos from './src/view/views/TelaMeusMedicamentos';
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, BackHandler, Alert } from 'react-native';
 
 //Estilização.
-import styles from '../../../Style';
+import styles from '../styles/Style';
 
 const TelaPerfil = ({ navigation }) => {
     return (

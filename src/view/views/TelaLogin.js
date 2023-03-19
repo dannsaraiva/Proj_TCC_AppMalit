@@ -1,6 +1,7 @@
-import * as  React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, BackHandler } from 'react-native';
-import styles from '../../../Style';
+import styles from '../styles/Style';
+
 
 const TelaLogin = ({ navigation }) => {
   React.useEffect(() => {
@@ -8,6 +9,33 @@ const TelaLogin = ({ navigation }) => {
       return true
     }, [])
   })
+
+  // //Armazena os valores para logar.
+  // const [login, setLogin] = useState({
+  //   login: 'Daniel',
+  //   senha: '1234'
+  // });
+
+  // //Pega os dados.
+  // const getLogin = (text, input) => {
+  //   setLogin((prevState) => (
+  //     { ...prevState, [input]: text }
+  //   ))
+  // };
+
+
+
+  // const validacao = () => {
+  //   login();
+  // }
+
+  // console.log(login);
+
+
+
+
+
+
   return (
     <View style={styles.container}>
 
@@ -33,7 +61,9 @@ const TelaLogin = ({ navigation }) => {
 
       <View style={styles.footer}>
         <TouchableOpacity style={styles.botao}
-          onPress={() => navigation.navigate('Menu')}>
+          onPress={
+            () => navigation.navigate('Menu')
+          }>
           <Text style={styles.textoBotao}>Entrar</Text>
         </TouchableOpacity>
 

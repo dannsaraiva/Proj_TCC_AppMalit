@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 
 //Estilização.
-import styles from '../../../Style';
+import styles from '../styles/Style';
 
 const TelaAjuda = ({ navigation }) => {
     return (

@@ -2,8 +2,7 @@ import * as React from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 
 //Estilização.
-import styles from '../../../Style';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import styles from '../styles/Style';
 
 const TelaChatComprar = ({ navigation }) => {
     return (
