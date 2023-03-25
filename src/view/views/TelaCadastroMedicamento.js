@@ -1,11 +1,12 @@
-import React, { useCallback } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Keyboard } from "react-native";
+import React, { } from "react";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 
+//Importação do hookform.
 import { useForm, Controller } from "react-hook-form";
 
 //Importação da API.
 import api from "../../services/api";
-
+const rota = "/CadastroMed";
 
 //Mascara do Input.
 import { TextInputMask } from "react-native-masked-text";
@@ -18,20 +19,21 @@ const TelaCadastroMedicamento = ({ navigation }) => {
     //Parâmetros do hook-form.
     const { control, handleSubmit, formState: { errors } } = useForm({
     });
+
     //Captura os dados e atribui ao data.
     const onSubmit = data => sendMedicamento(data);
 
-    //Variavel da rota.
-    const rota = "/CadastroMed";
-
     //API para enviar os dados.
     const sendMedicamento = data => {
-        api.post(rota, {
 
+        //Tratamento da data.
+        let dataTratada = data.validade.split('/').reverse().join('-');
+
+        api.post(rota, {
             nome_Medicamentos: data.nome,
             descricao_Medicamentos: data.descricao,
             quantidade_Medicamentos: data.quantidade,
-            validade_Medicamentos: data.validade,
+            validade_Medicamentos: dataTratada,
 
         }).then((data) => {
             console.log("Medicamento salvo.")
@@ -74,6 +76,8 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput style={styles.textoInputMedicamento} placeholder='Descrição:' placeholderTextColor={"#000"}
+                            maxLength={30}
+
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
@@ -91,6 +95,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput style={styles.textoInputMedicamento} placeholder='Quantidade:' placeholderTextColor={"#000"}
                             keyboardType="numeric"
+                            maxLength={3}
 
                             onBlur={onBlur}
                             onChangeText={onChange}
@@ -100,6 +105,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                     name="quantidade"
                 />
 
+
                 {errors.validade && <Text style={styles.textoAlertaInput}>...</Text>}
                 <Controller
                     control={control}
@@ -107,20 +113,23 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={styles.textoInputMedicamento} placeholder='Validade:' placeholderTextColor={"#000"}
+                        <TextInputMask style={styles.textoInputMedicamento} placeholder='Validade:' placeholderTextColor={"#000"}
                             keyboardType="numeric"
+                            maxLength={10}
 
-                            // type={'datetime'}
-                            // options={{
-                            //     format: 'DD-MM-YYYY'
-                            // }}
+                            type={'datetime'}
+                            options={{
+                                format: 'DD/MM/YYYY',
+                            }}
 
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
+
                         />
                     )}
                     name="validade"
+
                 />
 
                 {/* Botão para salvar. */}

@@ -8,31 +8,7 @@ const TelaLogin = ({ navigation }) => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       return true
     }, [])
-  })
-
-  // //Armazena os valores para logar.
-  // const [login, setLogin] = useState({
-  //   login: 'Daniel',
-  //   senha: '1234'
-  // });
-
-  // //Pega os dados.
-  // const getLogin = (text, input) => {
-  //   setLogin((prevState) => (
-  //     { ...prevState, [input]: text }
-  //   ))
-  // };
-
-
-
-  // const validacao = () => {
-  //   login();
-  // }
-
-  // console.log(login);
-
-
-
+  });
 
 
 
@@ -60,11 +36,11 @@ const TelaLogin = ({ navigation }) => {
       </View>
 
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.botao}
+        <TouchableOpacity style={styles.botaoLogin}
           onPress={
             () => navigation.navigate('Menu')
           }>
-          <Text style={styles.textoBotao}>Entrar</Text>
+          <Text style={styles.textoBotaoLogin}>Entrar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

@@ -39,27 +39,61 @@ const styles = StyleSheet.create({
     dadosUsuario: {
         marginTop: 70,
     },
-    textoInput: {
+    textoInputCadastro: {
         backgroundColor: corInput,
-        borderRadius: 10,
+        borderRadius: 30,
         height: 45,
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 20,
         paddingLeft: 20,
         fontSize: 20,
+        textAlign: "center"
     },
-    botao: {
+    textoInputCadastroFooter: {
+        backgroundColor: corInput,
+        borderRadius: 30,
+        height: 45,
+        marginLeft: 20,
+        marginRight: 20,
+        marginBottom: 130,
+        paddingLeft: 20,
+        fontSize: 20,
+        textAlign: "center"
+    },
+    espacoBotaoCadastrar: {
+        position: "absolute",
+        left: "25%",
+        right: "25%",
+        marginTop: "150%",
+    },
+    tenhoConta: {
+        position: "absolute",
+        left: "28%",
+        right: "26%",
+        marginTop: "174%",
+    },
+    botaoCadastrar: {
         backgroundColor: corBotao,
-        width: 215,
+        width: 200,
         height: 60,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 15,
-        marginTop: 25
+        marginTop: 25,
     },
-    textoBotao: {
+    textoBotaoCadastrar: {
         fontSize: 32,
+        color: "#000"
+    },
+    espacoLogoAjudaCadastro: {
+        position: "absolute",
+        right: -95,
+        bottom: 374
+    },
+    logoAjudaCadastro: {
+        width: 40,
+        height: 40,
     },
     footer: {
         flex: 1,
@@ -69,6 +103,7 @@ const styles = StyleSheet.create({
     },
     textoFooter: {
         fontSize: 20,
+        color: "#000"
     },
     logoAjuda: {
         width: 45,
@@ -95,7 +130,7 @@ const styles = StyleSheet.create({
     },
     textoInputLogin: {
         backgroundColor: corInput,
-        borderRadius: 10,
+        borderRadius: 30,
         height: 67,
         width: 279,
         marginLeft: 20,
@@ -106,24 +141,40 @@ const styles = StyleSheet.create({
         fontFamily: "",
         textAlign: "center",
     },
+    botaoLogin: {
+        backgroundColor: corBotao,
+        width: 215,
+        height: 60,
+        borderRadius: 15,
+        marginTop: 25,
+        justifyContent: "center",
+        flexDirection: "row",
+        alignItems: "center"
+    },
+    textoBotaoLogin: {
+        fontSize: 32,
+        color: "#000"
+    },
     //Cadastro de medicamento.
     textoInputMedicamento: {
         fontSize: 20,
         backgroundColor: corInput,
-        borderRadius: 10,
+        borderRadius: 30,
         height: 45,
         marginLeft: 20,
         marginRight: 20,
         paddingLeft: 20,
         marginBottom: 20,
+        textAlign: "center"
     },
     textoAlertaInput: {
         color: 'red',
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
-        textAlign: "right",
+        textAlign: "left",
         marginRight: 20,
-        marginBottom: 5
+        marginBottom: 5,
+        marginLeft: 20
     },
     textoBotaoSalvar: {
         fontWeight: "bold",

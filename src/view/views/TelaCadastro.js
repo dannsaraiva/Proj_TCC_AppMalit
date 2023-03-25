@@ -1,10 +1,72 @@
 import * as React from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
+
+//Importação das bibliotecas para validação de dados.
+import { useForm, Controller } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup";
+
+//Esquema em yup para validar os dados.
+const esquema = yup.object().shape({
+  nome: yup.string().required('Nome é obrigatório'),
+  email: yup.string().email('Email inválido').required('Email é obrigatório'),
+  dataDeNascimento: yup.string().required('Data obrigatória'),
+  telefone: yup.string().required('Telefone é obrigatório'),
+  cpf: yup.string().min(14, "CPF precisa ter 11 dígitos").required('CPF é obrigatório'),
+  senha: yup.string().min(10, 'Senha deve ter no mínimo 10 caracteres').required('Senha é obrigatória'),
+});
+
+//Mascara do Input.
+import { TextInputMask } from "react-native-masked-text";
 
 //Estilização da página.
 import styles from '../styles/Style';
 
+//Importação da API.
+import api from "../../services/api";
+const rota = "/Cadastro";
+
 const TelaCadastro = ({ navigation }) => {
+
+  //Parâmetros do hook-form.
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(esquema)
+  });
+
+  //Captura os dados e atribui ao data.
+  const onSubmit = data => sendUsuario(data);
+
+  const sendUsuario = (data) => {
+    //Tratatamento dos dados.
+    //Data:
+    const dataTratada = data.dataDeNascimento.split('/').join('-');
+    console.log(dataTratada);
+    console.log(data);
+
+    api.post(rota, {
+
+      // nome_Usuarios: data.nome,
+      // cpf_Usuarios: data.cpf,
+      // dataNasc_Usuarios: dataTratada,
+      // telefone_Usuarios: data.telefone,
+      // email_Usuarios: data.email,
+      // senha_Usuarios: data.senha
+
+      nome_Usuarios: "Daniel",
+      cpf_Usuarios: "466.720.258-08",
+      dataNasc_Usuarios: "01-05-1999",
+      telefone_Usuarios: "(11) 96025-9104",
+      email_Usuarios: "daniel@outlook.com",
+      senha_Usuarios: "abc123456789"
+
+    }).then((data) => {
+      console.log(data)
+    }).catch((error) => {
+      console.log(error)
+    })
+  };
+
+  //Inicia o codigo do App.
   return (
     <View style={styles.container}>
 
@@ -12,35 +74,158 @@ const TelaCadastro = ({ navigation }) => {
         <Text style={styles.textoCabecalho}>Cadastro</Text>
       </View>
 
-      <View style={styles.dadosUsuario}>
-        <TextInput style={styles.textoInput} placeholder='Nome completo:' placeholderTextColor={"#000"} />
-        <TextInput style={styles.textoInput} placeholder='E-mail:' placeholderTextColor={"#000"} />
-        <TextInput style={styles.textoInput} placeholder='Data de nascimento:' placeholderTextColor={"#000"} value={Number} keyboardType="numeric" />
-        <TextInput style={styles.textoInput} placeholder='Telefone:' placeholderTextColor={"#000"} value={Number} keyboardType="numeric" />
-        <TextInput style={styles.textoInput} placeholder='CPF:' placeholderTextColor={"#000"} value={Number} keyboardType="numeric" />
-        <TextInput style={styles.textoInput} placeholder='Senha:' text placeholderTextColor={"#000"} />
-        <TextInput style={styles.textoInput} placeholder='Confirmar senha:' placeholderTextColor={"#000"} />
-      </View>
+      <ScrollView style={{
+        height: 600,
+      }}>
+        <View style={styles.dadosUsuario}>
 
-      <View style={{ alignItems: 'center', }}>
-        <TouchableOpacity style={styles.botao}
-          onPress={() => Alert.alert('Você foi cadastrado !')}>
-          <Text style={styles.textoBotao}>Cadastrar</Text>
+          {/* Inputs dos dados do usuário. */}
+          {errors.nome && <Text style={styles.textoAlertaInput}>{errors.nome.message}</Text>}
+          <Controller
+            control={control}
+            name='nome'
+            render={({ field: { onChange, onBlur, value } }) => (
+
+              <TextInput style={styles.textoInputCadastro} placeholder='Nome completo:'
+                placeholderTextColor={"#000"}
+
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )} />
+
+          {errors.email && <Text style={styles.textoAlertaInput}>{errors.email.message}</Text>}
+          <Controller
+            control={control}
+            name='email'
+            render={({ field: { onChange, onBlur, value } }) => (
+
+              <TextInput style={styles.textoInputCadastro} placeholder='E-mail:'
+                placeholderTextColor={"#000"}
+                keyboardType='email-address'
+
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )} />
+
+          {errors.dataDeNascimento && <Text style={styles.textoAlertaInput}>{errors.dataDeNascimento.message}</Text>}
+          <Controller
+            control={control}
+            name='dataDeNascimento'
+            render={({ field: { onChange, onBlur, value } }) => (
+
+              <TextInputMask style={styles.textoInputCadastro} placeholder='Data de nascimento:'
+                placeholderTextColor={"#000"} keyboardType="numeric"
+                maxLength={10}
+
+                type={'datetime'}
+                options={{
+                  format: 'DD/MM/YYYY',
+                }}
+
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )} />
+
+          {errors.telefone && <Text style={styles.textoAlertaInput}>{errors.telefone.message}</Text>}
+          <Controller
+            control={control}
+            name='telefone'
+            render={({ field: { onChange, onBlur, value } }) => (
+
+              <TextInputMask style={styles.textoInputCadastro} placeholder='Telefone:'
+                placeholderTextColor={"#000"} keyboardType='numeric'
+                maxLength={15}
+
+                type={'cel-phone'}
+                options={{
+                  maskType: 'BRL',
+                  withDDD: true,
+                  dddMask: '(99) '
+                }}
+
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )} />
+
+          {errors.cpf && <Text style={styles.textoAlertaInput}>{errors.cpf.message}</Text>}
+          <Controller
+            control={control}
+            name='cpf'
+            render={({ field: { onChange, onBlur, value } }) => (
+
+              <TextInputMask style={styles.textoInputCadastro} placeholder='CPF:'
+                placeholderTextColor={"#000"} keyboardType='numeric'
+                maxLength={14}
+
+                type={'cpf'}
+
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )} />
+
+          {errors.senha && <Text style={styles.textoAlertaInput}>{errors.senha.message}</Text>}
+          <Controller
+            control={control}
+            name='senha'
+            render={({ field: { onChange, onBlur, value } }) => (
+
+              <TextInput style={styles.textoInputCadastroFooter} placeholder='Senha:'
+                placeholderTextColor={"#000"}
+                secureTextEntry={true}
+
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )} />
+
+          {/* Código para confirmar senha. */}
+          {/* {errors.confirmarSenha && <Text style={styles.textoAlertaInput}>{errors.confirmarSenha.message}</Text>}
+          <Controller
+            control={control}
+            name='confirmarSenha'
+            render={({ field: { onChange, onBlur, value } }) => (
+
+              <TextInput style={styles.textoInputCadastro} placeholder='Confirmar Senha:'
+                placeholderTextColor={"#000"} keyboardType='numeric'
+
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )} /> */}
+        </View>
+      </ScrollView>
+
+      {/* Botão cadastrar. */}
+      <View style={styles.espacoBotaoCadastrar}>
+        <TouchableOpacity style={styles.botaoCadastrar}
+          onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.footer}>
+      <View style={styles.tenhoConta}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')}>
           <Text style={styles.textoFooter}>Já tenho uma conta</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Image style={styles.logoAjuda}
+        <TouchableOpacity style={styles.espacoLogoAjudaCadastro}>
+          <Image style={styles.logoAjudaCadastro}
             source={require('../images/help.png')} />
         </TouchableOpacity>
       </View>
-
     </View>
   )
 };
