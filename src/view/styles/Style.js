@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
     },
     textoFooter: {
         fontSize: 20,
-        color: "#000"
+        color: "#000",
+        fontFamily: "Alata-Regular",
     },
     logoAjuda: {
         width: 45,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingLeft: 20,
         fontSize: 20,
-        fontFamily: "",
+        fontFamily: "Alata-Regular",
         textAlign: "center",
     },
     botaoLogin: {
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     textoBotaoLogin: {
+        fontFamily: "Alata-Regular",
         fontSize: 32,
         color: "#000"
     },
@@ -213,7 +215,9 @@ const styles = StyleSheet.create({
         height: 100
     },
     textoNavegacaoMenu: {
+        fontFamily: "Alata-Regular",
         fontSize: 20,
+        color: "#000"
     },
     footerNavegacao: {
         flex: 1,
@@ -237,13 +241,15 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     logoBotaoNavegacao: {
-        width: 75,
-        height: 75,
-        marginTop: 5
+        width: 70,
+        height: 70,
+        marginTop: 5,
+        marginBottom: -3
     },
     textoBotaoNavegacao: {
-        fontWeight: "bold",
-        color: '#000'
+        fontFamily: "Alata-Regular",
+        fontSize: 20,
+        color: '#000',
     },
     //Estilização da tela teste da maleta.
     fundoTeste: {
