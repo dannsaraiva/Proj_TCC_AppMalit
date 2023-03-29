@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     espacoLogoAjudaCadastro: {
         position: "absolute",
         right: -95,
-        bottom: 374
+        bottom: 405
     },
     logoAjudaCadastro: {
         width: 40,
@@ -122,12 +122,13 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         alignItems: "center",
+        marginTop: 50
     },
     dadosLogin: {
         flex: 1,
         flexDirection: "column",
         alignItems: "center",
-        marginTop: 150
+        marginTop: -50
     },
     textoInputLogin: {
         backgroundColor: corInput,
@@ -156,6 +157,22 @@ const styles = StyleSheet.create({
         fontFamily: "Alata-Regular",
         fontSize: 32,
         color: "#000"
+    },
+    footerLogin: {
+        position: "absolute",
+        width: "100%",
+        height: "20%",
+        marginTop: "150%",
+        alignItems: "center"
+    },
+    espacoEsqueciSenha: {
+        marginTop: -20,
+        marginLeft: 120
+    },
+    textoEsqueciSenha: {
+        fontFamily: "Alata-Regular",
+        fontSize: 16,
+        color: "#000",
     },
     //Cadastro de medicamento.
     textoInputMedicamento: {
@@ -462,6 +479,15 @@ const styles = StyleSheet.create({
         // bottom: 10
         marginTop: 590
     },
+    //Tela perfil.
+    espacologoPerfil: {
+        alignItems: "center"
+    },
+    logoPerfil: {
+        width: 120,
+        height: 120,
+        margin: 20
+    }
 });
 
 export default styles;

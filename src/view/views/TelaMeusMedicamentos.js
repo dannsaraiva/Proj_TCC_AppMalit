@@ -85,11 +85,11 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Perfil')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
-                    <Text>Perfil</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Perfil</Text></TouchableOpacity>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Maleta')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
-                    <Text>Maleta</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Maleta</Text></TouchableOpacity>
             </View>
         </View >
     )

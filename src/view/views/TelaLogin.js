@@ -1,14 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, BackHandler } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, BackHandler, Alert } from 'react-native';
+
+//Estilização da página.
 import styles from '../styles/Style';
+
+//Importação das bibliotecas para validação de dados.
+import { useForm, Controller } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup";
+
+//Esquema em yup para validar os dados.
+const esquema = yup.object().shape({
+  login: yup.string().required("CPF ou E-mail é obrigatório"),
+  senha: yup.string().required("Digite sua senha"),
+});
+
+//Importação da API.
+import api from '../../services/api';
+const rota = "/Listagem";
+
+
 
 
 const TelaLogin = ({ navigation }) => {
-  React.useEffect(() => {
+  useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       return true
     }, [])
   });
+
+  //
+  const [loading, setLoadtindo] = useState(false);
+
+  //Parâmetros do hook-form.
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(esquema)
+  });
+
+  //Captura os dados e atribui ao data.
+  const onSubmit = data => console.log(data);
+
+  //Chamando a API.
+  const searchUsuario = () => {
+
+    api.get(rota, {
+
+    }).then((data) => {
+      console.log(data);
+      var dados = data;
+    }).catch((response) => {
+      console.log(response);
+    });
+  };
+
+
 
 
 
@@ -26,20 +71,36 @@ const TelaLogin = ({ navigation }) => {
         <TextInput style={styles.textoInputLogin} placeholder='Senha' placeholderTextColor={"#000"} />
 
 
-        <View style={{ marginRight: -150, marginTop: -15 }}>
+        <View style={styles.espacoEsqueciSenha}>
           <TouchableOpacity
             onPress={() => navigation.navigate('Recuperar senha')}>
-            <Text style={styles.textoBotaoNavegacao}>Esqueci minha senha</Text>
+            <Text style={styles.textoEsqueciSenha}>Esqueci minha senha</Text>
           </TouchableOpacity>
 
         </View>
       </View>
 
-      <View style={styles.footer}>
+      <View style={styles.footerLogin}>
         <TouchableOpacity style={styles.botaoLogin}
-          onPress={
-            () => navigation.navigate('Menu')
-          }>
+          // onPress={() => {
+
+
+
+          //   Alert.alert("Logado !")
+          //   searchUsuario();
+
+
+
+
+          // }}
+
+
+
+        onPress={
+          () => navigation.navigate('Menu')
+        }
+
+        >
           <Text style={styles.textoBotaoLogin}>Entrar</Text>
         </TouchableOpacity>
 

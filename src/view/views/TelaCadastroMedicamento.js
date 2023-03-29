@@ -1,6 +1,22 @@
 import React, { } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 
+//Importação biblioteca para exibir o alerta.
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message"
+const mensagemSucesso = () => {
+    Toast.show({
+        type: 'info',
+        text1: 'Medicamento foi cadastrado',
+    });
+};
+
+const mensagemErro = () => {
+    Toast.show({
+        type: 'error',
+        text1: 'Medicamento não foi cadastrado, tente novamente',
+    });
+};
+
 //Importação do hookform.
 import { useForm, Controller } from "react-hook-form";
 
@@ -17,7 +33,7 @@ import styles from '../styles/Style';
 const TelaCadastroMedicamento = ({ navigation }) => {
 
     //Parâmetros do hook-form.
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, reset, formState: { errors } } = useForm({
     });
 
     //Captura os dados e atribui ao data.
@@ -37,8 +53,11 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
         }).then((data) => {
             console.log("Medicamento salvo.")
-        }).catch((error) => {
-            console.log("Erro ao salvar o medicamento.")
+            mensagemSucesso();
+            reset();
+        }).catch((response) => {
+            console.log(`Erro ao salvar o medicamento. ${response}`)
+            mensagemErro();
         })
     };
 
@@ -141,15 +160,22 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                                 'Você deseja salvar ?',
                                 [
                                     { text: 'Não', },
-                                    { text: 'Sim', onPress: handleSubmit(onSubmit) },
+                                    {
+                                        text: 'Sim', onPress: handleSubmit(onSubmit)
+                                    },
                                 ],
                                 { cancelable: false });
-                            return true;
+                            return false;
                         }}>
                         <Text style={styles.textoBotaoSalvar}>Salvar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
+            <Toast
+                position='top'
+                bottomOffset={40}
+                visibilityTime={3000}
+            />
 
             {/* Botões da navegação */}
             <View style={styles.footerNavegacaoMedicamentos}>

@@ -1,6 +1,12 @@
 import * as React from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
 
+//Estilização da página.
+import styles from '../styles/Style';
+
+//Importação biblioteca para exibir o alerta.
+import Toast from "react-native-toast-message"
+
 //Importação das bibliotecas para validação de dados.
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -19,50 +25,58 @@ const esquema = yup.object().shape({
 //Mascara do Input.
 import { TextInputMask } from "react-native-masked-text";
 
-//Estilização da página.
-import styles from '../styles/Style';
-
 //Importação da API.
 import api from "../../services/api";
 const rota = "/Cadastro";
 
 const TelaCadastro = ({ navigation }) => {
 
+  //Mensagens para exibir para o usuário.
+  const mensagemSucesso = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'Usuário cadastrado',
+      onHide: () => navigation.navigate('Login')
+    });
+  };
+
+  const mensagemErro = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Usuário não cadastrado, tente novamente',
+    });
+  };
+
   //Parâmetros do hook-form.
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(esquema)
   });
 
   //Captura os dados e atribui ao data.
   const onSubmit = data => sendUsuario(data);
 
+  //Chamando a API.
   const sendUsuario = (data) => {
     //Tratatamento dos dados.
     //Data:
-    const dataTratada = data.dataDeNascimento.split('/').join('-');
-    console.log(dataTratada);
-    console.log(data);
+    const dataTratada = data.dataDeNascimento.split('/').reverse().join('-');
 
     api.post(rota, {
 
-      // nome_Usuarios: data.nome,
-      // cpf_Usuarios: data.cpf,
-      // dataNasc_Usuarios: dataTratada,
-      // telefone_Usuarios: data.telefone,
-      // email_Usuarios: data.email,
-      // senha_Usuarios: data.senha
-
-      nome_Usuarios: "Daniel",
-      cpf_Usuarios: "466.720.258-08",
-      dataNasc_Usuarios: "01-05-1999",
-      telefone_Usuarios: "(11) 96025-9104",
-      email_Usuarios: "daniel@outlook.com",
-      senha_Usuarios: "abc123456789"
+      nome_Usuarios: data.nome,
+      cpf_Usuarios: data.cpf,
+      dataNasc_Usuarios: dataTratada,
+      telefone_Usuarios: data.telefone,
+      email_Usuarios: data.email,
+      senha_Usuarios: data.senha
 
     }).then((data) => {
-      console.log(data)
+      console.log("Usuário cadastrado !");
+      mensagemSucesso();
+      reset();
     }).catch((error) => {
-      console.log(error)
+      console.log(`Erro ao cadastrar ${error}`);
+      mensagemErro();
     })
   };
 
@@ -210,10 +224,25 @@ const TelaCadastro = ({ navigation }) => {
       {/* Botão cadastrar. */}
       <View style={styles.espacoBotaoCadastrar}>
         <TouchableOpacity style={styles.botaoCadastrar}
-          onPress={handleSubmit(onSubmit)}>
+          onPress={() => {
+            Alert.alert(
+              "Cadastro do usuário",
+              "Deseja salvar seu cadastro ?",
+              [
+                { text: "Não" },
+                { text: "Sim", onPress: handleSubmit(onSubmit) },
+              ],
+              { cancelable: false });
+            return false;
+          }}>
           <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
+      <Toast
+        position='top'
+        bottomOffset={40}
+        visibilityTime={3000}
+      />
 
       <View style={styles.tenhoConta}>
         <TouchableOpacity
@@ -226,7 +255,7 @@ const TelaCadastro = ({ navigation }) => {
             source={require('../images/help.png')} />
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   )
 };
 

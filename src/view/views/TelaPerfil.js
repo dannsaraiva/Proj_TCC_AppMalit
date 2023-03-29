@@ -12,16 +12,16 @@ const TelaPerfil = ({ navigation }) => {
             </View>
 
             <View>
-                <View style={{ alignItems: 'center' }}>
-                    <Image style={{ width: 120, height: 120, margin: 20 }}
+                <View style={styles.espacologoPerfil}>
+                    <Image style={styles.logoPerfil}
                         source={require('../images/user.png')} />
                 </View>
                 <View>
-                    <TextInput style={styles.textoInput} placeholder='Nome completo:' placeholderTextColor={'#000'} />
-                    <TextInput style={styles.textoInput} placeholder='E-mail:' placeholderTextColor={'#000'} />
-                    <TextInput style={styles.textoInput} placeholder='Data de nascimento:' placeholderTextColor={'#000'} />
-                    <TextInput style={styles.textoInput} placeholder='Telefone:' placeholderTextColor={'#000'} />
-                    <TextInput style={styles.textoInput} placeholder='CPF:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputCadastro} placeholder='Nome completo:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputCadastro} placeholder='E-mail:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputCadastro} placeholder='Data de nascimento:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputCadastro} placeholder='Telefone:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputCadastro} placeholder='CPF:' placeholderTextColor={'#000'} />
                 </View>
             </View>
 
@@ -36,12 +36,12 @@ const TelaPerfil = ({ navigation }) => {
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Menu')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/menu-aberto.png')} />
-                    <Text>Menu</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Menu</Text></TouchableOpacity>
 
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Maleta')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
-                    <Text>Maleta</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Maleta</Text></TouchableOpacity>
             </View>
 
         </View>
