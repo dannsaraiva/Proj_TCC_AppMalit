@@ -16,6 +16,7 @@ import Ajuda from './src/view/views/TelaAjuda';
 import Agenda from './src/view/views/TelaAgenda';
 import CadastroMedicamento from './src/view/views/TelaCadastroMedicamento';
 import MeusMedicamentos from './src/view/views/TelaMeusMedicamentos';
+import Loading from './src/view/views/TelaLoading';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -24,7 +25,9 @@ const App = () => {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Logo" component={Logo} />
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login" component={Login} 
+        
+        />
         <Stack.Screen name="Recuperar senha" component={RecuperarSenha} />
         <Stack.Screen name="Cadastro" component={Cadastro} />
         <Stack.Screen name="Menu" component={Menu} />
@@ -36,6 +39,7 @@ const App = () => {
         <Stack.Screen name="Agenda" component={Agenda} />
         <Stack.Screen name="Cadastro medicamento" component={CadastroMedicamento} />
         <Stack.Screen name="Meus medicamentos" component={MeusMedicamentos} />
+        <Stack.Screen name="Loading" component={Loading} />
       </Stack.Navigator>
     </NavigationContainer>
   )

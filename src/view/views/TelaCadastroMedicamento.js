@@ -43,13 +43,13 @@ const TelaCadastroMedicamento = ({ navigation }) => {
     const sendMedicamento = data => {
 
         //Tratamento da data.
-        let dataTratada = data.validade.split('/').reverse().join('-');
+        // let dataTratada = data.validade.split('/').reverse().join('-');
 
         api.post(rota, {
             nome_Medicamentos: data.nome,
             descricao_Medicamentos: data.descricao,
             quantidade_Medicamentos: data.quantidade,
-            validade_Medicamentos: dataTratada,
+            validade_Medicamentos: data.validade,
 
         }).then((data) => {
             console.log("Medicamento salvo.")

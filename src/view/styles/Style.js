@@ -122,13 +122,14 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         alignItems: "center",
-        marginTop: 50
+        marginTop: 20
     },
     dadosLogin: {
-        flex: 1,
-        flexDirection: "column",
+        position: "absolute",
+        marginTop: "80%",
         alignItems: "center",
-        marginTop: -50
+        left: "10%",
+        height: "10%",
     },
     textoInputLogin: {
         backgroundColor: corInput,
@@ -173,6 +174,10 @@ const styles = StyleSheet.create({
         fontFamily: "Alata-Regular",
         fontSize: 16,
         color: "#000",
+    },
+    logoCarregamentoLogin: {
+        width: 300,
+        height: 300,
     },
     //Cadastro de medicamento.
     textoInputMedicamento: {
@@ -290,8 +295,10 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     textoBotaoTeste: {
+        // fontFamily: "Alata-Regular",
         fontWeight: "bold",
-        fontSize: 64
+        fontSize: 64,
+        color: "#000"
     },
     logoBotaoTeste: {
         width: 75,

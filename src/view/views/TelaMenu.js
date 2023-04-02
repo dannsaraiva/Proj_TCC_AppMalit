@@ -4,12 +4,15 @@ import { View, Text, TouchableOpacity, Image, ScrollView, BackHandler, Alert } f
 //Estilização.
 import styles from '../styles/Style';
 
-const TelaMenu = ({ navigation }) => {
+const TelaMenu = ({ navigation, route }) => {
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       return true
     }, [])
   })
+
+  console.log(route.params?.cpfDigitado)
+
   return (
     <View style={styles.container}>
 
@@ -55,7 +58,7 @@ const TelaMenu = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.botaoNavegacao}
-          onPress={() => navigation.navigate('Perfil')}>
+          onPress={() => navigation.navigate('Perfil', { cpfDigitado: `466.720.258-04` })}>
           <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
           <Text style={styles.textoBotaoNavegacao}>Perfil</Text></TouchableOpacity>
 

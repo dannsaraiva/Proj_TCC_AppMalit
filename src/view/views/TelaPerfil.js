@@ -1,10 +1,46 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, BackHandler, Alert } from 'react-native';
 
-//Estilização.
+//Estilização da página.
 import styles from '../styles/Style';
 
-const TelaPerfil = ({ navigation }) => {
+//Mascara do Input.
+import { TextInputMask } from "react-native-masked-text";
+
+//Importação da API.
+import api from "../../services/api";
+const rota = "/Listagem";
+
+const TelaPerfil = ({ navigation, route }) => {
+
+
+    useState(() => {
+
+        //Construção da API.
+        api.get(rota, {
+
+
+
+
+        }).then((response) => {
+            console.log(response.data.data);
+            var a = response.data.data;
+            console.log(a.data);
+
+
+
+        }).catch((error) => {
+            console.log(error)
+
+        })
+    }, [])
+
+
+
+    const nome = "Daniel";
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.cabecalho}>
@@ -12,12 +48,14 @@ const TelaPerfil = ({ navigation }) => {
             </View>
 
             <View>
+
                 <View style={styles.espacologoPerfil}>
                     <Image style={styles.logoPerfil}
                         source={require('../images/user.png')} />
                 </View>
+
                 <View>
-                    <TextInput style={styles.textoInputCadastro} placeholder='Nome completo:' placeholderTextColor={'#000'} />
+                    <Text style={styles.textoInputCadastro} >{nome}</Text>
                     <TextInput style={styles.textoInputCadastro} placeholder='E-mail:' placeholderTextColor={'#000'} />
                     <TextInput style={styles.textoInputCadastro} placeholder='Data de nascimento:' placeholderTextColor={'#000'} />
                     <TextInput style={styles.textoInputCadastro} placeholder='Telefone:' placeholderTextColor={'#000'} />
