@@ -435,8 +435,9 @@ const styles = StyleSheet.create({
         height: 25
     },
     espacoMeusMedicamentos: {
-        flexDirection: 'column',
         alignItems: 'center',
+        height: "60%",
+        // marginTop: 30 
     },
     NavegacaoMenuMedicamentos: {
         backgroundColor: corMenu,
@@ -493,8 +494,25 @@ const styles = StyleSheet.create({
     logoPerfil: {
         width: 120,
         height: 120,
-        margin: 20
-    }
+        marginTop: 20,
+        borderRadius: 10,
+    },
+    espacoTextoPerfil: {
+        alignItems: "center",
+        marginTop: 20,
+    },
+    textoInputPerfil: {
+        textAlign: "center",
+        backgroundColor: corInput,
+        color: "#000",
+        fontFamily: "Alata-Regular",
+        borderRadius: 30,
+        height: 45,
+        width: '90%',
+        marginBottom: 15,
+        paddingTop: 5,
+        fontSize: 20,
+    },
 });
 
 export default styles;

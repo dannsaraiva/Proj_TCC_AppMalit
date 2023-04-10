@@ -4,43 +4,54 @@ import { View, Text, Image, TextInput, TouchableOpacity, BackHandler, Alert } fr
 //Estilização da página.
 import styles from '../styles/Style';
 
-//Mascara do Input.
-import { TextInputMask } from "react-native-masked-text";
-
 //Importação da API.
 import api from "../../services/api";
-const rota = "/Listagem";
+const rota = "/ListagemCpfAll/";
+
 
 const TelaPerfil = ({ navigation, route }) => {
 
+    const user = route.params.user;
 
-    useState(() => {
+    const [retorno, setRetorno] = useState(null);
 
-        //Construção da API.
-        api.get(rota, {
+    const [nome, setNome] = useState("a");
+    const [cpf, setCpf] = useState("b");
+    const [dataNasc, setDataNasc] = useState("c");
+    const [telefone, setTelefone] = useState("d");
+    const [email, setEmail] = useState("e");
+    const [senha, setSenha] = useState("f");
 
+    useEffect(() => {
 
+        if (retorno != null) {
 
+            setNome(retorno.nome_Usuarios);
+            setCpf(retorno.cpf_Usuarios);
+            setDataNasc(retorno.dataNasc_Usuarios);
+            setTelefone(retorno.telefone_Usuarios);
+            setEmail(retorno.email_Usuarios);
+            setSenha(retorno.senha_Usuarios);
 
-        }).then((response) => {
-            console.log(response.data.data);
-            var a = response.data.data;
-            console.log(a.data);
+        }
 
+    }, [retorno]);
 
+    //Construção da API.
+    useEffect(() => {
+        api.get(rota + user
+            , {
 
-        }).catch((error) => {
-            console.log(error)
+            }).then((response) => {
+                setRetorno(response.data.data);
 
-        })
-    }, [])
+            }).catch((error) => {
+                console.log(error);
 
+            })
+    }, []);
 
-
-    const nome = "Daniel";
-
-
-
+    //Codigo do front.
     return (
         <View style={styles.container}>
             <View style={styles.cabecalho}>
@@ -54,17 +65,26 @@ const TelaPerfil = ({ navigation, route }) => {
                         source={require('../images/user.png')} />
                 </View>
 
-                <View>
-                    <Text style={styles.textoInputCadastro} >{nome}</Text>
-                    <TextInput style={styles.textoInputCadastro} placeholder='E-mail:' placeholderTextColor={'#000'} />
-                    <TextInput style={styles.textoInputCadastro} placeholder='Data de nascimento:' placeholderTextColor={'#000'} />
-                    <TextInput style={styles.textoInputCadastro} placeholder='Telefone:' placeholderTextColor={'#000'} />
-                    <TextInput style={styles.textoInputCadastro} placeholder='CPF:' placeholderTextColor={'#000'} />
+                <View style={styles.espacoTextoPerfil}>
+
+                    <Text style={styles.textoInputPerfil}>{nome}</Text>
+                    <Text style={styles.textoInputPerfil}>{email}</Text>
+                    <Text style={styles.textoInputPerfil}>{dataNasc}</Text>
+                    <Text style={styles.textoInputPerfil}>{telefone}</Text>
+                    <Text style={styles.textoInputPerfil}>{cpf}</Text>
+                    <Text style={styles.textoInputPerfil}>{senha}</Text>
+
+
+                    {/* <TextInput style={styles.textoInputPerfil} placeholder='E-mail:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputPerfil} placeholder='E-mail:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputPerfil} placeholder='Data de nascimento:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputPerfil} placeholder='Telefone:' placeholderTextColor={'#000'} />
+                    <TextInput style={styles.textoInputPerfil} placeholder='CPF:' placeholderTextColor={'#000'} /> */}
                 </View>
             </View>
 
 
-            <View style={styles.footerNavegacaoPerfil}>
+            <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.goBack()}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />

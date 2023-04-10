@@ -4,21 +4,42 @@ import { View, Text, TouchableOpacity, Image, ScrollView, BackHandler, Alert } f
 //Estilização.
 import styles from '../styles/Style';
 
+//Importação do AsyncStorage.
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//Construção da tela.
 const TelaMenu = ({ navigation, route }) => {
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       return true
     }, [])
-  })
+  });
 
-  console.log(route.params?.cpfDigitado)
 
+  //AsyncStorage armazena os dados.
+  const [user, setUser] = useState(null);
+
+  //
+  const Buscar = async (chave) => {
+    const valor = await AsyncStorage.getItem(chave)
+    setUser(valor);
+  };
+
+  Buscar("01")
+
+
+
+
+
+  //Codigo do front.
   return (
     <View style={styles.container}>
 
       <View style={styles.cabecalho}>
         <Text style={styles.textoCabecalho}>Menu</Text>
       </View>
+
+      {/* <Text>{user}</Text> */}
 
       <ScrollView>
         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
@@ -58,7 +79,7 @@ const TelaMenu = ({ navigation, route }) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.botaoNavegacao}
-          onPress={() => navigation.navigate('Perfil', { cpfDigitado: `466.720.258-04` })}>
+          onPress={() => navigation.navigate('Perfil', { user })}>
           <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
           <Text style={styles.textoBotaoNavegacao}>Perfil</Text></TouchableOpacity>
 

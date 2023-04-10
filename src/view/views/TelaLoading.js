@@ -13,10 +13,10 @@ const TelaLoading = ({ navigation }) => {
                 justifyContent: "center",
             }}>
 
-                <Lottie style={styles.jsonCarregamentoLogin}
+                <Lottie
                     source={require('../componentes/loading.json')}
                     autoPlay
-                    speed={1}
+                    speed={1.4}
                     loop
                     ={false}
                     onAnimationFinish={() => navigation.navigate('Menu')}

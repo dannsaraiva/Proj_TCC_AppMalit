@@ -1,10 +1,67 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, Button } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, FlatList, VirtualizedList } from 'react-native';
 
 //Estilização da página.
 import styles from '../styles/Style';
 
 const TelaMeusMedicamentos = ({ navigation }) => {
+
+    const NOMES = [
+        { id: 1, texto: "Dorflex" },
+        { id: 2, texto: "Neosaldina" },
+        { id: 3, texto: "Dipirona" },
+        { id: 4, texto: "Dipirona" },
+        { id: 5, texto: "Dipirona" },
+        { id: 6, texto: "Dipirona" },
+        { id: 7, texto: "Dipirona" },
+        { id: 8, texto: "Dipirona" },
+
+    ]
+
+
+    const getItemCount = data => NOMES.length;
+
+    const getItem = (_data, index) => (
+        NOMES[index]
+
+    );
+
+    //
+    const Medicamento = ({ texto }) => {
+
+
+
+
+
+        return (
+            <View style={styles.NavegacaoMenuMedicamentos}>
+                <Image style={styles.logoNavegacaoMedicamentos} source={require('../images/medicine.png')} />
+                <Text style={styles.textoNavegacaoMedicamentos}>{texto}</Text>
+                <TouchableOpacity>
+                    <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
+                </TouchableOpacity>
+            </View>
+        )
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.cabecalho}>
@@ -18,13 +75,28 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                 </View>
             </View>
 
-           
+            {/* <ScrollView style={{ marginTop: 30 }}> */}
+            <View style={styles.espacoMeusMedicamentos}>
+
+                <VirtualizedList
+                    // data={NOMES}
+                    renderItem={({ item }) =>
+                        <Medicamento texto={item.texto} />
+                    }
+                    initialNumToRender={3}
+                    keyExtractor={item => item.id}
+
+                    getItemCount={getItemCount}
+                    getItem={getItem}
+                />
 
 
+                {/* <Medicamento
 
-            <ScrollView style={{ marginTop: 30 }}>
-                <View style={styles.espacoMeusMedicamentos}>
-                    <View style={styles.NavegacaoMenuMedicamentos}>
+                        texto={"Dorffff"} />
+                    <Medicamento texto={"ABCffff"} />
+                    <Medicamento texto={"CDEffff"} /> */}
+                {/* <View style={styles.NavegacaoMenuMedicamentos}>
                         <Image style={styles.logoNavegacaoMedicamentos} source={require('../images/medicine.png')} />
                         <Text style={styles.textoNavegacaoMedicamentos}>Dorflex</Text>
                         <TouchableOpacity>
@@ -57,9 +129,9 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                         <Text style={styles.textoNavegacaoMedicamentos}>Fluxo</Text>
                         <TouchableOpacity>
                             <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.NavegacaoMenuMedicamentos}>
+                        </TouchableOpacity> */}
+                {/* </View> */}
+                {/* <View style={styles.NavegacaoMenuMedicamentos}>
                         <Image style={styles.logoNavegacaoMedicamentos} source={require('../images/medicine.png')} />
                         <Text style={styles.textoNavegacaoMedicamentos}>Fluxo</Text>
                         <TouchableOpacity>
@@ -72,9 +144,9 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                         <TouchableOpacity>
                             <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
                         </TouchableOpacity>
-                    </View>
-                </View>
-            </ScrollView>
+                    </View> */}
+            </View>
+            {/* </ScrollView> */}
 
             <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
