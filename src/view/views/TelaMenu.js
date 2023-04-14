@@ -4,8 +4,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, BackHandler, Alert } f
 //Estilização.
 import styles from '../styles/Style';
 
-//Importação do AsyncStorage.
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 //Construção da tela.
 const TelaMenu = ({ navigation, route }) => {
@@ -15,22 +14,6 @@ const TelaMenu = ({ navigation, route }) => {
     }, [])
   });
 
-
-  //AsyncStorage armazena os dados.
-  const [user, setUser] = useState(null);
-
-  //
-  const Buscar = async (chave) => {
-    const valor = await AsyncStorage.getItem(chave)
-    setUser(valor);
-  };
-
-  Buscar("01")
-
-
-
-
-
   //Codigo do front.
   return (
     <View style={styles.container}>
@@ -39,8 +22,6 @@ const TelaMenu = ({ navigation, route }) => {
         <Text style={styles.textoCabecalho}>Menu</Text>
       </View>
 
-      {/* <Text>{user}</Text> */}
-
       <ScrollView>
         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
           <TouchableOpacity style={styles.NavegacaoMenu}
@@ -48,11 +29,13 @@ const TelaMenu = ({ navigation, route }) => {
             <Image style={styles.logoNavegacaoMenu} source={require('../images/remedio.png')} />
             <Text style={styles.textoNavegacaoMenu}>Cadastre um medicamento</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.NavegacaoMenu}
             onPress={() => navigation.navigate('Meus medicamentos')}>
             <Image style={styles.logoNavegacaoMenu} source={require('../images/comprimidos.png')} />
             <Text style={styles.textoNavegacaoMenu}>Meus medicamentos</Text>
           </TouchableOpacity>
+          
           <TouchableOpacity style={styles.NavegacaoMenu}
             onPress={() => navigation.navigate('Maleta')}>
             <Image style={styles.logoNavegacaoMenu} source={require('../images/maleta-de-medico.png')} />
@@ -79,9 +62,12 @@ const TelaMenu = ({ navigation, route }) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.botaoNavegacao}
-          onPress={() => navigation.navigate('Perfil', { user })}>
+          onPress={() => navigation.navigate('Perfil')}>
+
           <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
-          <Text style={styles.textoBotaoNavegacao}>Perfil</Text></TouchableOpacity>
+          <Text style={styles.textoBotaoNavegacao}>Perfil</Text>
+          
+          </TouchableOpacity>
 
         <TouchableOpacity style={styles.botaoNavegacao}
           onPress={() => navigation.navigate('Maleta')}>

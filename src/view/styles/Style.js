@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     espacoMeusMedicamentos: {
         alignItems: 'center',
         height: "60%",
-        // marginTop: 30 
+        marginTop: 30
     },
     NavegacaoMenuMedicamentos: {
         backgroundColor: corMenu,
@@ -513,6 +513,94 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         fontSize: 20,
     },
+    textoSenhaPerfil: {
+        fontFamily: "Alata-Regular",
+        textAlign: 'center',
+        color: "#000",
+        fontSize: 20,
+    },
+
+
+    //
+    modalTitulo: {
+        fontFamily: "Alata-Regular",
+        fontSize: 20,
+        color: '#000',
+        marginTop: 15,
+        marginBottom: 15
+    },
+    espacoModal: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        width: 350,
+        height: 310,
+        backgroundColor: corFundo,
+        borderRadius: 20,
+        alignItems: "center",
+        elevation: 5,
+        shadowRadius: 4,
+
+
+        // margin: 20,
+        // backgroundColor: 'white',
+        // borderRadius: 20,
+        // padding: 35,
+        // alignItems: 'center',
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 4,
+        // elevation: 5,
+    },
+    tituloSenha: {
+        alignSelf: 'flex-start',
+        marginLeft: 20,
+        fontSize: 18,
+        color: '#000',
+        fontFamily: "Alata-Regular",
+        marginBottom: 5
+    },
+    espacoBotaoModal: {
+        flexDirection: 'row',
+        marginTop: 8
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    botaoSalvar: {
+        backgroundColor: corBotao,
+        width: 70,
+        height: 40,
+        margin: 5,
+        borderRadius: 10,
+        textAlign: "center",
+        justifyContent: "center"
+    },
+    botaoVoltar: {
+        backgroundColor: corBotao,
+        width: 70,
+        height: 40,
+        margin: 5,
+        borderRadius: 10,
+        textAlign: "center",
+        justifyContent: "center"
+    },
+    textStyle: {
+        color: '#000',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+
+
 });
 
 export default styles;

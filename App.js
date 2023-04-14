@@ -23,7 +23,9 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{ headerShown: false }}>
+        screenOptions={{ headerShown: false }}
+        // initialRouteName='Perfil'
+        >
         <Stack.Screen name="Logo" component={Logo} />
         <Stack.Screen name="Login" component={Login} 
         
