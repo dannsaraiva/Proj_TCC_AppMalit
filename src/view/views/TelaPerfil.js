@@ -130,7 +130,7 @@ const TelaPerfil = ({ navigation, route }) => {
                                 </TouchableOpacity>
 
                                 <TouchableOpacity
-                                    style={styles.botaoSalvar}
+                                    style={styles.botaoSalvarPerfil}
                                     onPress={() => setModalVisible(!modalVisible)}>
                                     <Text style={styles.textStyle}>Salvar</Text>
                                 </TouchableOpacity>

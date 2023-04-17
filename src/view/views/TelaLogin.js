@@ -45,7 +45,7 @@ const TelaLogin = ({ navigation }) => {
       if (login === formulario.cpf) {
         if (password === formulario.senha) {
 
-          navigation.navigate('Loading')
+          navigation.navigate('Loading');
         } else {
 
           mensagemErroSenha();

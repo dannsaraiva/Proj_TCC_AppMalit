@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput, VirtualizedList } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 
 //Estilização da página.
 import styles from '../styles/Style';
@@ -8,110 +8,24 @@ import styles from '../styles/Style';
 import api from "../../services/api";
 const rota = "/ListagemMed";
 
-
-
-
-
-
 const TelaMeusMedicamentos = ({ navigation }) => {
 
-    const [medi, setMedi] = useState([]);
+    const [medicamentos, setMedicamentos] = useState([]);
 
+    //Construção da API, para pegar os medicamentos.
     useEffect(() => {
 
         api.get(rota, {
 
         }).then((response) => {
-            setMedi(response.data.data)
-            // console.log(response.data)
+            setMedicamentos(response.data.data);
 
         }).catch((error) => {
-            console.log(error)
+            console.log(error);
         });
     }, []);
 
-    // console.log(medi[0]);
-    // console.log(medi[1]);
-    // console.log(medi.data.data);
-
-
-    for (let i = 0; i < 6; i++) {
-        console.log(medi[i])
-    }
-
-
-
-    // const NOMES = [
-    //     { id: 1, texto: "Dorflex" },
-    //     { id: 2, texto: "Neosaldina" },
-    //     { id: 3, texto: "Dipirona" },
-    //     { id: 4, texto: "Dipirona" },
-    //     { id: 5, texto: "Dipirona" },
-    //     { id: 6, texto: "Dipirona" },
-    //     { id: 7, texto: "Dipirona" },
-    //     { id: 8, texto: "Dipirona" },
-
-    // ]
-
-
-    // const getItemCount = data => NOMES.length;
-
-    // const getItem = (_data, index) => (
-    //     NOMES[index]
-
-    // );
-
-    // //
-    // const Medicamento = ({ texto }) => {
-
-
-
-
-
-    //     return (
-    //         <View style={styles.NavegacaoMenuMedicamentos}>
-    //             <Image style={styles.logoNavegacaoMedicamentos} source={require('../images/medicine.png')} />
-    //             <Text style={styles.textoNavegacaoMedicamentos}>{texto}</Text>
-    //             <TouchableOpacity>
-    //                 <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
-    //             </TouchableOpacity>
-    //         </View>
-    //     )
-
-
-    // }
-    const getItem = (_data, index) => ({
-        id: Math.random().toString(12).substring(0),
-        title: `Item ${index + 1}`,
-    });
-
-    const getItemCount = _data => 3;
-
-    const Item = ({ title }) => (
-        <View style={styles.NavegacaoMenuMedicamentos}>
-            <Image style={styles.logoNavegacaoMedicamentos} source={require('../images/medicine.png')} />
-            <Text style={styles.textoNavegacaoMedicamentos}>{title}</Text>
-            <TouchableOpacity>
-                <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
-            </TouchableOpacity>
-        </View>
-    );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //Construção da tela.
     return (
         <View style={styles.container}>
             <View style={styles.cabecalho}>
@@ -125,57 +39,32 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                 </View>
             </View>
 
-            <View style={styles.espacoMeusMedicamentos}>
+            <ScrollView style={{ marginBottom: 125 }}>
+                <View style={styles.espacoMeusMedicamentos}>
+                    {/* Função para carregar todos os medicamentos. */}
+                    {medicamentos.map(item => (
 
-                {/* <VirtualizedList
-                    // data={NOMES}
-                    renderItem={({ item }) =>
-                        <Medicamento texto={item.texto} />
-                    }
-                    initialNumToRender={3}
-                    keyExtractor={item => item.id}
+                        <View style={styles.NavegacaoMenuMedicamentos} >
+                            <Image style={styles.logoMeusMedicamentos} source={require('../images/medicine.png')} />
 
-                    getItemCount={getItemCount}
-                    getItem={getItem}
-                />
- */}
+                            <View style={styles.espacoTextosMeusMedicamentos}>
+                                <Text style={styles.nomeMeusMedicamentos}>{item.nome_Medicamentos}</Text>
+                                <Text style={styles.descricaoMeusMedicamentos}>{item.descricao_Medicamentos}</Text>
+                            </View>
 
-                {/* <Medicamento
+                            <TouchableOpacity style={{
+                                position: 'absolute', right: 10,
+                                bottom: 5
+                            }}>
+                                <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
+                            </TouchableOpacity>
 
-                        texto={"Dorffff"} />
-                    <Medicamento texto={"ABCffff"} />
-                    <Medicamento texto={"CDEffff"} /> */}
-
-                <VirtualizedList
-                    initialNumToRender={4}
-                    renderItem={({ item }) =>
-                        <Item title={item.title} />}
-                    keyExtractor={item => item.id}
-                    getItemCount={getItemCount}
-                    getItem={getItem}
-                />
-
-
-                {/* 
-                <View style={styles.NavegacaoMenuMedicamentos}>
-                    <Image style={styles.logoNavegacaoMedicamentos} source={require('../images/medicine.png')} />
-                    <Text style={styles.textoNavegacaoMedicamentos}>Dorflex</Text>
-                    <TouchableOpacity>
-                        <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
-                    </TouchableOpacity>
+                        </View>
+                    ))}
                 </View>
-                <View style={styles.NavegacaoMenuMedicamentos}>
-                    <Image style={styles.logoNavegacaoMedicamentos} source={require('../images/medicine.png')} />
-                    <Text style={styles.textoNavegacaoMedicamentos}>Fluxo</Text>
-                    <TouchableOpacity>
-                        <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
-                    </TouchableOpacity>
-                </View> */}
+            </ScrollView>
 
-
-
-            </View>
-
+            {/* Botões de navegações. */}
             <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.goBack()}>
@@ -193,6 +82,6 @@ const TelaMeusMedicamentos = ({ navigation }) => {
             </View>
         </View >
     )
-}
+};
 
 export default TelaMeusMedicamentos;

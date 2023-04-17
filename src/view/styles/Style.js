@@ -414,6 +414,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+
     //Estilização da tela - meus medicamentos.
     espacopesquisarMedicamentos: {
         backgroundColor: corPesquisar,
@@ -450,7 +451,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: 'space-between'
     },
     NavegacaoMenuMedicamentosBaixo: {
         backgroundColor: corMenu,
@@ -465,18 +465,26 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'space-between'
     },
-    logoNavegacaoMedicamentos: {
-        width: 50,
-        height: 50
+    logoMeusMedicamentos: {
+        width: 45,
+        height: 45
     },
     logoNavegacaoEditMedicamentos: {
         marginTop: 20,
-        width: 30,
-        height: 30
+        width: 25,
+        height: 25
     },
-    textoNavegacaoMedicamentos: {
-        paddingRight: 90,
-        fontSize: 25
+    espacoTextosMeusMedicamentos: {
+        fontFamily: "Alata-Regular",
+        marginLeft: 10
+    },
+    nomeMeusMedicamentos: {
+        fontSize: 20,
+        color: "#000",
+    },
+    descricaoMeusMedicamentos: {
+        fontSize: 15,
+        color: "#000",
     },
     footerNavegacaoMedicamentos: {
         position: 'absolute',
@@ -576,7 +584,7 @@ const styles = StyleSheet.create({
         padding: 10,
         elevation: 2,
     },
-    botaoSalvar: {
+    botaoSalvarPerfil: {
         backgroundColor: corBotao,
         width: 70,
         height: 40,
