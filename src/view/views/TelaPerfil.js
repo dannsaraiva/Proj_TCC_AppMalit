@@ -140,6 +140,7 @@ const TelaPerfil = ({ navigation, route }) => {
                 </Modal>
             </View>
 
+            {/* Navegação inferior: */}
             <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.goBack()}>

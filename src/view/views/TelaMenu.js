@@ -35,7 +35,7 @@ const TelaMenu = ({ navigation, route }) => {
             <Image style={styles.logoNavegacaoMenu} source={require('../images/comprimidos.png')} />
             <Text style={styles.textoNavegacaoMenu}>Meus medicamentos</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.NavegacaoMenu}
             onPress={() => navigation.navigate('Maleta')}>
             <Image style={styles.logoNavegacaoMenu} source={require('../images/maleta-de-medico.png')} />
@@ -61,13 +61,14 @@ const TelaMenu = ({ navigation, route }) => {
           <Text style={styles.textoBotaoNavegacao}>Sair</Text>
         </TouchableOpacity>
 
+        {/* Navegação inferior: */}
         <TouchableOpacity style={styles.botaoNavegacao}
           onPress={() => navigation.navigate('Perfil')}>
 
           <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
           <Text style={styles.textoBotaoNavegacao}>Perfil</Text>
-          
-          </TouchableOpacity>
+
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.botaoNavegacao}
           onPress={() => navigation.navigate('Maleta')}>

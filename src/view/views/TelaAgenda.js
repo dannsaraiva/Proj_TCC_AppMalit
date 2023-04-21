@@ -31,6 +31,8 @@ LocaleConfig.defaultLocale = 'dias';
 const TelaAgenda = ({ navigation }) => {
     return (
         <View style={styles.container}>
+
+            {/* Navegação superior: */}
             <View style={styles.cabecalhoChat}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}>

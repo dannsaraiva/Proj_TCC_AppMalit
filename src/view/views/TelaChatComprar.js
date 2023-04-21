@@ -7,6 +7,8 @@ import styles from '../styles/Style';
 const TelaChatComprar = ({ navigation }) => {
     return (
         <View style={styles.container}>
+
+            {/* Navegação inferior: */}
             <View style={styles.cabecalhoChat}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}>

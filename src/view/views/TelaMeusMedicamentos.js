@@ -64,7 +64,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                 </View>
             </ScrollView>
 
-            {/* Botões de navegações. */}
+            {/* Navegação inferior: */}
             <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.goBack()}>

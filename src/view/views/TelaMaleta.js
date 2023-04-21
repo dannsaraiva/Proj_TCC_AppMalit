@@ -42,6 +42,7 @@ const TelaMaleta = ({ navigation }) => {
                 </View>
             </ScrollView>
 
+            {/* Navegação inferior: */}
             <View style={styles.footerNavegacao}>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.goBack()}>

@@ -7,6 +7,8 @@ import styles from '../styles/Style';
 const TelaAjuda = ({ navigation }) => {
     return (
         <View style={styles.container}>
+
+            {/* Navegação superior: */}
             <View style={styles.cabecalhoChat}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}>

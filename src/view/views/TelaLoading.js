@@ -16,7 +16,7 @@ const TelaLoading = ({ navigation }) => {
                 <Lottie
                     source={require('../componentes/loading.json')}
                     autoPlay
-                    speed={1.4}
+                    speed={1.1}
                     loop
                     ={false}
                     onAnimationFinish={() => navigation.navigate('Menu')}

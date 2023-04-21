@@ -177,7 +177,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                 visibilityTime={3000}
             />
 
-            {/* Botões da navegação */}
+            {/* Navegação inferior: */}
             <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.goBack()}>
