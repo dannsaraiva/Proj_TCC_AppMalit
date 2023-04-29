@@ -1,5 +1,12 @@
-import React, { } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
+
+//
+import { SelectList } from 'react-native-dropdown-select-list';
+
+// 
+import DatePicker from "react-native-date-picker";
+
 
 //Importação biblioteca para exibir o alerta.
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message"
@@ -44,12 +51,15 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
         //Tratamento da data.
         let dataTratada = data.validade.split('/').reverse().join('-');
+        let dataPrimeiroConsumoTratada = dataPrimeiroConsumo.split('-').reverse().join('-');
 
         api.post(rota, {
-            nome_Medicamentos: data.nome,
-            descricao_Medicamentos: data.descricao,
-            quantidade_Medicamentos: data.quantidade,
-            validade_Medicamentos: dataTratada,
+            nome_Medicamento: data.nome,
+            descricao_Medicamento: data.descricao,
+            quantidade_Medicamento: data.quantidade,
+            validade_Medicamento: dataTratada,
+            dia_Med: dataPrimeiroConsumoTratada,
+            hora_Med: horarioPrimeiroConsumo
 
         }).then((data) => {
             console.log("Medicamento salvo.")
@@ -61,116 +71,277 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         })
     };
 
+    // 
+    const [intervalo, setIntervalo] = useState("");
+    const [diaConsumo, setDiaConsumo] = useState("");
+
+    const intervaloConsumo = [
+        { key: '1', value: '1 - uma vez' },
+        { key: '2', value: '2 - duas vezes' },
+        { key: '3', value: '3 - três vezes' },
+        { key: '4', value: '4 - quatro vezes' },
+        { key: '5', value: '5 - cinco vezes' },
+        { key: '6', value: '6 - seis vezes' },
+        { key: '7', value: '7 - sete vezes' },
+        { key: '8', value: '14 - duas semanas' },
+        { key: '9', value: 'constantemente' },
+    ];
+
+    const diasConsumo = [
+        { key: '1', value: '1 - um dia' },
+        { key: '2', value: '2 - dois dias' },
+        { key: '3', value: '3 - três dias' },
+        { key: '4', value: '4 - quatro dias' },
+        { key: '5', value: '5 - cinco dias' },
+        { key: '6', value: '6 - seis dias' },
+        { key: '7', value: '7 - sete dias' },
+        { key: '8', value: '14 - duas semanas' },
+        { key: '9', value: 'constantemente' },
+    ];
+
+    console.log(intervalo)
+    console.log(diaConsumo)
+
+    // Valida o campo Primeiro consumo:
+    const [primeiroConsumo, setPrimeiroConsumo] = useState(new Date());
+    const [open, setOpen] = useState(false);
+
+    const [dataPrimeiroConsumo, setDataPrimeiroConsumo] = useState("");
+    const [horarioPrimeiroConsumo, setHorarioPrimeiroConsumo] = useState("");
+
+    let [textoPrimeiroConsumo, setTextoPrimeiroConsumo] = useState("Primeiro consumo:");
+
+    const validarPrimeiroConsumo = () => {
+        if (primeiroConsumo != new Date()) {
+            let data = primeiroConsumo.toLocaleDateString('pt-BR').split('/').join('-');
+            setDataPrimeiroConsumo(data);
+
+
+            let horario = primeiroConsumo.toLocaleTimeString('pt-BR').slice(0, 5);
+            setHorarioPrimeiroConsumo(horario);
+
+            setTextoPrimeiroConsumo(data + " " + horario);
+        }
+    };
+
+    // Codigo da tela:
     return (
         <View style={styles.container}>
 
-            <View style={styles.cabecalho}>
-                <Text style={styles.textoCabecalho}>Cadastre um medicamento</Text>
+            {/* Navegação inferior: */}
+            <View style={styles.cabecalhoChat}>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}>
+                    <Image style={styles.logoCabecalhoCadastroMedicamentos}
+                        source={require('../images/botao-voltar.png')} />
+                </TouchableOpacity>
+                <Text style={styles.textoCabecalhoChat}>Cadastre um medicamento</Text>
             </View>
 
-            <View style={styles.dadosUsuario}>
+            <ScrollView>
+                <View style={styles.espacoCadastroMedicamento}>
 
-                {/* Input com mensagens de erros. */}
-                {errors.nome && <Text style={styles.textoAlertaInput}>Digite o nome</Text>}
-                <Controller
-                    control={control}
-                    rules={{
-                        required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={styles.textoInputMedicamento} placeholder='Nome:' placeholderTextColor={"#000"}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                    name="nome"
-                />
+                    {/* Input com mensagens de erros. */}
+                    {errors.nome && <Text style={styles.textoAlertaInput}>Digite o nome</Text>}
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput style={styles.textoInputMedicamento} placeholder='Nome:' placeholderTextColor={"#000"}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="nome"
+                    />
 
-                {errors.descricao && <Text style={styles.textoAlertaInput}>...</Text>}
-                <Controller
-                    control={control}
-                    rules={{
+                    {errors.descricao && <Text style={styles.textoAlertaInput}>...</Text>}
+                    <Controller
+                        control={control}
+                        rules={{
 
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={styles.textoInputMedicamento} placeholder='Descrição:' placeholderTextColor={"#000"}
-                            maxLength={30}
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput style={styles.textoInputMedicamento} placeholder='Descrição:' placeholderTextColor={"#000"}
+                                maxLength={30}
 
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                    name="descricao"
-                />
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="descricao"
+                    />
 
-                {errors.quantidade && <Text style={styles.textoAlertaInput}>Digite a quantidade</Text>}
-                <Controller
-                    control={control}
-                    rules={{
-                        required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput style={styles.textoInputMedicamento} placeholder='Quantidade:' placeholderTextColor={"#000"}
-                            keyboardType="numeric"
-                            maxLength={3}
+                    {errors.quantidade && <Text style={styles.textoAlertaInput}>Digite a quantidade</Text>}
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput style={styles.textoInputMedicamento} placeholder='Quantidade:' placeholderTextColor={"#000"}
+                                keyboardType="numeric"
+                                maxLength={3}
 
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                    name="quantidade"
-                />
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="quantidade"
+                    />
 
 
-                {errors.validade && <Text style={styles.textoAlertaInput}>...</Text>}
-                <Controller
-                    control={control}
-                    rules={{
+                    {errors.validade && <Text style={styles.textoAlertaInput}>...</Text>}
+                    <Controller
+                        control={control}
+                        rules={{
 
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInputMask style={styles.textoInputMedicamento} placeholder='Validade:' placeholderTextColor={"#000"}
-                            keyboardType="numeric"
-                            maxLength={10}
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInputMask style={styles.textoInputMedicamento} placeholder='Validade:' placeholderTextColor={"#000"}
+                                keyboardType="numeric"
+                                maxLength={10}
 
-                            type={'datetime'}
-                            options={{
-                                format: 'DD/MM/YYYY',
-                            }}
+                                type={'datetime'}
+                                options={{
+                                    format: 'DD/MM/YYYY',
+                                }}
 
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
 
-                        />
-                    )}
-                    name="validade"
+                            />
+                        )}
+                        name="validade" />
 
-                />
 
-                {/* Botão para salvar. */}
-                <View style={styles.espacoBotaoSalvar}>
-                    <TouchableOpacity style={styles.botaoSalvar}
-                        onPress={() => {
-                            Alert.alert(
-                                'Cadastro do medicamento',
-                                'Você deseja salvar ?',
-                                [
-                                    { text: 'Não', },
-                                    {
-                                        text: 'Sim', onPress: handleSubmit(onSubmit)
-                                    },
-                                ],
-                                { cancelable: false });
-                            return false;
-                        }}>
-                        <Text style={styles.textoBotaoSalvar}>Salvar</Text>
-                    </TouchableOpacity>
+
+                    {/*  */}
+                    {errors.primeiroConsumo && <Text style={styles.textoAlertaInput}>Selecione o primeiro consumo</Text>}
+                    <Controller
+                        control={control}
+                        rules={{
+
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TouchableOpacity onPress={() => setOpen(true)}>
+                                <TextInput style={styles.textoInputMedicamento} editable={false}
+                                    placeholder="Primeiro consumo:" placeholderTextColor={"#000"}>
+                                    <Text style={{ color: "#000" }}>
+                                        {textoPrimeiroConsumo}
+                                    </Text>
+                                </TextInput>
+                            </TouchableOpacity>
+                        )}
+                        name="primeiroConsumo" />
+
+                    <DatePicker
+                        title={"Selecione a data do primeiro consumo"}
+                        confirmText="Confirmar"
+                        cancelText="Cancelar"
+                        textColor="#000"
+
+
+                        mode="datetime"
+
+                        locale="pt-BR"
+                        is24hourSource="locale"
+
+                        modal
+                        open={open}
+                        date={primeiroConsumo}
+                        onConfirm={(primeiroConsumo) => {
+                            setOpen(false)
+                            setPrimeiroConsumo(primeiroConsumo)
+                            validarPrimeiroConsumo()
+                        }}
+                        onCancel={() => {
+                            setOpen(false)
+                        }} />
+
+
+
+                    {/*  */}
+                    <View listCadastroMedicamento>
+
+                        <SelectList
+                            boxStyles={styles.listCadastroMedicamento}
+                            inputStyles={styles.inputListCadastroMedicamentos}
+                            dropdownStyles={styles.dropStyleCadastroMedicamentos}
+                            dropdownItemStyles={styles.dropListCadastroMedicamentos}
+                            dropdownTextStyles={styles.dropTextCadastroMedicamentos}
+                            disabledItemStyles={{ color: "#000" }}
+                            disabledTextStyles={{ color: "#000" }}
+
+                            searchicon={true}
+                            arrowicon={true}
+                            search={true}
+                            searchPlaceholder="Digite ..."
+                            notFoundText="Não encontrado ..."
+
+                            placeholder="Intervalo de consumo:"
+
+                            // Hora e minuto
+                            maxHeight={200}
+
+                            setSelected={(intervalo) => setIntervalo(intervalo)}
+                            data={intervaloConsumo}
+                            save="value" />
+
+                        <SelectList
+                            boxStyles={styles.listCadastroMedicamento}
+                            inputStyles={styles.inputListCadastroMedicamentos}
+                            dropdownStyles={styles.dropStyleCadastroMedicamentos}
+                            dropdownItemStyles={styles.dropListCadastroMedicamentos}
+                            dropdownTextStyles={styles.dropTextCadastroMedicamentos}
+                            disabledItemStyles
+                            disabledTextStyles
+
+                            searchicon={true}
+                            arrowicon={true}
+                            search={true}
+                            searchPlaceholder="Digite ..."
+                            notFoundText="Não encontrado ..."
+
+                            placeholder="Dias de consumo:"
+                            // De 1 a 7
+                            // Permanente
+                            maxHeight={200}
+
+                            setSelected={(diaConsumo) => setDiaConsumo(diaConsumo)}
+                            data={diasConsumo}
+                            save="value" />
+                    </View>
+
+
+                    {/* Botão para salvar. */}
+                    <View style={styles.espacoBotaoSalvar}>
+                        <TouchableOpacity style={styles.botaoSalvar}
+                            onPress={() => {
+                                Alert.alert(
+                                    'Cadastro do medicamento',
+                                    'Você deseja salvar ?',
+                                    [
+                                        { text: 'Não', },
+                                        {
+                                            text: 'Sim', onPress: handleSubmit(onSubmit)
+                                        },
+                                    ],
+                                    { cancelable: false });
+                                return false;
+                            }}>
+                            <Text style={styles.textoBotaoSalvar}>Salvar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
+
             <Toast
                 position='top'
                 bottomOffset={40}
@@ -178,7 +349,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
             />
 
             {/* Navegação inferior: */}
-            <View style={styles.footerNavegacaoMedicamentos}>
+            {/* <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.goBack()}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
@@ -195,7 +366,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Maleta</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View >
     )
 };

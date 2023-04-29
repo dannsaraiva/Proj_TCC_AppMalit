@@ -24,12 +24,11 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-      // initialRouteName='Teste maleta'
+
+        // initialRouteName='Meus medicamentos'
       >
         <Stack.Screen name="Logo" component={Logo} />
-        <Stack.Screen name="Login" component={Login}
-
-        />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Recuperar senha" component={RecuperarSenha} />
         <Stack.Screen name="Cadastro" component={Cadastro} />
         <Stack.Screen name="Menu" component={Menu} />

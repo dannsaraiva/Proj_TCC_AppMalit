@@ -48,11 +48,11 @@ const TelaLogin = ({ navigation }) => {
           navigation.navigate('Loading');
         } else {
 
-          mensagemErroSenha();
+          mensagemErroSenha()
         }
       } else {
 
-        mensagemErroCPF();
+        mensagemErroCPF()
       };
     };
   }, [formulario, login, password]);
@@ -138,7 +138,7 @@ const TelaLogin = ({ navigation }) => {
       <View style={styles.dadosLogin}>
 
         {/* Input CPF */}
-        {errors.cpf && <Text style={styles.textoAlertaInput}>{errors.cpf.message}</Text>}
+        {errors.cpf && <Text style={styles.textoAlertaInputLogin}>{errors.cpf.message}</Text>}
         <Controller
           control={control}
           name='cpf'
@@ -156,7 +156,7 @@ const TelaLogin = ({ navigation }) => {
             />
           )} />
 
-        {errors.senha && <Text style={styles.textoAlertaInput}>{errors.senha.message}</Text>}
+        {errors.senha && <Text style={styles.textoAlertaInputLogin}>{errors.senha.message}</Text>}
         <Controller
           control={control}
           name='senha'

@@ -33,6 +33,7 @@ const TelaPerfil = ({ navigation, route }) => {
     const [email, setEmail] = useState(null);
     const [senha, setSenha] = useState(null);
 
+    // Após a abertura da tela seta os valores.
     useEffect(() => {
 
         if (retorno != null) {
@@ -102,6 +103,8 @@ const TelaPerfil = ({ navigation, route }) => {
                 </View>
             </View>
 
+
+            {/* Mini janela para tratativa da senha: */}
             <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"

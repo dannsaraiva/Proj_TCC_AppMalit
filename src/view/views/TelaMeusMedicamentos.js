@@ -1,14 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput, VirtualizedList, Modal } from 'react-native';
+
 
 //Estilização da página.
 import styles from '../styles/Style';
 
+//Importação biblioteca para exibir o alerta.
+import Toast from "react-native-toast-message";
+
 //Importação da API.
 import api from "../../services/api";
+import { update } from 'firebase/database';
 const rota = "/ListagemMed";
+const rotaExclusao = "/DeletarMed/";
 
 const TelaMeusMedicamentos = ({ navigation }) => {
+
+    //Mensagens para exibir para o usuário.
+    const mensagemSucesso = () => {
+        Toast.show({
+            type: 'error',
+            text1: 'Medicamento excluído',
+        });
+    };
+
+    const mensagemErro = () => {
+        Toast.show({
+            type: 'error',
+            text1: 'Tente novamente',
+        });
+    };
 
     const [medicamentos, setMedicamentos] = useState([]);
 
@@ -25,6 +46,101 @@ const TelaMeusMedicamentos = ({ navigation }) => {
         });
     }, []);
 
+    //Construção da API, para pegar os medicamentos.
+    const excluirMedicamento = (valor) => {
+        api.delete(rotaExclusao + valor, {
+
+        }).then((response) => {
+            mensagemSucesso()
+
+        }).catch((error) => {
+
+            mensagemErro()
+        })
+    };
+
+    // Parâmetros do VirtualizedList.
+    const getItemCount = () => medicamentos.length;
+
+    const getItem = (medicamentos, index) => medicamentos[index];
+
+    const renderItem = ({ item }) => (
+        <View style={{ alignItems: 'center', }}>
+            <View style={styles.NavegacaoMenuMedicamentos} >
+                <Image style={styles.logoMeusMedicamentos} source={require('../images/medicine.png')} />
+
+                <View style={styles.espacoTextosMeusMedicamentos}>
+                    <Text style={styles.nomeMeusMedicamentos}>{item.nome_Medicamento}</Text>
+                    <Text style={styles.descricaoMeusMedicamentos}>{item.descricao_Medicamento}</Text>
+                </View>
+
+                <TouchableOpacity onPress={() => setModalVisible(true)}
+                    style={{
+                        position: 'absolute', right: 10,
+                        bottom: 5
+                    }}>
+                    <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
+                </TouchableOpacity>
+
+                {/* Mini janela para edição do medicamento: */}
+                <View style={styles.centeredView}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert('Modal has been closed.');
+                            setModalVisible(!modalVisible);
+                        }}>
+                        <View style={styles.espacoModal}>
+                            <View style={styles.modalView}>
+
+                                <Text style={styles.modalTitulo}>Alterar o medicamento:</Text>
+
+                                <Text style={styles.tituloSenha}>Nome:</Text>
+                                <TextInput style={styles.textoInputPerfil}>{item.nome_Medicamento}</TextInput>
+
+                                <Text style={styles.tituloSenha}>Descrição:</Text>
+                                <TextInput style={styles.textoInputPerfil}>{item.descricao_Medicamento}</TextInput>
+
+                                <View style={styles.espacoBotaoModal}>
+                                    <TouchableOpacity
+                                        style={styles.botaoVoltar}
+                                        onPress={() => setModalVisible(!modalVisible)}>
+                                        <Text style={styles.textStyle}>Voltar</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        style={styles.botaoSalvarPerfil}
+                                        onPress={() =>
+                                            excluirMedicamento(item.id_Medicamento)
+                                        }>
+                                        <Text style={styles.textStyle}>Excluir</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        style={styles.botaoSalvarPerfil}
+                                        onPress={() => setModalVisible(!modalVisible)}>
+                                        <Text style={styles.textStyle}>Salvar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
+                {/* <TouchableOpacity style={{
+                    position: 'absolute', right: 10,
+                    bottom: 5
+                }}>
+                    <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/trash.png')} />
+                </TouchableOpacity> */}
+            </View >
+        </View >
+    );
+
+    //Habilitar o componete Modal.
+    const [modalVisible, setModalVisible] = useState(false);
+
     //Construção da tela.
     return (
         <View style={styles.container}>
@@ -39,30 +155,24 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                 </View>
             </View>
 
-            <ScrollView style={{ marginBottom: 125 }}>
-                <View style={styles.espacoMeusMedicamentos}>
-                    {/* Função para carregar todos os medicamentos. */}
-                    {medicamentos.map(item => (
+            {/* Função para carregar todos os medicamentos. */}
+            <VirtualizedList
+                style={styles.espacoMeusMedicamentos}
+                data={medicamentos}
+                getItemCount={getItemCount}
+                getItem={getItem}
+                renderItem={renderItem}
+                keyExtractor={item => item.id_Medicamento}
+            />
 
-                        <View style={styles.NavegacaoMenuMedicamentos} >
-                            <Image style={styles.logoMeusMedicamentos} source={require('../images/medicine.png')} />
+            {/* Pop-up na tela. */}
+            <Toast
+                position='top'
+                bottomOffset={40}
+                visibilityTime={3500}
+            />
 
-                            <View style={styles.espacoTextosMeusMedicamentos}>
-                                <Text style={styles.nomeMeusMedicamentos}>{item.nome_Medicamentos}</Text>
-                                <Text style={styles.descricaoMeusMedicamentos}>{item.descricao_Medicamentos}</Text>
-                            </View>
 
-                            <TouchableOpacity style={{
-                                position: 'absolute', right: 10,
-                                bottom: 5
-                            }}>
-                                <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/edit.png')} />
-                            </TouchableOpacity>
-
-                        </View>
-                    ))}
-                </View>
-            </ScrollView>
 
             {/* Navegação inferior: */}
             <View style={styles.footerNavegacaoMedicamentos}>

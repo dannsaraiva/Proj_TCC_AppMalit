@@ -124,6 +124,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 20
     },
+    textoAlertaInputLogin: {
+        color: '#F00',
+        fontSize: 16,
+        fontWeight: "bold",
+        textAlign: "left",
+        marginRight: 20,
+        marginLeft: 20,
+        marginTop: 20
+    },
     dadosLogin: {
         position: "absolute",
         marginTop: "80%",
@@ -180,25 +189,36 @@ const styles = StyleSheet.create({
         height: 300,
     },
     //Cadastro de medicamento.
+    logoCabecalhoCadastroMedicamentos: {
+        width: 35,
+        height: 35,
+        marginLeft: -65
+    },
+    espacoCadastroMedicamento: {
+        marginTop: 50,
+        marginBottom: 180,
+    },
     textoInputMedicamento: {
         fontSize: 20,
+        fontFamily: "Alata-Regular",
         backgroundColor: corInput,
         borderRadius: 30,
         height: 45,
         marginLeft: 20,
         marginRight: 20,
         paddingLeft: 20,
-        marginBottom: 20,
+        marginTop: 20,
         textAlign: "center"
     },
     textoAlertaInput: {
-        color: 'red',
+        color: '#F00',
         fontSize: 16,
         fontWeight: "bold",
         textAlign: "left",
         marginRight: 20,
-        marginBottom: 5,
-        marginLeft: 20
+        marginLeft: 20,
+        marginBottom: -20,
+        marginTop: 20
     },
     textoBotaoSalvar: {
         fontWeight: "bold",
@@ -212,6 +232,46 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginBottom: 25
     },
+    // 
+    listCadastroMedicamento: {
+        backgroundColor: corInput,
+        marginRight: 20,
+        marginLeft: 20,
+        borderRadius: 30,
+        borderColor: corInput,
+        alignItems: "center",
+        justifyContent: "center",
+        height: 45,
+        marginTop: 25
+    },
+    inputListCadastroMedicamentos: {
+        color: "#000",
+        fontSize: 20,
+        fontFamily: "Alata-Regular",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        margin: -50,
+
+
+    },
+    dropListCadastroMedicamentos: {
+        color: "#000"
+    },
+    dropTextCadastroMedicamentos: {
+        color: "#000",
+        textAlign: "center",
+        fontSize: 20,
+        fontFamily: "Alata-Regular",
+
+    },
+    dropStyleCadastroMedicamentos: {
+        color: "#000"
+
+    },
+
+
+
     //Estilização da tela - menu.
     NavegacaoMenu: {
         backgroundColor: corMenu,
@@ -404,7 +464,8 @@ const styles = StyleSheet.create({
     espacoBotaoSalvar: {
         flexDirection: "row",
         justifyContent: 'flex-end',
-        marginRight: 20
+        marginRight: 20,
+        marginTop: 20
     },
     botaoSalvar: {
         backgroundColor: '#0AC4DD',
@@ -436,9 +497,8 @@ const styles = StyleSheet.create({
         height: 25
     },
     espacoMeusMedicamentos: {
-        alignItems: 'center',
         height: "60%",
-        marginTop: 30
+        marginTop: 30,
     },
     NavegacaoMenuMedicamentos: {
         backgroundColor: corMenu,
@@ -451,6 +511,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         flexDirection: "row",
         alignItems: "center",
+
     },
     NavegacaoMenuMedicamentosBaixo: {
         backgroundColor: corMenu,
