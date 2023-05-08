@@ -58,8 +58,7 @@ const TelaCadastro = ({ navigation }) => {
   //Chamando a API.
   const sendUsuario = (data) => {
     //Tratatamento dos dados.
-    //Data:
-    const dataTratada = data.dataDeNascimento.split('/').reverse().join('-');
+    const dataTratada = data.dataDeNascimento.split('/').reverse().join('-')
 
     api.post(rota, {
 

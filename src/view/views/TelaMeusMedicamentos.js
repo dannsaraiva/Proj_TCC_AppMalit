@@ -13,6 +13,7 @@ import api from "../../services/api";
 import { update } from 'firebase/database';
 const rota = "/ListagemMed";
 const rotaExclusao = "/DeletarMed/";
+const rotaAlteracao = "/AtualizarMed/";
 
 const TelaMeusMedicamentos = ({ navigation }) => {
 
@@ -46,16 +47,34 @@ const TelaMeusMedicamentos = ({ navigation }) => {
         });
     }, []);
 
-    //Construção da API, para pegar os medicamentos.
+    //Construção da API, para excluir os medicamentos.
     const excluirMedicamento = (valor) => {
         api.delete(rotaExclusao + valor, {
 
         }).then((response) => {
-            mensagemSucesso()
+            mensagemSucesso();
 
         }).catch((error) => {
 
             mensagemErro()
+        })
+    };
+
+    // Construção da API para atualizar os dados dos medicamentos.
+    const atualizarMedicamento = (valor) => {
+        api.put(rotaAlteracao + valor, {
+
+            nome_Medicamento: "Alterado",
+            descricao_Medicamento: "Aletardo1",
+            quantidade_Medicamento: "7",
+
+
+        }).then((response) => {
+
+            console.log("Atualizado");
+        }).catch((error) => {
+
+            console.log("Erro:" + error)
         })
     };
 
@@ -93,7 +112,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                             setModalVisible(!modalVisible);
                         }}>
                         <View style={styles.espacoModal}>
-                            <View style={styles.modalView}>
+                            <View style={styles.modalViewMeusMedicamentos}>
 
                                 <Text style={styles.modalTitulo}>Alterar o medicamento:</Text>
 
@@ -102,6 +121,16 @@ const TelaMeusMedicamentos = ({ navigation }) => {
 
                                 <Text style={styles.tituloSenha}>Descrição:</Text>
                                 <TextInput style={styles.textoInputPerfil}>{item.descricao_Medicamento}</TextInput>
+
+                                <Text style={styles.tituloSenha}>Quantidade:</Text>
+                                <TextInput style={styles.textoInputPerfil}>{item.quantidade_Medicamento}</TextInput>
+
+                                <Text style={styles.tituloSenha}>Data do primeiro consumo:</Text>
+                                <TextInput style={styles.textoInputPerfil}>{item.dia_Med}</TextInput>
+
+                                <Text style={styles.tituloSenha}>Horario do primeiro consumo:</Text>
+                                <TextInput style={styles.textoInputPerfil}>{item.hora_Med}</TextInput>
+
 
                                 <View style={styles.espacoBotaoModal}>
                                     <TouchableOpacity
@@ -120,7 +149,9 @@ const TelaMeusMedicamentos = ({ navigation }) => {
 
                                     <TouchableOpacity
                                         style={styles.botaoSalvarPerfil}
-                                        onPress={() => setModalVisible(!modalVisible)}>
+                                        onPress={() =>
+                                            atualizarMedicamento(item.id_Medicamento)
+                                        }>
                                         <Text style={styles.textStyle}>Salvar</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -128,12 +159,6 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                         </View>
                     </Modal>
                 </View>
-                {/* <TouchableOpacity style={{
-                    position: 'absolute', right: 10,
-                    bottom: 5
-                }}>
-                    <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/trash.png')} />
-                </TouchableOpacity> */}
             </View >
         </View >
     );

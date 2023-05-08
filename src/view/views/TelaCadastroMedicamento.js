@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
 
-//
+//Importação da biblioteca de dropList.
 import { SelectList } from 'react-native-dropdown-select-list';
+import dropListPrimeiroConsumo from "../componentes/dropListPrimeiroConsumo";
 
-// 
+//
 import DatePicker from "react-native-date-picker";
 
 
@@ -50,14 +51,15 @@ const TelaCadastroMedicamento = ({ navigation }) => {
     const sendMedicamento = data => {
 
         //Tratamento da data.
-        let dataTratada = data.validade.split('/').reverse().join('-');
-        let dataPrimeiroConsumoTratada = dataPrimeiroConsumo.split('-').reverse().join('-');
+        let dataPrimeiroConsumoTratada = dataPrimeiroConsumo.split('-').reverse().join('-')
+
+        console.log(dataPrimeiroConsumo)
+        console.log(horarioPrimeiroConsumo)
 
         api.post(rota, {
             nome_Medicamento: data.nome,
             descricao_Medicamento: data.descricao,
             quantidade_Medicamento: data.quantidade,
-            validade_Medicamento: dataTratada,
             dia_Med: dataPrimeiroConsumoTratada,
             hora_Med: horarioPrimeiroConsumo
 
@@ -71,20 +73,29 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         })
     };
 
-    // 
-    const [intervalo, setIntervalo] = useState("");
-    const [diaConsumo, setDiaConsumo] = useState("");
 
-    const intervaloConsumo = [
-        { key: '1', value: '1 - uma vez' },
-        { key: '2', value: '2 - duas vezes' },
-        { key: '3', value: '3 - três vezes' },
-        { key: '4', value: '4 - quatro vezes' },
-        { key: '5', value: '5 - cinco vezes' },
-        { key: '6', value: '6 - seis vezes' },
-        { key: '7', value: '7 - sete vezes' },
-        { key: '8', value: '14 - duas semanas' },
-        { key: '9', value: 'constantemente' },
+
+
+
+
+
+    // 
+    const [intervalo, setIntervalo] = useState(null);
+    const [diaConsumo, setDiaConsumo] = useState(null);
+
+    const intervaloHoras = [
+        { key: '1', value: '1 - Em uma hora' },
+        { key: '2', value: '2 - Em duas horas' },
+        { key: '3', value: '3 - Em três horas' },
+        { key: '4', value: '4 - Em quatro horas' },
+        { key: '5', value: '5 - Em cinco horas' },
+        { key: '6', value: '6 - Em seis horas' },
+        { key: '7', value: '7 - Em sete horas' },
+        { key: '8', value: '8 - Em oito horas' },
+        { key: '9', value: '9 - Em nove horas' },
+        { key: '10', value: '10 - Em dez horas' },
+        { key: '11', value: '11 - Em onze horas' },
+        { key: '12', value: '12 - Em doze horas' },
     ];
 
     const diasConsumo = [
@@ -98,9 +109,6 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         { key: '8', value: '14 - duas semanas' },
         { key: '9', value: 'constantemente' },
     ];
-
-    console.log(intervalo)
-    console.log(diaConsumo)
 
     // Valida o campo Primeiro consumo:
     const [primeiroConsumo, setPrimeiroConsumo] = useState(new Date());
@@ -124,6 +132,46 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         }
     };
 
+    // Validar os campos Intervalo de horas e Dias de consumo.
+    // Variáveis dos erros.
+    const [erroCampoHoras, setErroCampoHoras] = useState("");
+    const [erroCampoDias, setErroCampoDias] = useState("");
+
+    // Função para validar os dois campos.
+    const validaIntervalo = () => {
+        if (intervalo === null) {
+
+            setErroCampoHoras("Selecione um horario");
+
+            setTimeout(() => {
+                setErroCampoHoras("");
+            }, 5000);
+
+        } else {
+
+            setErroCampoHoras("");
+            // return true;
+        }
+    };
+
+
+    // 
+    const [confir, setConfir] = useState(false);
+    const [mostrar, setMostrar] = useState(false);
+
+    useEffect(() => {
+        setOpen(false);
+
+        validarPrimeiroConsumo();
+    }, [confir]);
+
+    useEffect(() => {
+        if (open === true) {
+
+            setMostrar(true)
+        }
+    }, [open]);
+
     // Codigo da tela:
     return (
         <View style={styles.container}>
@@ -137,6 +185,8 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text style={styles.textoCabecalhoChat}>Cadastre um medicamento</Text>
             </View>
+
+            {/* <dropListPrimeiroConsumo></dropListPrimeiroConsumo> */}
 
             <ScrollView>
                 <View style={styles.espacoCadastroMedicamento}>
@@ -195,81 +245,73 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                         name="quantidade"
                     />
 
+                    {/* Operador ternário para subir a Modal. */}
+                    {
+                        (mostrar === false) ?
+                            <View>
+                                <TouchableOpacity onPress={() => { setOpen(true) }}>
 
-                    {errors.validade && <Text style={styles.textoAlertaInput}>...</Text>}
-                    <Controller
-                        control={control}
-                        rules={{
+                                    {errors.primeiroConsumo && <Text style={styles.textoAlertaInput}>Selecione a data do primeiro consumo</Text>}
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextInput style={styles.textoInputMedicamento} editable={false}
+                                                placeholder="Primeiro consumo:" placeholderTextColor={"#000"}>
+                                                <Text style={{ color: "#000" }}>
+                                                    Primeiro consumo:
+                                                </Text>
+                                            </TextInput>
+                                        )}
+                                        name="primeiroConsumo"
+                                    />
 
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInputMask style={styles.textoInputMedicamento} placeholder='Validade:' placeholderTextColor={"#000"}
-                                keyboardType="numeric"
-                                maxLength={10}
+                                </TouchableOpacity>
+                            </View>
+                            :
+                            (
+                                <View>
+                                    <TouchableOpacity onPress={() => setOpen(true)}>
+                                        <TextInput style={styles.textoInputMedicamento} editable={false}
+                                            placeholder="Primeiro consumo:" placeholderTextColor={"#000"}>
+                                            <Text style={{ color: "#000" }}>
+                                                {textoPrimeiroConsumo}
+                                            </Text>
+                                        </TextInput>
+                                    </TouchableOpacity>
 
-                                type={'datetime'}
-                                options={{
-                                    format: 'DD/MM/YYYY',
-                                }}
+                                    <DatePicker
+                                        title={"Selecione a data do primeiro consumo"}
+                                        confirmText="Confirmar"
+                                        cancelText="Cancelar"
+                                        textColor="#000"
 
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
+                                        mode="datetime"
 
-                            />
-                        )}
-                        name="validade" />
+                                        locale="pt-BR"
+                                        is24hourSource="locale"
 
-
-
-                    {/*  */}
-                    {errors.primeiroConsumo && <Text style={styles.textoAlertaInput}>Selecione o primeiro consumo</Text>}
-                    <Controller
-                        control={control}
-                        rules={{
-
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TouchableOpacity onPress={() => setOpen(true)}>
-                                <TextInput style={styles.textoInputMedicamento} editable={false}
-                                    placeholder="Primeiro consumo:" placeholderTextColor={"#000"}>
-                                    <Text style={{ color: "#000" }}>
-                                        {textoPrimeiroConsumo}
-                                    </Text>
-                                </TextInput>
-                            </TouchableOpacity>
-                        )}
-                        name="primeiroConsumo" />
-
-                    <DatePicker
-                        title={"Selecione a data do primeiro consumo"}
-                        confirmText="Confirmar"
-                        cancelText="Cancelar"
-                        textColor="#000"
-
-
-                        mode="datetime"
-
-                        locale="pt-BR"
-                        is24hourSource="locale"
-
-                        modal
-                        open={open}
-                        date={primeiroConsumo}
-                        onConfirm={(primeiroConsumo) => {
-                            setOpen(false)
-                            setPrimeiroConsumo(primeiroConsumo)
-                            validarPrimeiroConsumo()
-                        }}
-                        onCancel={() => {
-                            setOpen(false)
-                        }} />
+                                        modal
+                                        open={open}
+                                        date={primeiroConsumo}
+                                        onConfirm={(primeiroConsumo) => {
+                                            setPrimeiroConsumo(primeiroConsumo);
+                                            setConfir(true);
+                                        }}
+                                        onCancel={() => {
+                                            setOpen(false);
+                                        }} />
+                                </View>
+                            )}
 
 
-
-                    {/*  */}
+                    {/* Espaco para o dropList: */}
                     <View listCadastroMedicamento>
 
+                        {/* Droplist do intervalo: */}
+                        <Text style={styles.textoAlertaInput}>{erroCampoHoras}</Text>
                         <SelectList
                             boxStyles={styles.listCadastroMedicamento}
                             inputStyles={styles.inputListCadastroMedicamentos}
@@ -285,15 +327,18 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                             searchPlaceholder="Digite ..."
                             notFoundText="Não encontrado ..."
 
-                            placeholder="Intervalo de consumo:"
+                            placeholder="Intervalo de horas:"
 
-                            // Hora e minuto
                             maxHeight={200}
 
                             setSelected={(intervalo) => setIntervalo(intervalo)}
-                            data={intervaloConsumo}
+                            data={intervaloHoras}
                             save="value" />
 
+
+
+
+                        <Text style={styles.textoAlertaInput}>{erroCampoDias}</Text>
                         <SelectList
                             boxStyles={styles.listCadastroMedicamento}
                             inputStyles={styles.inputListCadastroMedicamentos}
@@ -310,13 +355,14 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                             notFoundText="Não encontrado ..."
 
                             placeholder="Dias de consumo:"
-                            // De 1 a 7
-                            // Permanente
                             maxHeight={200}
 
                             setSelected={(diaConsumo) => setDiaConsumo(diaConsumo)}
                             data={diasConsumo}
                             save="value" />
+
+
+
                     </View>
 
 
@@ -330,7 +376,9 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                                     [
                                         { text: 'Não', },
                                         {
-                                            text: 'Sim', onPress: handleSubmit(onSubmit)
+                                            text: 'Sim', onPress:
+                                                // handleSubmit(onSubmit)
+                                                validaIntervalo()
                                         },
                                     ],
                                     { cancelable: false });

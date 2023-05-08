@@ -24,8 +24,9 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-
         // initialRouteName='Meus medicamentos'
+      initialRouteName='Cadastro medicamento'
+      // initialRouteName='Teste maleta'
       >
         <Stack.Screen name="Logo" component={Logo} />
         <Stack.Screen name="Login" component={Login} />

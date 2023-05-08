@@ -24,6 +24,11 @@ const TelaTeste = ({ navigation }) => {
             })
     };
 
+    useEffect(() => {
+        console.log("ENtrar em teste")
+    }, [])
+
+
     //Compartimento 2.
     const testeCompartimentoDois = () => {
         update(ref(bd, 'maleta/' + "C2"), {
@@ -146,8 +151,8 @@ const TelaTeste = ({ navigation }) => {
 
 
     //DESCOMENTAR QUANDO A CONEXÃO COM O BUSER A TODAS AS LEDS ESTIVEREM OK !
-    // //Buser.
-    // const testeBuser = () => {
+    // //Buzzer.
+    // const testeBuzzer = () => {
     //     update(ref(bd, 'maleta/' + "C10"), {
     //         led_status: true,
     //     })
@@ -296,7 +301,10 @@ const TelaTeste = ({ navigation }) => {
             {/* Navegação inferior: */}
             <View style={styles.footerNavegacao}>
                 <TouchableOpacity style={styles.botaoNavegacao}
+
+
                     onPress={() => navigation.goBack()}>
+                    
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Voltar</Text>
                 </TouchableOpacity>

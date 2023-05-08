@@ -220,6 +220,16 @@ const styles = StyleSheet.create({
         marginBottom: -20,
         marginTop: 20
     },
+    textoAlertaInputList: {
+        color: '#F00',
+        fontSize: 16,
+        fontWeight: "bold",
+        textAlign: "left",
+        marginRight: 20,
+        marginLeft: 20,
+        marginBottom: -25,
+        marginTop: 20
+    },
     textoBotaoSalvar: {
         fontWeight: "bold",
         color: '#000',
@@ -242,7 +252,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         height: 45,
-        marginTop: 25
+        marginTop: 25,
+
     },
     inputListCadastroMedicamentos: {
         color: "#000",
@@ -257,16 +268,21 @@ const styles = StyleSheet.create({
     },
     dropListCadastroMedicamentos: {
         color: "#000"
+
     },
     dropTextCadastroMedicamentos: {
         color: "#000",
         textAlign: "center",
         fontSize: 20,
-        fontFamily: "Alata-Regular",
+        fontFamily: "Alata-Regular"
+
 
     },
     dropStyleCadastroMedicamentos: {
-        color: "#000"
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 2,
+        borderColor: corPesquisar
 
     },
 
@@ -556,6 +572,33 @@ const styles = StyleSheet.create({
         // bottom: 10
         marginTop: 590
     },
+    modalViewMeusMedicamentos: {
+        width: 365,
+        height: 650,
+        backgroundColor: corFundo,
+        borderRadius: 20,
+        alignItems: "center",
+        elevation: 5,
+        shadowRadius: 4,
+
+
+        // margin: 20,
+        // backgroundColor: 'white',
+        // borderRadius: 20,
+        // padding: 35,
+        // alignItems: 'center',
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 4,
+        // elevation: 5,
+    },
+
+
+
     //Tela perfil.
     espacologoPerfil: {
         alignItems: "center"
