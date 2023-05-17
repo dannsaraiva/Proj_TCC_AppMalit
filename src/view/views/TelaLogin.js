@@ -26,7 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Importação da API.
 import api from '../../services/api';
-const rota = "/ListagemCPF/";
+const rota = "/Login";
 
 //Construção da tela.
 const TelaLogin = ({ navigation }) => {
@@ -38,26 +38,10 @@ const TelaLogin = ({ navigation }) => {
   const [dados, setDados] = useState([]);
   const [formulario, setFormulario] = useState([]);
 
-  useEffect(() => {
-    //Estruta de decisão para validar e realizar o login.
-    if (login != null) {
+  // useEffect(() => {
+  //   //Estruta de decisão para validar e realizar o login.
 
-      if (login === formulario.cpf) {
-        if (password === formulario.senha) {
-
-
-          
-          navigation.navigate('Loading');
-        } else {
-
-          mensagemErroSenha()
-        }
-      } else {
-
-        mensagemErroCPF()
-      };
-    };
-  }, [formulario, login, password]);
+  // }, [formulario, login, password]);
 
 
 
@@ -83,6 +67,13 @@ const TelaLogin = ({ navigation }) => {
     });
   };
 
+  const mensagemErroAPI = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Usuário não cadastrado',
+    });
+  };
+
   //Parâmetros do hook-form.
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(esquema)
@@ -98,20 +89,48 @@ const TelaLogin = ({ navigation }) => {
   const searchUsuario = data => {
 
     //Pega o cpf digitado pelo usuário e realiza a pesquisa.
-    api.get(rota + data.cpf)
+    api.post(rota, {
+
+      cpf: formulario.cpf,
+      senha: formulario.senha
+
+    })
       .then((response) => {
 
-        console.log(response.data)
-
         //Armazena os valores recebido via API.
-        setDados(response.data.data);
-        setLogin(response.data.data.cpf_Usuarios);
-        setPassword(response.data.data.senha_Usuarios);
+        let retorno = JSON.parse(response.config.data);
+
+        setLogin(retorno.cpf);
+        setPassword(retorno.senha);
+
+        if (login != null) {
+
+          if (login === formulario.cpf) {
+            if (password === formulario.senha) {
+
+              console.log("Logo");
+              return true
+
+              // return true
+              // navigation.navigate('Loading');
+            } else {
+
+              // mensagemErroSenha()
+              console.log("Senha");
+            }
+          } else {
+
+            // mensagemErroCPF()
+            console.log("CPF");
+          };
+        }
+        else {
+          console.log("Erro");
+        };
 
       }).catch((error) => {
 
-        //Em caso de erro retorna.
-        mensagemErroCPF();
+        mensagemErroAPI();
       });
   };
 

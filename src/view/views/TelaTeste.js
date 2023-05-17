@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert, BackHandler } from 'react-native';
+
+// Importação do firebase.
 import { ref, set, update } from "firebase/database";
 import { bd } from '../componentes/config.firebase';
 
@@ -21,13 +23,8 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
-
-    useEffect(() => {
-        console.log("ENtrar em teste")
-    }, [])
-
 
     //Compartimento 2.
     const testeCompartimentoDois = () => {
@@ -41,7 +38,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
     //Compartimento 3.
@@ -56,7 +53,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
     //Compartimento 4.
@@ -71,7 +68,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
     //Compartimento 5.
@@ -86,7 +83,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
     //Compartimento 6.
@@ -101,7 +98,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
     //Compartimento 7.
@@ -116,7 +113,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
     //Compartimento 8.
@@ -131,7 +128,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
     //Compartimento 9.
@@ -146,7 +143,7 @@ const TelaTeste = ({ navigation }) => {
                 ])
             }).catch((error) => {
                 console.log(error);
-            })
+            });
     };
 
 
@@ -181,6 +178,10 @@ const TelaTeste = ({ navigation }) => {
     //         })
     // };
 
+    
+    useEffect(() => {
+        console.log("ENtrar em teste")
+    }, [])
 
     //Codigo da tela.
     return (
@@ -304,7 +305,7 @@ const TelaTeste = ({ navigation }) => {
 
 
                     onPress={() => navigation.goBack()}>
-                    
+
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Voltar</Text>
                 </TouchableOpacity>

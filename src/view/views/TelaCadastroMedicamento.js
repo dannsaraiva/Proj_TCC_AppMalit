@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
 
+//Estilização da página.
+import styles from '../styles/Style';
+
 //Importação da biblioteca de dropList.
 import { SelectList } from 'react-native-dropdown-select-list';
-import dropListPrimeiroConsumo from "../componentes/dropListPrimeiroConsumo";
 
-//
+//Importação da biblioteca do calendario.
 import DatePicker from "react-native-date-picker";
 
-
 //Importação biblioteca para exibir o alerta.
-import Toast, { BaseToast, ErrorToast } from "react-native-toast-message"
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+
 const mensagemSucesso = () => {
     Toast.show({
         type: 'info',
@@ -32,56 +34,79 @@ import { useForm, Controller } from "react-hook-form";
 import api from "../../services/api";
 const rota = "/CadastroMed";
 
-//Mascara do Input.
-import { TextInputMask } from "react-native-masked-text";
-
-//Estilização da página.
-import styles from '../styles/Style';
-
 const TelaCadastroMedicamento = ({ navigation }) => {
 
     //Parâmetros do hook-form.
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
     });
 
+    // Variaveis.
+    const [formulario, setFormulario] = useState([]);
+
+    // Variaveis do firebase.
+    const [dataFirebase, setDataFirebase] = useState("");
+    const [horaFirebase, setHoraFirebase] = useState("");
+    const [minutoFirebase, setMinutoFirebase] = useState("");
+    const [diaFirebase, setDiaFirebase] = useState("");
+    const [mesFirebase, setMesFirebase] = useState("");
+    const [intervaloFirebase, setIntervaloFirebase] = useState("");
+    const [horarioConsumoFirebase, setHorarioConsumoFirebase] = useState("");
+
     //Captura os dados e atribui ao data.
-    const onSubmit = data => sendMedicamento(data);
+    const onSubmit = data => {
+        setFormulario(data)
+        sendMedicamento(data)
+
+        //Atribui os valores do formulário nas variáveis para manda ao firebase.
+        // Percorre e atribui a hora.
+        let hora = horarioPrimeiroConsumo.substring(0, 2);
+        setHoraFirebase(hora);
+
+        // Percorre e atribui o minuto.
+        let minuto = horarioPrimeiroConsumo.substring(3, 5);
+        setMinutoFirebase(minuto);
+
+        // Percorre e atribui o dia.
+        let dia = dataFirebase.substring(8, 10);
+        setDiaFirebase(dia);
+
+        // Percorre e atribui o mês.
+        let mes = dataFirebase.substring(5, 7);
+        setMesFirebase(mes);
+
+        // Percorre e atribui os dias e intervalo de consumo.
+        setIntervaloFirebase(formulario.intervaloConsumo[0]);
+        setHorarioConsumoFirebase(formulario.diasConsumo[0]);
+    };
 
     //API para enviar os dados.
     const sendMedicamento = data => {
 
         //Tratamento da data.
         let dataPrimeiroConsumoTratada = dataPrimeiroConsumo.split('-').reverse().join('-')
-
-        console.log(dataPrimeiroConsumo)
-        console.log(horarioPrimeiroConsumo)
+        setDataFirebase(dataPrimeiroConsumoTratada);
 
         api.post(rota, {
-            nome_Medicamento: data.nome,
-            descricao_Medicamento: data.descricao,
-            quantidade_Medicamento: data.quantidade,
-            dia_Med: dataPrimeiroConsumoTratada,
-            hora_Med: horarioPrimeiroConsumo
+            nome_med: data.nome,
+            descricao: data.descricao,
+            quantidade: data.quantidade,
+            data: dataPrimeiroConsumoTratada,
+            hora: horarioPrimeiroConsumo
 
         }).then((data) => {
+
             console.log("Medicamento salvo.")
             mensagemSucesso();
             reset();
+
+
         }).catch((response) => {
+
             console.log(`Erro ao salvar o medicamento. ${response}`)
             mensagemErro();
-        })
+
+        });
     };
-
-
-
-
-
-
-
-    // 
-    const [intervalo, setIntervalo] = useState(null);
-    const [diaConsumo, setDiaConsumo] = useState(null);
 
     const intervaloHoras = [
         { key: '1', value: '1 - Em uma hora' },
@@ -124,36 +149,12 @@ const TelaCadastroMedicamento = ({ navigation }) => {
             let data = primeiroConsumo.toLocaleDateString('pt-BR').split('/').join('-');
             setDataPrimeiroConsumo(data);
 
-
             let horario = primeiroConsumo.toLocaleTimeString('pt-BR').slice(0, 5);
             setHorarioPrimeiroConsumo(horario);
 
             setTextoPrimeiroConsumo(data + " " + horario);
         }
     };
-
-    // Validar os campos Intervalo de horas e Dias de consumo.
-    // Variáveis dos erros.
-    const [erroCampoHoras, setErroCampoHoras] = useState("");
-    const [erroCampoDias, setErroCampoDias] = useState("");
-
-    // Função para validar os dois campos.
-    const validaIntervalo = () => {
-        if (intervalo === null) {
-
-            setErroCampoHoras("Selecione um horario");
-
-            setTimeout(() => {
-                setErroCampoHoras("");
-            }, 5000);
-
-        } else {
-
-            setErroCampoHoras("");
-            // return true;
-        }
-    };
-
 
     // 
     const [confir, setConfir] = useState(false);
@@ -185,8 +186,6 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text style={styles.textoCabecalhoChat}>Cadastre um medicamento</Text>
             </View>
-
-            {/* <dropListPrimeiroConsumo></dropListPrimeiroConsumo> */}
 
             <ScrollView>
                 <View style={styles.espacoCadastroMedicamento}>
@@ -233,6 +232,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                             required: true,
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
+
                             <TextInput style={styles.textoInputMedicamento} placeholder='Quantidade:' placeholderTextColor={"#000"}
                                 keyboardType="numeric"
                                 maxLength={3}
@@ -311,60 +311,81 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                     <View listCadastroMedicamento>
 
                         {/* Droplist do intervalo: */}
-                        <Text style={styles.textoAlertaInput}>{erroCampoHoras}</Text>
-                        <SelectList
-                            boxStyles={styles.listCadastroMedicamento}
-                            inputStyles={styles.inputListCadastroMedicamentos}
-                            dropdownStyles={styles.dropStyleCadastroMedicamentos}
-                            dropdownItemStyles={styles.dropListCadastroMedicamentos}
-                            dropdownTextStyles={styles.dropTextCadastroMedicamentos}
-                            disabledItemStyles={{ color: "#000" }}
-                            disabledTextStyles={{ color: "#000" }}
+                        {errors.intervaloConsumo && <Text style={styles.textoAlertaInput}>Selecione os intervalos de horas</Text>}
+                        <Controller
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field: { onChange, value } }) => (
 
-                            searchicon={true}
-                            arrowicon={true}
-                            search={true}
-                            searchPlaceholder="Digite ..."
-                            notFoundText="Não encontrado ..."
+                                <SelectList
+                                    boxStyles={styles.listCadastroMedicamento}
+                                    inputStyles={styles.inputListCadastroMedicamentos}
+                                    dropdownStyles={styles.dropStyleCadastroMedicamentos}
+                                    dropdownItemStyles={styles.dropListCadastroMedicamentos}
+                                    dropdownTextStyles={styles.dropTextCadastroMedicamentos}
+                                    disabledItemStyles={{ color: "#000" }}
+                                    disabledTextStyles={{ color: "#000" }}
 
-                            placeholder="Intervalo de horas:"
+                                    searchicon={true}
+                                    arrowicon={true}
+                                    search={true}
+                                    searchPlaceholder="Digite ..."
+                                    notFoundText="Não encontrado ..."
 
-                            maxHeight={200}
+                                    placeholder="Intervalo de horas:"
 
-                            setSelected={(intervalo) => setIntervalo(intervalo)}
-                            data={intervaloHoras}
-                            save="value" />
+                                    maxHeight={200}
 
+                                    // setSelected={(intervalo) => setIntervalo(intervalo)}
+                                    // data={intervaloHoras}
+                                    // save="value"
 
+                                    setSelected={onChange}
+                                    data={intervaloHoras}
+                                    value={value}
+                                    save="value"
 
-
-                        <Text style={styles.textoAlertaInput}>{erroCampoDias}</Text>
-                        <SelectList
-                            boxStyles={styles.listCadastroMedicamento}
-                            inputStyles={styles.inputListCadastroMedicamentos}
-                            dropdownStyles={styles.dropStyleCadastroMedicamentos}
-                            dropdownItemStyles={styles.dropListCadastroMedicamentos}
-                            dropdownTextStyles={styles.dropTextCadastroMedicamentos}
-                            disabledItemStyles
-                            disabledTextStyles
-
-                            searchicon={true}
-                            arrowicon={true}
-                            search={true}
-                            searchPlaceholder="Digite ..."
-                            notFoundText="Não encontrado ..."
-
-                            placeholder="Dias de consumo:"
-                            maxHeight={200}
-
-                            setSelected={(diaConsumo) => setDiaConsumo(diaConsumo)}
-                            data={diasConsumo}
-                            save="value" />
+                                />
+                            )}
+                            name="intervaloConsumo"
+                            defaultValue=""
+                        />
 
 
+                        {errors.diasConsumo && <Text style={styles.textoAlertaInput}>Selecione os dias para consumo</Text>}
+                        <Controller
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field: { onChange, value } }) => (
 
+                                <SelectList
+                                    boxStyles={styles.listCadastroMedicamento}
+                                    inputStyles={styles.inputListCadastroMedicamentos}
+                                    dropdownStyles={styles.dropStyleCadastroMedicamentos}
+                                    dropdownItemStyles={styles.dropListCadastroMedicamentos}
+                                    dropdownTextStyles={styles.dropTextCadastroMedicamentos}
+                                    disabledItemStyles
+                                    disabledTextStyles
+
+                                    searchicon={true}
+                                    arrowicon={true}
+                                    search={true}
+                                    searchPlaceholder="Digite ..."
+                                    notFoundText="Não encontrado ..."
+
+                                    placeholder="Dias de consumo:"
+                                    maxHeight={200}
+
+                                    setSelected={onChange}
+                                    data={diasConsumo}
+                                    value={value}
+                                    save="value"
+                                />
+                            )}
+                            name="diasConsumo"
+                            defaultValue=""
+                        />
                     </View>
-
 
                     {/* Botão para salvar. */}
                     <View style={styles.espacoBotaoSalvar}>
@@ -377,8 +398,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                                         { text: 'Não', },
                                         {
                                             text: 'Sim', onPress:
-                                                // handleSubmit(onSubmit)
-                                                validaIntervalo()
+                                                handleSubmit(onSubmit)
                                         },
                                     ],
                                     { cancelable: false });
@@ -395,26 +415,6 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                 bottomOffset={40}
                 visibilityTime={3000}
             />
-
-            {/* Navegação inferior: */}
-            {/* <View style={styles.footerNavegacaoMedicamentos}>
-                <TouchableOpacity style={styles.botaoNavegacao}
-                    onPress={() => navigation.goBack()}>
-                    <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
-                    <Text style={styles.textoBotaoNavegacao}>Voltar</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.botaoNavegacao}
-                    onPress={() => navigation.navigate('Perfil')}>
-                    <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
-                    <Text style={styles.textoBotaoNavegacao}>Perfil</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.botaoNavegacao}>
-                    <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
-                    <Text style={styles.textoBotaoNavegacao}>Maleta</Text>
-                </TouchableOpacity>
-            </View> */}
         </View >
     )
 };

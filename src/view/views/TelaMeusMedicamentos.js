@@ -10,7 +10,6 @@ import Toast from "react-native-toast-message";
 
 //Importação da API.
 import api from "../../services/api";
-import { update } from 'firebase/database';
 const rota = "/ListagemMed";
 const rotaExclusao = "/DeletarMed/";
 const rotaAlteracao = "/AtualizarMed/";

@@ -62,12 +62,12 @@ const TelaCadastro = ({ navigation }) => {
 
     api.post(rota, {
 
-      nome_Usuarios: data.nome,
-      cpf_Usuarios: data.cpf,
-      dataNasc_Usuarios: dataTratada,
-      telefone_Usuarios: data.telefone,
-      email_Usuarios: data.email,
-      senha_Usuarios: data.senha
+      nome_usuario: data.nome,
+      cpf: data.cpf,
+      dataNasc: dataTratada,
+      telefone: data.telefone,
+      email: data.email,
+      senha: data.senha
 
     }).then((data) => {
       console.log("Usuário cadastrado !");
