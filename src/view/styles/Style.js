@@ -48,7 +48,18 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingLeft: 20,
         fontSize: 20,
-        textAlign: "center"
+        textAlign: "center",
+        fontFamily: "Alata-Regular",
+
+    },
+    textoAlertaInputCadastro: {
+        color: '#F00',
+        fontSize: 16,
+        fontWeight: "bold",
+        textAlign: "left",
+        marginRight: 20,
+        marginLeft: 20,
+        // marginTop: 20
     },
     textoInputCadastroFooter: {
         backgroundColor: corInput,
@@ -59,7 +70,8 @@ const styles = StyleSheet.create({
         marginBottom: 130,
         paddingLeft: 20,
         fontSize: 20,
-        textAlign: "center"
+        textAlign: "center",
+        fontFamily: "Alata-Regular",
     },
     espacoBotaoCadastrar: {
         position: "absolute",

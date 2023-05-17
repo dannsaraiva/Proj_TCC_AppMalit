@@ -139,12 +139,9 @@ const TelaLogin = ({ navigation }) => {
     AsyncStorage.setItem(chave, valor)
   };
 
-  const Buscar = async (chave) => {
-    const valor = await AsyncStorage.getItem(chave)
-    setUser(valor);
-  };
-
   Armazenar("01", `${login}`);
+
+  console.log(AsyncStorage.getItem("01"));
 
   //Codigo do front.
   return (

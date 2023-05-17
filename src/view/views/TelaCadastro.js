@@ -93,7 +93,7 @@ const TelaCadastro = ({ navigation }) => {
         <View style={styles.dadosUsuario}>
 
           {/* Inputs dos dados do usuário. */}
-          {errors.nome && <Text style={styles.textoAlertaInput}>{errors.nome.message}</Text>}
+          {errors.nome && <Text style={styles.textoAlertaInputCadastro}>{errors.nome.message}</Text>}
           <Controller
             control={control}
             name='nome'
@@ -108,7 +108,7 @@ const TelaCadastro = ({ navigation }) => {
               />
             )} />
 
-          {errors.email && <Text style={styles.textoAlertaInput}>{errors.email.message}</Text>}
+          {errors.email && <Text style={styles.textoAlertaInputCadastro}>{errors.email.message}</Text>}
           <Controller
             control={control}
             name='email'
@@ -124,7 +124,7 @@ const TelaCadastro = ({ navigation }) => {
               />
             )} />
 
-          {errors.dataDeNascimento && <Text style={styles.textoAlertaInput}>{errors.dataDeNascimento.message}</Text>}
+          {errors.dataDeNascimento && <Text style={styles.textoAlertaInputCadastro}>{errors.dataDeNascimento.message}</Text>}
           <Controller
             control={control}
             name='dataDeNascimento'
@@ -145,7 +145,7 @@ const TelaCadastro = ({ navigation }) => {
               />
             )} />
 
-          {errors.telefone && <Text style={styles.textoAlertaInput}>{errors.telefone.message}</Text>}
+          {errors.telefone && <Text style={styles.textoAlertaInputCadastro}>{errors.telefone.message}</Text>}
           <Controller
             control={control}
             name='telefone'
@@ -168,7 +168,7 @@ const TelaCadastro = ({ navigation }) => {
               />
             )} />
 
-          {errors.cpf && <Text style={styles.textoAlertaInput}>{errors.cpf.message}</Text>}
+          {errors.cpf && <Text style={styles.textoAlertaInputCadastro}>{errors.cpf.message}</Text>}
           <Controller
             control={control}
             name='cpf'
@@ -186,7 +186,7 @@ const TelaCadastro = ({ navigation }) => {
               />
             )} />
 
-          {errors.senha && <Text style={styles.textoAlertaInput}>{errors.senha.message}</Text>}
+          {errors.senha && <Text style={styles.textoAlertaInputCadastro}>{errors.senha.message}</Text>}
           <Controller
             control={control}
             name='senha'
@@ -203,7 +203,7 @@ const TelaCadastro = ({ navigation }) => {
             )} />
 
           {/* Código para confirmar senha. */}
-          {/* {errors.confirmarSenha && <Text style={styles.textoAlertaInput}>{errors.confirmarSenha.message}</Text>}
+          {/* {errors.confirmarSenha && <Text style={styles.textoAlertaInputCadastro}>{errors.confirmarSenha.message}</Text>}
           <Controller
             control={control}
             name='confirmarSenha'
@@ -223,17 +223,9 @@ const TelaCadastro = ({ navigation }) => {
       {/* Botão cadastrar. */}
       <View style={styles.espacoBotaoCadastrar}>
         <TouchableOpacity style={styles.botaoCadastrar}
-          onPress={() => {
-            Alert.alert(
-              "Cadastro do usuário",
-              "Deseja salvar seu cadastro ?",
-              [
-                { text: "Não" },
-                { text: "Sim", onPress: handleSubmit(onSubmit) },
-              ],
-              { cancelable: false });
-            return false;
-          }}>
+          onPress={
+            handleSubmit(onSubmit)
+          }>
           <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
