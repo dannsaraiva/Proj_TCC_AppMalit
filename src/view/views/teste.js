@@ -13,6 +13,20 @@ import DatePicker from "react-native-date-picker";
 //Importação biblioteca para exibir o alerta.
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
+const mensagemSucesso = () => {
+    Toast.show({
+        type: 'info',
+        text1: 'Medicamento foi cadastrado',
+    });
+};
+
+const mensagemErro = () => {
+    Toast.show({
+        type: 'error',
+        text1: 'Medicamento não foi cadastrado, tente novamente',
+    });
+};
+
 //Importação do hookform.
 import { useForm, Controller } from "react-hook-form";
 
@@ -21,27 +35,6 @@ import api from "../../services/api";
 const rota = "/CadastroMed";
 
 const TelaCadastroMedicamento = ({ navigation }) => {
-
-    //Pop-up para mostrat ao usuário.
-    const mensagemSucesso = () => {
-        Toast.show({
-            type: 'info',
-            text1: 'Medicamento foi cadastrado',
-            autoHide: (
-                setResetDropdown(true),
-                setMostrar(false)
-            )
-        });
-    };
-
-    const mensagemErro = () => {
-        Toast.show({
-            type: 'error',
-            text1: 'Medicamento não foi cadastrado, tente novamente',
-        });
-    };
-
-
 
     //Parâmetros do hook-form.
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -59,27 +52,17 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
     let [textoPrimeiroConsumo, setTextoPrimeiroConsumo] = useState("Primeiro consumo:");
 
-    // Variaveis do firebase.
-    const [horaFirebase, setHoraFirebase] = useState("");
-    const [minutoFirebase, setMinutoFirebase] = useState("");
-    const [diaFirebase, setDiaFirebase] = useState("");
-    const [mesFirebase, setMesFirebase] = useState("");
-    const [intervaloFirebase, setIntervaloFirebase] = useState("");
-    const [horarioConsumoFirebase, setHorarioConsumoFirebase] = useState("");
+    const validarPrimeiroConsumo = () => {
+        if (primeiroConsumo != new Date()) {
+            let data = primeiroConsumo.toLocaleDateString('pt-BR').split('/').join('-');
+            setDataPrimeiroConsumo(data);
 
+            let horario = primeiroConsumo.toLocaleTimeString('pt-BR').slice(0, 5);
+            setHorarioPrimeiroConsumo(horario);
 
-    useEffect(() => {
+            setTextoPrimeiroConsumo(data + " " + horario);
 
-        //Trativa para exibir para o usuário a data selecionada.
-        let data = primeiroConsumo.toLocaleDateString('pt-BR').split('/').join('-');
-        setDataPrimeiroConsumo(data);
-
-        let horario = primeiroConsumo.toLocaleTimeString('pt-BR').slice(0, 5);
-        setHorarioPrimeiroConsumo(horario);
-
-        setTextoPrimeiroConsumo(data + " " + horario);
-
-        //Atribui os valores do formulário nas variáveis para manda ao firebase.
+//Atribui os valores do formulário nas variáveis para manda ao firebase.
         // Percorre e atribui a hora.
         let hora = horarioPrimeiroConsumo.substring(0, 2);
         setHoraFirebase(hora);
@@ -89,20 +72,44 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         setMinutoFirebase(minuto);
 
         // Percorre e atribui o dia.
-        let dia = data.substring(0, 2);
+        let dia = dataFirebase.substring(8, 10);
         setDiaFirebase(dia);
 
         // Percorre e atribui o mês.
-        let mes = data.substring(3, 5);
+        let mes = dataFirebase.substring(5, 7);
         setMesFirebase(mes);
 
         // Percorre e atribui os dias e intervalo de consumo.
-        let fireIntervaloConsumo = formulario.intervaloConsumo && formulario.intervaloConsumo.toString().slice(0, 2);
-        setIntervaloFirebase(fireIntervaloConsumo);
+        // let fireIntervaloConsumo = formulario.intervaloConsumo;
+        // console.log(fireIntervaloConsumo.substring(0, 1));
 
-        let fireHorarioConsumoFirebase = formulario.diasConsumo && formulario.diasConsumo.toString().slice(0, 2);
-        setHorarioConsumoFirebase(fireHorarioConsumoFirebase);
-    });
+        // let fireDiasConsumo = formulario.diasConsumo;
+        // console.log(fireDiasConsumo.substring(0, 1));
+        // setIntervaloFirebase(formulario.intervaloConsumo[0]);
+        // setHorarioConsumoFirebase(formulario.diasConsumo[0]);
+
+        // console.log(horarioConsumoFirebase)
+        // console.log(intervaloFirebase)
+        // console.log(mesFirebase)
+        // console.log(diaFirebase)
+        // console.log(minutoFirebase)
+        // console.log(horarioConsumoFirebase)
+        }
+    };
+
+    // Variaveis do firebase.
+    const [dataFirebase, setDataFirebase] = useState("");
+    const [horaFirebase, setHoraFirebase] = useState("");
+    const [minutoFirebase, setMinutoFirebase] = useState("");
+    const [diaFirebase, setDiaFirebase] = useState("");
+    const [mesFirebase, setMesFirebase] = useState("");
+    const [intervaloFirebase, setIntervaloFirebase] = useState("");
+    const [horarioConsumoFirebase, setHorarioConsumoFirebase] = useState("");
+
+    const validaFirebase = () => {
+
+        
+    };
 
     //Captura os dados e atribui ao data.
     const onSubmit = data => {
@@ -113,44 +120,40 @@ const TelaCadastroMedicamento = ({ navigation }) => {
     //API para enviar os dados.
     const sendMedicamento = data => {
 
-        // if (diaFirebase == "" && mesFirebase == "" && horaFirebase == "" && minutoFirebase != "") {
-        //     console.log("Tudo null")
-        // };
-
-        // Tratamento da data.
+        //Tratamento da data.
         let dataPrimeiroConsumoTratada = dataPrimeiroConsumo.split('-').reverse().join('-')
+        setDataFirebase(dataPrimeiroConsumoTratada);
 
-        api.post(rota, {
+        // api.post(rota, {
+        //     nome_med: data.nome,
+        //     descricao: data.descricao,
+        //     quantidade: data.quantidade,
+        //     data: dataPrimeiroConsumoTratada,
+        //     hora: horarioPrimeiroConsumo,
+        //     horaFirebase: horaFirebase,
+        //     minutoFirebase: minutoFirebase,
+        //     diaFirebase: diaFirebase,
+        //     mesFirebase: mesFirebase,
+        //     intervaloFirebase: intervaloFirebase,
+        //     horarioConsumoFirebase: horarioConsumoFirebase,
 
-            nome_med: data.nome,
-            descricao: data.descricao,
-            quantidade: data.quantidade,
-            data: dataPrimeiroConsumoTratada,
-            hora: horarioPrimeiroConsumo,
-            horaFirebase: horaFirebase,
-            minutoFirebase: minutoFirebase,
-            diaFirebase: diaFirebase,
-            mesFirebase: mesFirebase,
-            intervaloFirebase: intervaloFirebase,
-            horarioConsumoFirebase: horarioConsumoFirebase,
+        // }).then((data) => {
 
-        }).then((data) => {
-
-            console.log("Medicamento salvo.")
-            mensagemSucesso();
-            reset();
+        //     console.log("Medicamento salvo.")
+        //     mensagemSucesso();
+        //     reset();
 
 
-        }).catch((response) => {
+        // }).catch((response) => {
 
-            console.log(`Erro ao salvar o medicamento. ${response}`)
-            mensagemErro();
+        //     console.log(`Erro ao salvar o medicamento. ${response}`)
+        //     mensagemErro();
 
-        });
+        // });
     };
 
 
-    const [resetDropdown, setResetDropdown] = useState(false);
+
     const intervaloHoras = [
         { key: '1', value: '1 - Em uma hora' },
         { key: '2', value: '2 - Em duas horas' },
@@ -180,10 +183,12 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
     // 
     const [confir, setConfir] = useState(false);
-    let [mostrar, setMostrar] = useState(false);
+    const [mostrar, setMostrar] = useState(false);
 
     useEffect(() => {
         setOpen(false);
+        validaFirebase();
+        validarPrimeiroConsumo();
     }, [confir]);
 
     useEffect(() => {
@@ -192,7 +197,6 @@ const TelaCadastroMedicamento = ({ navigation }) => {
             setMostrar(true)
         }
     }, [open]);
-
 
     // Codigo da tela:
     return (
@@ -354,9 +358,13 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                                     notFoundText="Não encontrado ..."
 
                                     placeholder="Intervalo de horas:"
+
                                     maxHeight={200}
 
-                                    key={resetDropdown ? 'reset' : 'default'}
+                                    // setSelected={(intervalo) => setIntervalo(intervalo)}
+                                    // data={intervaloHoras}
+                                    // save="value"
+
                                     setSelected={onChange}
                                     data={intervaloHoras}
                                     value={value}
@@ -393,7 +401,6 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                                     placeholder="Dias de consumo:"
                                     maxHeight={200}
 
-                                    key={resetDropdown ? 'reset' : 'default'}
                                     setSelected={onChange}
                                     data={diasConsumo}
                                     value={value}

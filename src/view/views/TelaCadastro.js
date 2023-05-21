@@ -70,16 +70,18 @@ const TelaCadastro = ({ navigation }) => {
       senha: data.senha
 
     }).then((data) => {
+
       console.log("Usuário cadastrado !");
       mensagemSucesso();
       reset();
     }).catch((error) => {
+
       console.log(`Erro ao cadastrar ${error}`);
       mensagemErro();
     })
   };
 
-  //Inicia o codigo do App.
+  //Início o codigo da tela.
   return (
     <View style={styles.container}>
 

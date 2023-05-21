@@ -1,14 +1,12 @@
 import { StyleSheet } from "react-native";
 
-//Fonte do app.
-
 //Cores do app.
 var corFundo = "#EAFDFF";
 var corCabecalho = "#0AC4DD";
 var corInput = "#9AE1F1";
 var corBotao = "#0AC4DD";
 var corMenu = "#9AE1F1";
-var corPesquisar = "rgba(10, 196, 221, 0.7)"
+var corPesquisar = "rgba(10, 196, 221, 0.7)";
 
 const styles = StyleSheet.create({
     //Estilização do cabecalho.
@@ -35,6 +33,7 @@ const styles = StyleSheet.create({
         fontStyle: "italic",
         color: '#222'
     },
+
     //Estilização da tela cadastro.
     dadosUsuario: {
         marginTop: 70,
@@ -96,7 +95,8 @@ const styles = StyleSheet.create({
     },
     textoBotaoCadastrar: {
         fontSize: 32,
-        color: "#000"
+        color: "#000",
+        fontFamily: "Alata-Regular"
     },
     espacoLogoAjudaCadastro: {
         position: "absolute",
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
         bottom: 8,
         left: 145
     },
+
     //Estilização da tela login.
     logo: {
         width: 250,
@@ -200,6 +201,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 300,
     },
+
     //Cadastro de medicamento.
     logoCabecalhoCadastroMedicamentos: {
         width: 35,
@@ -247,6 +249,7 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 20
     },
+
     //Estilização da tela recuperar a senha.
     textoRecuperar: {
         fontSize: 25,
@@ -254,6 +257,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginBottom: 25
     },
+
     // 
     listCadastroMedicamento: {
         backgroundColor: corInput,
@@ -297,8 +301,6 @@ const styles = StyleSheet.create({
         borderColor: corPesquisar
 
     },
-
-
 
     //Estilização da tela - menu.
     NavegacaoMenu: {
@@ -361,6 +363,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#000',
     },
+
     //Estilização da tela teste da maleta.
     fundoTeste: {
         width: '90%',
@@ -392,6 +395,27 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75
     },
+    modalViewTeste: {
+        width: 280,
+        height: 260,
+        backgroundColor: corFundo,
+        borderRadius: 20,
+        alignItems: "center",
+        elevation: 5,
+        shadowRadius: 4,
+    },
+    logoAltofalanteTeste: {
+        marginTop: 10,
+        width: 75,
+        height: 75
+    },
+    textoModalTeste: {
+        fontFamily: "Alata-Regular",
+        fontSize: 16,
+        color: "#000",
+        marginTop: 25
+    },
+
     //Estilização da tela chat.
     cabecalhoChat: {
         height: 40,
@@ -435,12 +459,14 @@ const styles = StyleSheet.create({
         right: 15,
         bottom: 15
     },
+
     //Estilização da tela chat.
     logoCabecalhoChatComprar: {
         width: 35,
         height: 35,
         marginLeft: -145
     },
+
     //Estilização da tela agenda.
     logoRemedioAgenda: {
         width: 40,
@@ -473,6 +499,7 @@ const styles = StyleSheet.create({
         right: 15,
         bottom: 15,
     },
+
     //Estilização da tela logo.
     espacoLogo: {
         alignItems: "center",
@@ -488,6 +515,7 @@ const styles = StyleSheet.create({
     jsonCarregamento: {
         marginTop: 200
     },
+
     //Estilização da tela logo.
     espacoBotaoSalvar: {
         flexDirection: "row",
@@ -527,6 +555,7 @@ const styles = StyleSheet.create({
     espacoMeusMedicamentos: {
         height: "60%",
         marginTop: 30,
+        marginBottom: 130
     },
     NavegacaoMenuMedicamentos: {
         backgroundColor: corMenu,
@@ -609,8 +638,6 @@ const styles = StyleSheet.create({
         // elevation: 5,
     },
 
-
-
     //Tela perfil.
     espacologoPerfil: {
         alignItems: "center"
@@ -643,7 +670,6 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 20,
     },
-
 
     //
     modalTitulo: {
@@ -723,8 +749,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-
-
 });
 
 export default styles;

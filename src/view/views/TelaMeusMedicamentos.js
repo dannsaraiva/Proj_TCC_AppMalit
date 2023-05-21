@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, VirtualizedList, Modal } from 'react-native';
 
-
 //Estilização da página.
 import styles from '../styles/Style';
 
@@ -51,7 +50,9 @@ const TelaMeusMedicamentos = ({ navigation }) => {
         api.delete(rotaExclusao + valor, {
 
         }).then((response) => {
+
             mensagemSucesso();
+            setModalVisible(!modalVisible)
 
         }).catch((error) => {
 
@@ -63,10 +64,9 @@ const TelaMeusMedicamentos = ({ navigation }) => {
     const atualizarMedicamento = (valor) => {
         api.put(rotaAlteracao + valor, {
 
-            nome_Medicamento: "Alterado",
-            descricao_Medicamento: "Aletardo1",
-            quantidade_Medicamento: "7",
-
+            nome_med: "Alterado",
+            descricao: "Aletardo1",
+            quantidade: "7",
 
         }).then((response) => {
 
@@ -83,13 +83,13 @@ const TelaMeusMedicamentos = ({ navigation }) => {
     const getItem = (medicamentos, index) => medicamentos[index];
 
     const renderItem = ({ item }) => (
-        <View style={{ alignItems: 'center', }}>
+        <View style={{ alignItems: 'center' }}>
             <View style={styles.NavegacaoMenuMedicamentos} >
                 <Image style={styles.logoMeusMedicamentos} source={require('../images/medicine.png')} />
 
                 <View style={styles.espacoTextosMeusMedicamentos}>
-                    <Text style={styles.nomeMeusMedicamentos}>{item.nome_Medicamento}</Text>
-                    <Text style={styles.descricaoMeusMedicamentos}>{item.descricao_Medicamento}</Text>
+                    <Text style={styles.nomeMeusMedicamentos}>{item.nome_med}</Text>
+                    <Text style={styles.descricaoMeusMedicamentos}>{item.descricao}</Text>
                 </View>
 
                 <TouchableOpacity onPress={() => setModalVisible(true)}
@@ -107,7 +107,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                         transparent={true}
                         visible={modalVisible}
                         onRequestClose={() => {
-                            Alert.alert('Modal has been closed.');
+                            // Alert.alert('Modal has been closed.');
                             setModalVisible(!modalVisible);
                         }}>
                         <View style={styles.espacoModal}>
@@ -116,20 +116,19 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                                 <Text style={styles.modalTitulo}>Alterar o medicamento:</Text>
 
                                 <Text style={styles.tituloSenha}>Nome:</Text>
-                                <TextInput style={styles.textoInputPerfil}>{item.nome_Medicamento}</TextInput>
+                                <TextInput style={styles.textoInputPerfil}>{item.nome_med}</TextInput>
 
                                 <Text style={styles.tituloSenha}>Descrição:</Text>
-                                <TextInput style={styles.textoInputPerfil}>{item.descricao_Medicamento}</TextInput>
+                                <TextInput style={styles.textoInputPerfil}>{item.descricao}</TextInput>
 
                                 <Text style={styles.tituloSenha}>Quantidade:</Text>
-                                <TextInput style={styles.textoInputPerfil}>{item.quantidade_Medicamento}</TextInput>
+                                <TextInput style={styles.textoInputPerfil}>{item.quantidade}</TextInput>
 
                                 <Text style={styles.tituloSenha}>Data do primeiro consumo:</Text>
-                                <TextInput style={styles.textoInputPerfil}>{item.dia_Med}</TextInput>
+                                <TextInput style={styles.textoInputPerfil}>{item.data}</TextInput>
 
                                 <Text style={styles.tituloSenha}>Horario do primeiro consumo:</Text>
-                                <TextInput style={styles.textoInputPerfil}>{item.hora_Med}</TextInput>
-
+                                <TextInput style={styles.textoInputPerfil}>{item.hora}</TextInput>
 
                                 <View style={styles.espacoBotaoModal}>
                                     <TouchableOpacity
@@ -141,7 +140,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                                     <TouchableOpacity
                                         style={styles.botaoSalvarPerfil}
                                         onPress={() =>
-                                            excluirMedicamento(item.id_Medicamento)
+                                            excluirMedicamento(item.id_med)
                                         }>
                                         <Text style={styles.textStyle}>Excluir</Text>
                                     </TouchableOpacity>
@@ -149,7 +148,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                                     <TouchableOpacity
                                         style={styles.botaoSalvarPerfil}
                                         onPress={() =>
-                                            atualizarMedicamento(item.id_Medicamento)
+                                            atualizarMedicamento(item.id_med)
                                         }>
                                         <Text style={styles.textStyle}>Salvar</Text>
                                     </TouchableOpacity>
@@ -186,7 +185,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                 getItemCount={getItemCount}
                 getItem={getItem}
                 renderItem={renderItem}
-                keyExtractor={item => item.id_Medicamento}
+                keyExtractor={item => item.id_med}
             />
 
             {/* Pop-up na tela. */}

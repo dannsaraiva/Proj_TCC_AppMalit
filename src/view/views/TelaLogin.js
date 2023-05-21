@@ -31,26 +31,31 @@ const rota = "/Login";
 //Construção da tela.
 const TelaLogin = ({ navigation }) => {
 
+  //Estruta de decisão para validar e realizar o login.
+  useEffect(() => {
+
+    if (login != null) {
+
+      if (login === formulario.cpf && password != formulario.senha) {
+
+        mensagemErroSenha();
+      } else if (login != formulario.cpf) {
+
+        mensagemErroCPF();
+      } else {
+
+        mensagemErroAPI();
+      }
+    };
+  });
+
   //Dados salvos.
   const [user, setUser] = useState(null);
   const [login, setLogin] = useState(null);
   const [password, setPassword] = useState(null);
   const [dados, setDados] = useState([]);
   const [formulario, setFormulario] = useState([]);
-
-  // useEffect(() => {
-  //   //Estruta de decisão para validar e realizar o login.
-
-  // }, [formulario, login, password]);
-
-
-
-  //Botão sair.
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      return true
-    }, [])
-  });
+  const [asyncLogin, setAsyncLogin] = useState([]);
 
   //Mensagens para exibir para o usuário.
   const mensagemErroCPF = () => {
@@ -70,9 +75,16 @@ const TelaLogin = ({ navigation }) => {
   const mensagemErroAPI = () => {
     Toast.show({
       type: 'error',
-      text1: 'Usuário não cadastrado',
+      text1: 'Tente novamente',
     });
   };
+
+  //Botão sair.
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      return true
+    }, [])
+  });
 
   //Parâmetros do hook-form.
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -103,34 +115,10 @@ const TelaLogin = ({ navigation }) => {
         setLogin(retorno.cpf);
         setPassword(retorno.senha);
 
-        if (login != null) {
-
-          if (login === formulario.cpf) {
-            if (password === formulario.senha) {
-
-              console.log("Logo");
-              return true
-
-              // return true
-              // navigation.navigate('Loading');
-            } else {
-
-              // mensagemErroSenha()
-              console.log("Senha");
-            }
-          } else {
-
-            // mensagemErroCPF()
-            console.log("CPF");
-          };
-        }
-        else {
-          console.log("Erro");
-        };
-
+        navigation.navigate('Loading');
       }).catch((error) => {
 
-        mensagemErroAPI();
+        console.log(error)
       });
   };
 
@@ -140,8 +128,6 @@ const TelaLogin = ({ navigation }) => {
   };
 
   Armazenar("01", `${login}`);
-
-  console.log(AsyncStorage.getItem("01"));
 
   //Codigo do front.
   return (

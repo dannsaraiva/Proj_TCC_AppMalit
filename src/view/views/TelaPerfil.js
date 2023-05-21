@@ -11,15 +11,15 @@ const rota = "/ListagemCpfAll/";
 //Importação do AsyncStorage.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const TelaPerfil = ({ navigation, route }) => {
+const TelaPerfil = ({ navigation }) => {
 
     //AsyncStorage armazena os dados.
-    const [user, setUser] = useState(null);
+    const [asyncLogin, setAsyncLogin] = useState([]);
 
     //Buscar os dados do usuário.
     const Buscar = async (chave) => {
         const valor = await AsyncStorage.getItem(chave)
-        setUser(valor);
+        setAsyncLogin(valor);
     };
     Buscar("01");
 
@@ -38,32 +38,33 @@ const TelaPerfil = ({ navigation, route }) => {
 
         if (retorno != null) {
 
-            let dataTratada = retorno.dataNasc_Usuarios.split('-').reverse().join('/');
+            let dataTratada = retorno.dataNasc.split('-').reverse().join('/');
 
-            setNome(retorno.nome_Usuarios);
-            setCpf(retorno.cpf_Usuarios);
+            setNome(retorno.nome_usuario);
+            setCpf(retorno.cpf);
             setDataNasc(dataTratada);
-            setTelefone(retorno.telefone_Usuarios);
-            setEmail(retorno.email_Usuarios);
-            setSenha(retorno.senha_Usuarios);
+            setTelefone(retorno.telefone);
+            setEmail(retorno.email);
+            setSenha(retorno.senha);
         }
     }, [retorno]);
 
     //Construção da API.
     useEffect(() => {
 
-        if (user != null) {
-            api.get(rota + user, {
+        if (asyncLogin != null) {
+            api.get(rota + asyncLogin, {
 
             }).then((response) => {
+
                 setRetorno(response.data.data);
 
             }).catch((error) => {
-                console.log(error);
+
 
             })
         }
-    }, [user]);
+    }, [asyncLogin]);
 
     //Habilitar o componete Modal.
     const [modalVisible, setModalVisible] = useState(false);
@@ -90,7 +91,7 @@ const TelaPerfil = ({ navigation, route }) => {
                     <Text style={styles.textoInputPerfil}>{telefone}</Text>
                     <Text style={styles.textoInputPerfil}>{cpf}</Text>
 
-                    <View style={styles.textoInputPerfil}>
+                    {/* <View style={styles.textoInputPerfil}>
                         <TextInput editable={false} style={styles.textoSenhaPerfil}
                             secureTextEntry={true} >{senha}
                         </TextInput>
@@ -99,13 +100,13 @@ const TelaPerfil = ({ navigation, route }) => {
                             onPress={() => setModalVisible(true)}>
                             <Image style={styles.logoNavegacaoEditMedicamentos} source={require('../images/show.png')} />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </View>
             </View>
 
 
             {/* Mini janela para tratativa da senha: */}
-            <View style={styles.centeredView}>
+            {/* <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -141,7 +142,7 @@ const TelaPerfil = ({ navigation, route }) => {
                         </View>
                     </View>
                 </Modal>
-            </View>
+            </View> */}
 
             {/* Navegação inferior: */}
             <View style={styles.footerNavegacaoMedicamentos}>
@@ -154,12 +155,14 @@ const TelaPerfil = ({ navigation, route }) => {
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Menu')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/menu-aberto.png')} />
-                    <Text style={styles.textoBotaoNavegacao}>Menu</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Menu</Text>
+                </TouchableOpacity>
 
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Maleta')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
-                    <Text style={styles.textoBotaoNavegacao}>Maleta</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Maleta</Text>
+                </TouchableOpacity>
             </View>
         </View >
     )

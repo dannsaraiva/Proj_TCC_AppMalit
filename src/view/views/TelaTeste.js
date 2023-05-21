@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert, BackHandler } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, Modal } from 'react-native';
 
 // Importação do firebase.
 import { ref, set, update } from "firebase/database";
@@ -10,18 +10,55 @@ import styles from '../styles/Style';
 
 const TelaTeste = ({ navigation }) => {
 
+    //Habilitando a maleta para entrar em teste.
+    useEffect(() => {
+
+        update(ref(bd, 'maleta/'),
+            {
+
+                funcaoalarme: false,
+            }).then(() => {
+
+                console.log("Entrou");
+            }).catch((error) => {
+
+                console.log(error);
+            });
+    }, []);
+
+    //Desativando a maleta para testes.
+    const desativaTeste = () => {
+        console.log("Desativa")
+        update(ref(bd, 'maleta/'),
+            {
+
+                funcaoalarme: true,
+            }).then(() => {
+
+
+            }).catch((error) => {
+
+                console.log(error);
+            });
+    };
+
+    const [numeroCompartimento, setNumeroCompartimento] = useState(null);
+
     //Teste dos compartimentos.
     //Compartimento 1.
     const testeCompartimentoUm = () => {
-        update(ref(bd, 'maleta/' + "C1"), {
-            led_status: true,
-        })
+
+        update(ref(bd, 'maleta/' + "C1"),
+            {
+
+                led_status: true,
+            })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 1 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 1 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 1 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("01")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -29,14 +66,15 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 2.
     const testeCompartimentoDois = () => {
         update(ref(bd, 'maleta/' + "C2"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 2 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 2 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 2 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("02")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -44,14 +82,15 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 3.
     const testeCompartimentoTres = () => {
         update(ref(bd, 'maleta/' + "C3"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 3 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 3 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 3 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("03")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -59,14 +98,15 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 4.
     const testeCompartimentoQuatro = () => {
         update(ref(bd, 'maleta/' + "C4"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 4 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 4 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 4 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("04")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -74,14 +114,15 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 5.
     const testeCompartimentoCinco = () => {
         update(ref(bd, 'maleta/' + "C5"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 5 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 5 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 5 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("05")
+                setModalVisibleCompartimento(true, numeroCompartimento) / setModalVisibleCompartimento(true)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -89,14 +130,15 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 6.
     const testeCompartimentoSeis = () => {
         update(ref(bd, 'maleta/' + "C6"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 6 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 6 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 6 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("06")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -104,14 +146,15 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 7.
     const testeCompartimentoSete = () => {
         update(ref(bd, 'maleta/' + "C7"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 7 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 7 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 7 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("07")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -119,14 +162,15 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 8.
     const testeCompartimentoOito = () => {
         update(ref(bd, 'maleta/' + "C8"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 8 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 8 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 8 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("08")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
@@ -134,54 +178,53 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 9.
     const testeCompartimentoNove = () => {
         update(ref(bd, 'maleta/' + "C9"), {
+
             led_status: true,
         })
             .then(() => {
-                Alert.alert("Maleta", "O compartimento 9 acendeu ?", [
-                    { text: "Sim", onPress: () => console.log("Compartimento 9 funcionando !") },
-                    { text: "Não", onPress: () => console.log("Compartimento 9 não esta funcionando !!") }
-                ])
+
+                setNumeroCompartimento("09")
+                setModalVisibleCompartimento(true, numeroCompartimento)
             }).catch((error) => {
+
                 console.log(error);
             });
     };
 
-
-    //DESCOMENTAR QUANDO A CONEXÃO COM O BUSER A TODAS AS LEDS ESTIVEREM OK !
     // //Buzzer.
-    // const testeBuzzer = () => {
-    //     update(ref(bd, 'maleta/' + "C10"), {
-    //         led_status: true,
-    //     })
-    //         .then(() => {
-    //             Alert.alert("Maleta", "O alto-falante tocou ?", [
-    //                 { text: "Sim", onPress: () => console.log("Buser tocou !") },
-    //                 { text: "Não", onPress: () => console.log("Buser não tocou !!") }
-    //             ])
-    //         }).catch((error) => {
-    //             console.log(error);
-    //         })
-    // };
+    const testeBuzzer = () => {
+        update(ref(bd, 'maleta/'), {
+
+            buzzer_status: true,
+        })
+            .then(() => {
+
+                setModalVisibleAltoFalante(true)
+            }).catch((error) => {
+
+                console.log(error);
+            })
+    };
 
     // //Todas as leds.
-    // const testeLEDS = () => {
-    //     update(ref(bd, 'maleta/' + "C11"), {
-    //         led_status: true,
-    //     })
-    //         .then(() => {
-    //             Alert.alert("Maleta", "Todas as leds acenderam ?", [
-    //                 { text: "Sim", onPress: () => console.log("Todas as LEDS acenderam") },
-    //                 { text: "Não", onPress: () => console.log("As leds não acenderam !!") }
-    //             ])
-    //         }).catch((error) => {
-    //             console.log(error);
-    //         })
-    // };
+    const testeLEDS = () => {
+        update(ref(bd, 'maleta/'), {
 
-    
-    useEffect(() => {
-        console.log("ENtrar em teste")
-    }, [])
+            todososalarmes: true,
+        })
+            .then(() => {
+
+                setModalVisibleAltoFalante(true)
+            }).catch((error) => {
+
+                console.log(error);
+            })
+    };
+
+    //Habilitar o componete Modal.
+    const [modalVisibleAltoFalante, setModalVisibleAltoFalante] = useState(false);
+    const [modalVisibleCompartimento, setModalVisibleCompartimento] = useState(false);
+    const [modalVisibleTodasLeds, setModalVisibleTodasLeds] = useState(false);
 
     //Codigo da tela.
     return (
@@ -197,7 +240,7 @@ const TelaTeste = ({ navigation }) => {
                     {/* Botão um: */}
                     <View style={styles.espacoFundo}>
                         <TouchableOpacity style={styles.botaoTeste}
-                            onPress={testeCompartimentoUm}>
+                            onPress={() => { testeCompartimentoUm() }}>
 
                             <Text style={styles.textoBotaoTeste}>1</Text>
                         </TouchableOpacity>
@@ -274,24 +317,14 @@ const TelaTeste = ({ navigation }) => {
                     {/* Botão do buser: */}
                     <View style={styles.espacoFundo}>
                         <TouchableOpacity style={styles.botaoTeste}
-                            onPress={() => {
-                                Alert.alert("Maleta", "Emitiu um som ?", [
-                                    { text: "Sim", onPress: () => console.log("Emitiu som !") },
-                                    { text: "Não", onPress: () => console.log("Não emitiu som !") }
-                                ])
-                            }}>
+                            onPress={testeBuzzer}>
                             <Image style={styles.logoBotaoTeste}
                                 source={require('../images/volume.png')} />
                         </TouchableOpacity>
 
                         {/* Botão de todas as leds */}
                         <TouchableOpacity style={styles.botaoTeste}
-                            onPress={() => {
-                                Alert.alert("Maleta", "Todas as LEDS acenderam?", [
-                                    { text: "Sim", onPress: () => console.log("Todas as LEDS acenderam !!") },
-                                    { text: "Não", onPress: () => console.log("Não acenderam as LEDS") }
-                                ])
-                            }}>
+                            onPress={testeLEDS}>
                             <Image style={styles.logoBotaoTeste}
                                 source={require('../images/conduziu.png')} />
                         </TouchableOpacity>
@@ -299,25 +332,150 @@ const TelaTeste = ({ navigation }) => {
                 </View>
             </View>
 
+            {/* Mini janela para tratativa da senha: */}
+            <View style={styles.centeredView}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisibleCompartimento}
+                    onRequestClose={() => {
+                        setModalVisibleCompartimento(!modalVisibleCompartimento, numeroCompartimento);
+                    }}>
+                    <View style={styles.espacoModal}>
+                        <View style={styles.modalViewTeste}>
+
+                            <Text style={styles.modalTitulo}>Teste do compartimento</Text>
+                            <Image style={styles.logoAltofalanteTeste}
+                                source={require('../images/conduziu.png')} />
+
+                            <Text style={styles.textoModalTeste}>O compartimento {numeroCompartimento} acendeu?</Text>
+
+                            <View style={styles.espacoBotaoModal}>
+                                <TouchableOpacity
+                                    style={styles.botaoVoltar}
+
+                                    onPress={() => {
+                                        setModalVisibleCompartimento(!modalVisibleCompartimento)
+                                        Alert.alert("Tente novamente !")
+                                    }}>
+
+                                    <Text style={styles.textStyle}>Não</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.botaoSalvarPerfil}
+                                    onPress={() => setModalVisibleCompartimento(!modalVisibleCompartimento)}>
+                                    <Text style={styles.textStyle}>Sim</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisibleAltoFalante}
+                    onRequestClose={() => {
+                        setModalVisibleAltoFalante(!modalVisibleAltoFalante);
+                    }}>
+                    <View style={styles.espacoModal}>
+                        <View style={styles.modalViewTeste}>
+
+                            <Text style={styles.modalTitulo}>Teste de alto falante</Text>
+                            <Image style={styles.logoAltofalanteTeste}
+                                source={require('../images/volume.png')} />
+
+                            <Text style={styles.textoModalTeste}>Emitiu algum som?</Text>
+
+                            <View style={styles.espacoBotaoModal}>
+                                <TouchableOpacity
+                                    style={styles.botaoVoltar}
+
+                                    onPress={() => {
+                                        setModalVisibleAltoFalante(!modalVisibleAltoFalante)
+                                        Alert.alert("Tente novamente !")
+                                    }}>
+
+                                    <Text style={styles.textStyle}>Não</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.botaoSalvarPerfil}
+                                    onPress={() => setModalVisibleAltoFalante(!modalVisibleAltoFalante)}>
+                                    <Text style={styles.textStyle}>Sim</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisibleTodasLeds}
+                    onRequestClose={() => {
+                        setModalVisibleTodasLeds(!modalVisibleTodasLeds);
+                    }}>
+                    <View style={styles.espacoModal}>
+                        <View style={styles.modalViewTeste}>
+
+                            <Text style={styles.modalTitulo}>Teste de todas as leds</Text>
+                            <Image style={styles.logoAltofalanteTeste}
+                                source={require('../images/conduziu.png')} />
+
+                            <Text style={styles.textoModalTeste}>Acendeu todas as leds?</Text>
+
+                            <View style={styles.espacoBotaoModal}>
+                                <TouchableOpacity
+                                    style={styles.botaoVoltar}
+
+                                    onPress={() => {
+                                        setModalVisibleTodasLeds(!modalVisibleTodasLeds)
+                                        Alert.alert("Tente novamente !")
+                                    }}>
+
+                                    <Text style={styles.textStyle}>Não</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.botaoSalvarPerfil}
+                                    onPress={() => setModalVisibleTodasLeds(!modalVisibleTodasLeds)}>
+                                    <Text style={styles.textStyle}>Sim</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
+
             {/* Navegação inferior: */}
             <View style={styles.footerNavegacao}>
                 <TouchableOpacity style={styles.botaoNavegacao}
 
-
-                    onPress={() => navigation.goBack()}>
+                    onPress={() => {
+                        navigation.goBack()
+                        desativaTeste()
+                    }}>
 
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Voltar</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.botaoNavegacao}
-                    onPress={() => navigation.navigate('Perfil')}>
+                    onPress={() => {
+                        navigation.navigate('Perfil')
+                        desativaTeste()
+                    }}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Perfil</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.botaoNavegacao}
-                    onPress={() => navigation.navigate('Maleta')}>
+                    onPress={() => {
+                        navigation.navigate('Maleta')
+                        desativaTeste()
+                    }}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Maleta</Text>
                 </TouchableOpacity>
