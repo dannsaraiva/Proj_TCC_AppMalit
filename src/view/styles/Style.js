@@ -500,6 +500,81 @@ const styles = StyleSheet.create({
         bottom: 15,
     },
 
+    tituloDropListAgenda: {
+        fontFamily: "Alata-Regular",
+        color: "#000",
+        fontSize: 16,
+        marginTop: 10,
+        marginBottom: -20,
+        marginLeft: 20
+    },
+    espacoModalAgenda: {
+        position: "absolute",
+        marginTop: "40%",
+        left: "5%",
+        right: "5%"
+    },
+    modalViewAgenda: {
+        width: 350,
+        height: 450,
+        backgroundColor: corFundo,
+        borderRadius: 20,
+        alignItems: "center",
+        elevation: 5,
+        shadowRadius: 4,
+
+
+        // margin: 20,
+        // backgroundColor: 'white',
+        // borderRadius: 20,
+        // padding: 35,
+        // alignItems: 'center',
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 4,
+        // elevation: 5,
+    },
+    dropStyleAgenda: {
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 2,
+        borderColor: corPesquisar,
+        height: 150
+    },
+    espacoTextoAgenda: {
+        position: "absolute",
+        bottom: 10,
+        flexDirection: "row"
+    },
+    tituloNomeAgenda: {
+        fontFamily: "Alata-Regular",
+        color: "#000",
+        fontSize: 16,
+        marginLeft: -245,
+        marginBottom: 3
+    },
+    tituloDescricaoAgenda: {
+        fontFamily: "Alata-Regular",
+        color: "#000",
+        fontSize: 16,
+        marginLeft: -215,
+        marginBottom: 3
+    },
+
+    espacoBotaoModalAgenda: {
+        position: "absolute",
+        bottom: 10,
+        flexDirection: "row"
+    },
+
+
+
+
+
     //Estilização da tela logo.
     espacoLogo: {
         alignItems: "center",

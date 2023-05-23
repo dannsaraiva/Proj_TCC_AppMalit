@@ -24,7 +24,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-      // initialRouteName='Meus medicamentos'
+        // initialRouteName='Agenda'
       // initialRouteName='Cadastro medicamento'
       // initialRouteName='Teste maleta'
       // initialRouteName='Login'
