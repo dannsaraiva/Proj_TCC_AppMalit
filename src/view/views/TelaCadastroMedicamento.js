@@ -99,9 +99,11 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         // Percorre e atribui os dias e intervalo de consumo.
         let fireIntervaloConsumo = formulario.intervaloConsumo && formulario.intervaloConsumo.toString().slice(0, 2);
         setIntervaloFirebase(fireIntervaloConsumo);
+        console.log(intervaloFirebase)
 
         let fireHorarioConsumoFirebase = formulario.diasConsumo && formulario.diasConsumo.toString().slice(0, 2);
         setHorarioConsumoFirebase(fireHorarioConsumoFirebase);
+        console.log(horarioConsumoFirebase)
     });
 
     //Captura os dados e atribui ao data.
@@ -127,12 +129,12 @@ const TelaCadastroMedicamento = ({ navigation }) => {
             quantidade: data.quantidade,
             data: dataPrimeiroConsumoTratada,
             hora: horarioPrimeiroConsumo,
-            horaFirebase: horaFirebase,
-            minutoFirebase: minutoFirebase,
-            diaFirebase: diaFirebase,
-            mesFirebase: mesFirebase,
-            intervaloFirebase: intervaloFirebase,
-            horarioConsumoFirebase: horarioConsumoFirebase,
+            horarioInicialFirebase: horaFirebase,
+            minutoInicialFirebase: minutoFirebase,
+            diaInicialFirebase: diaFirebase,
+            mesInicialFirebase: mesFirebase,
+            intervaloHorasFirebase: intervaloFirebase,
+            diasConsumoFirebase: horarioConsumoFirebase,
 
         }).then((data) => {
 
@@ -417,6 +419,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                 </View>
             </ScrollView>
 
+            {/* Componente para exibir o Pop-up */}
             <Toast
                 position='top'
                 bottomOffset={40}

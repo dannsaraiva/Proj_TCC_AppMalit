@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Modal, Keyboard } from 'react-native';
 
 //Estilização.
 import styles from '../styles/Style';
@@ -13,12 +13,31 @@ import { SelectList } from 'react-native-dropdown-select-list';
 //Importação do hookform.
 import { useForm, Controller } from "react-hook-form";
 
+//Importação biblioteca para exibir o alerta.
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+
 //Importação da API.
 import api from "../../services/api";
 const rota = "/ListagemMed";
+const rotaID = "/ListagemMedId/";
 
+// Importação do firebase.
+import { ref, set, update } from "firebase/database";
+import { bd } from '../../services/config.firebase';
 
 const TelaAgenda = ({ navigation }) => {
+
+    //Pop-up para mostrat ao usuário.
+    const mensagemSucesso = () => {
+        Toast.show({
+            type: 'info',
+            text1: 'Medicamento atribuido'
+        });
+    };
+
+    //Variável para identificar os dados para ir ao Firebase.
+    const [idMedicamento, setIdMedicamento] = useState(null);
+    const [idCompartimento, setIdCompartimento] = useState(null);
 
     //Habilitar o componete Modal.
     const [modalVisible, setModalVisible] = useState(false);
@@ -26,30 +45,14 @@ const TelaAgenda = ({ navigation }) => {
     //Configuração do DropList.
     const [resetDropdown, setResetDropdown] = useState(false);
 
-    //API para abastecer a base no DropList.
-    useEffect(() => {
-
-        api.get(rota, {
-        }).then((response) => {
-
-            let dados = response.data.data.map((item) => {
-                return { key: item.id_med, value: item.nome_med }
-            })
-
-            console.log(response.data.data[10].diaFirebase)
-            setMedicamentos(dados);
-
-        }).catch((error) => {
-
-            console.log(error)
-        })
-
-    }, []);
-
     //Variáveis para prencher os DropList.
     const [medicamentos, setMedicamentos] = useState("");
+    const [dropList, setDropList] = useState("");
 
-    const compartimento = [
+    const [medicamentoCadastrados, setMedicamentoCadastrados] = useState("");
+
+    //Compartimento da API.
+    const compartimentos = [
         { key: '1', value: '1º Compartimento' },
         { key: '2', value: '2º Compartimento' },
         { key: '3', value: '3º Compartimento' },
@@ -61,6 +64,68 @@ const TelaAgenda = ({ navigation }) => {
         { key: '9', value: '9º Compartimento' }
     ];
 
+    //API para abastecer a base no DropList.
+    useEffect(() => {
+
+        api.get(rota, {
+        }).then((response) => {
+
+            //Receber e atribui os valores ao DropList.
+            let dadosDropList = response.data.data.map((item) => {
+                return {
+                    key: item.id_med,
+                    value: item.nome_med
+                }
+            });
+            setDropList(dadosDropList);
+
+            console.log("Listagem ao carregar")
+
+        }).catch((error) => {
+
+            console.log("Erro API Listagem:" + error)
+        })
+
+    }, []);
+
+    //Função para rodar após seleciona o compartimento
+    useEffect(() => {
+
+        if (idMedicamento != null) {
+
+            listagemId()
+            console.log("useEffect ID");
+
+        }
+    }, [idCompartimento]);
+
+    //Variável para armazenar os medicamentos listado por ID.
+    const [medicamentoListado, setMedicamentoListado] = useState(null);
+
+    //API para listar os medicamentos por ID.
+    const listagemId = () => {
+
+        api.get(rotaID + idMedicamento, {
+        }).then((response) => {
+
+            setMedicamentoListado(response.data.data);
+            console.log("Listagem - ID")
+
+        }).catch((error) => {
+
+            console.log("Erro API Listagem por ID:" + error)
+        })
+    };
+
+    //Função para chamar a API Firebase.
+    useEffect(() => {
+
+        if (medicamentoListado != null) {
+
+            console.log("useEffect medicamento");
+            enviaFirebase();
+        }
+    }, [medicamentoListado]);
 
     //Função para exibir os detalhes do medicamento
     const [mostrarInputs, setMostrarInputs] = useState(false);
@@ -73,19 +138,40 @@ const TelaAgenda = ({ navigation }) => {
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
     });
 
-    const [dadosAtribui, setDadosAtribui] = useState("");
+
+
+    const [medicamento, setMedicamento] = useState("");
 
     //Captura os dados e atribui ao data.
     const onSubmit = data => {
-        setDadosAtribui(data)
-        enviaFirebase(data)
+
+        setIdMedicamento(data.medicamento);
+        setIdCompartimento(data.compartimento);
     };
 
+    //API para mandar os dados para a Maleta.
     const enviaFirebase = () => {
-        console.log("Tete");
-        setResetDropdown(true);
-        setModalVisible(!modalVisible);
-    }
+
+        //Manda o valor para o firebase e atribui ao compartimento.
+        update(ref(bd, "maleta/" + "C" + idCompartimento),
+            {
+
+                horarioInicial: medicamentoListado.horarioInicialFirebase,
+                minutoInicial: medicamentoListado.minutoInicialFirebase,
+                diaInicial: medicamentoListado.diaInicialFirebase,
+                mesInicial: medicamentoListado.mesInicialFirebase,
+                intervaloHoras: medicamentoListado.intervaloHorasFirebase,
+                diasConsumo: medicamentoListado.diasConsumoFirebase,
+
+            })
+            .then((response) => {
+
+                console.log("Foi")
+            }).catch((error) => {
+
+                console.log("Erro API Firebase:" + error);
+            });
+    };
 
     //Codigo da tela.
     return (
@@ -172,9 +258,7 @@ const TelaAgenda = ({ navigation }) => {
                             <View style={{ width: "95%" }}>
 
                                 {/* Droplist do medicamento: */}
-
                                 <Text style={styles.tituloDropListAgenda}>Selecione o medicamento:</Text>
-
                                 {errors.medicamento && <Text style={styles.textoAlertaInput}>Selecione o medicamento</Text>}
                                 <Controller
 
@@ -201,9 +285,9 @@ const TelaAgenda = ({ navigation }) => {
 
                                             key={resetDropdown ? 'reset' : 'default'}
                                             setSelected={onChange}
-                                            data={medicamentos}
+                                            data={dropList}
                                             value={value}
-                                            save="value"
+                                            save="Key"
                                         />
                                     )}
                                     name="medicamento"
@@ -239,12 +323,11 @@ const TelaAgenda = ({ navigation }) => {
 
                                             key={resetDropdown ? 'reset' : 'default'}
                                             setSelected={onChange}
-                                            data={compartimento}
+                                            data={compartimentos}
                                             value={value}
-                                            save="value"
+                                            save="Key"
 
                                             onSelect={mostrarInput}
-
                                         />
                                     )}
                                     name="compartimento"
@@ -281,6 +364,12 @@ const TelaAgenda = ({ navigation }) => {
                 </Modal>
             </View>
 
+            {/* Componente para exibir o Pop-up */}
+            <Toast
+                position='top'
+                bottomOffset={40}
+                visibilityTime={3000}
+            />
         </View>
     )
 };

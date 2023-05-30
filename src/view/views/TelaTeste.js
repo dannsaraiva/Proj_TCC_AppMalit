@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, Alert, Modal } from 'react-native'
 
 // Importação do firebase.
 import { ref, set, update } from "firebase/database";
-import { bd } from '../componentes/config.firebase';
+import { bd } from '../../services/config.firebase';
 
 //Estilização.
 import styles from '../styles/Style';
@@ -48,7 +48,7 @@ const TelaTeste = ({ navigation }) => {
     //Compartimento 1.
     const testeCompartimentoUm = () => {
 
-        update(ref(bd, 'maleta/' + "C1"),
+        update(ref(bd, "maleta/" + "C1"),
             {
 
                 led_status: true,

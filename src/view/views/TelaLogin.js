@@ -31,24 +31,6 @@ const rota = "/Login";
 //Construção da tela.
 const TelaLogin = ({ navigation }) => {
 
-  //Estruta de decisão para validar e realizar o login.
-  useEffect(() => {
-
-    if (login != null) {
-
-      if (login === formulario.cpf && password != formulario.senha) {
-
-        mensagemErroSenha();
-      } else if (login != formulario.cpf) {
-
-        mensagemErroCPF();
-      } else {
-
-        mensagemErroAPI();
-      }
-    };
-  });
-
   //Dados salvos.
   const [user, setUser] = useState(null);
   const [login, setLogin] = useState(null);
@@ -78,6 +60,24 @@ const TelaLogin = ({ navigation }) => {
       text1: 'Tente novamente',
     });
   };
+
+  //Estruta de decisão para validar e realizar o login.
+  useEffect(() => {
+
+    if (login != null) {
+
+      if (login === formulario.cpf && password != formulario.senha) {
+
+        mensagemErroSenha();
+      } else if (login != formulario.cpf) {
+
+        mensagemErroCPF();
+      } else {
+
+        mensagemErroAPI();
+      }
+    };
+  });
 
   //Botão sair.
   useEffect(() => {
