@@ -138,10 +138,6 @@ const TelaAgenda = ({ navigation }) => {
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
     });
 
-
-
-    const [medicamento, setMedicamento] = useState("");
-
     //Captura os dados e atribui ao data.
     const onSubmit = data => {
 
@@ -151,7 +147,7 @@ const TelaAgenda = ({ navigation }) => {
 
     //API para mandar os dados para a Maleta.
     const enviaFirebase = () => {
-
+        console.log("API Firebase");
         //Manda o valor para o firebase e atribui ao compartimento.
         update(ref(bd, "maleta/" + "C" + idCompartimento),
             {
@@ -166,7 +162,9 @@ const TelaAgenda = ({ navigation }) => {
             })
             .then((response) => {
 
-                console.log("Foi")
+                console.log("Foi" + response);
+                setModalVisible(!modalVisible);
+
             }).catch((error) => {
 
                 console.log("Erro API Firebase:" + error);

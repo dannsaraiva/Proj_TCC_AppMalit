@@ -222,7 +222,8 @@ const styles = StyleSheet.create({
         marginRight: 20,
         paddingLeft: 20,
         marginTop: 20,
-        textAlign: "center"
+        textAlign: "center",
+        color: "#000"
     },
     textoAlertaInput: {
         color: '#F00',

@@ -1,3 +1,4 @@
+import database from '@react-native-firebase/database'
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getDatabase } from 'firebase/database';
@@ -16,35 +17,6 @@ const appFirebase = initializeApp(
   }
 );
 
-//Segundo firebase.
-// const appFirebase = initializeApp(
-//   {
-//     apiKey: "AIzaSyAcmGqKQoaGGpCyQ75yrKyfRpjFMXrUnpg",
-//     authDomain: "projetoaulaextra-64b8d.firebaseapp.com",
-//     databaseURL: "https://projetoaulaextra-64b8d-default-rtdb.firebaseio.com",
-//     projectId: "projetoaulaextra-64b8d",
-//     storageBucket: "projetoaulaextra-64b8d.appspot.com",
-//     messagingSenderId: "726175196188",
-//     appId: "1:726175196188:web:675c5d7ff09ce472736bd9",
-//     measurementId: "G-5518DPCWQ1"
-//   }
-// );
-
-//Terceiro Firebase.
-// import { initializeApp } from "firebase/app";
-
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAXfSp7w_gU1UWk2M6Ce59JGwwVv84z394",
-//   authDomain: "malit-maleta.firebaseapp.com",
-//   projectId: "malit-maleta",
-//   storageBucket: "malit-maleta.appspot.com",
-//   messagingSenderId: "1049385833079",
-//   appId: "1:1049385833079:web:6cd423ed0010a74bbbec72"
-// };
-
-// Initialize Firebase
-// const app = initializeApp(firebaseConfig);
 
 //Inicialização do banco.
 export const bd = getDatabase(appFirebase);

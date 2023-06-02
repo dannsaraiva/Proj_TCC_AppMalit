@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "120786147536",
+    "firebase_url": "https://malit-3b137-default-rtdb.firebaseio.com",
+    "project_id": "malit-3b137",
+    "storage_bucket": "malit-3b137.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120786147536:android:8bff83eae3026ec78a66d5",
+        "android_client_info": {
+          "package_name": "com.appmalit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120786147536-6og1keeu2qokj2oevvbus29ngbf856h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf_ReapLnxxHhg6ckHViGdE6RPmY0yJv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120786147536-6og1keeu2qokj2oevvbus29ngbf856h6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

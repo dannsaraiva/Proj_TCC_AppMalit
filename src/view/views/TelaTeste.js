@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert, Modal } from 'react-native';
 
 // Importação do firebase.
-import { ref, set, update } from "firebase/database";
+import { ref, update } from "firebase/database";
 import { bd } from '../../services/config.firebase';
 
 //Estilização.
@@ -454,8 +454,8 @@ const TelaTeste = ({ navigation }) => {
                 <TouchableOpacity style={styles.botaoNavegacao}
 
                     onPress={() => {
-                        navigation.goBack()
-                        desativaTeste()
+                        navigation.goBack();
+                        desativaTeste();
                     }}>
 
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
@@ -464,8 +464,8 @@ const TelaTeste = ({ navigation }) => {
 
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => {
-                        navigation.navigate('Perfil')
-                        desativaTeste()
+                        navigation.navigate('Perfil');
+                        desativaTeste();
                     }}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Perfil</Text>
@@ -473,7 +473,7 @@ const TelaTeste = ({ navigation }) => {
 
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => {
-                        navigation.navigate('Maleta')
+                        navigation.navigate('Maleta');
                         desativaTeste()
                     }}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
