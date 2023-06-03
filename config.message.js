@@ -33,4 +33,5 @@ const toastConfig = {
                 fontSize: 15
             }}
         />
-    ),
+    )
+};

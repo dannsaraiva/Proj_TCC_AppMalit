@@ -188,15 +188,6 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                 keyExtractor={item => item.id_med}
             />
 
-            {/* Pop-up na tela. */}
-            <Toast
-                position='top'
-                bottomOffset={40}
-                visibilityTime={3500}
-            />
-
-
-
             {/* Navegação inferior: */}
             <View style={styles.footerNavegacaoMedicamentos}>
                 <TouchableOpacity style={styles.botaoNavegacao}
@@ -204,15 +195,26 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Voltar</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Perfil')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/user.png')} />
-                    <Text style={styles.textoBotaoNavegacao}>Perfil</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Perfil</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity style={styles.botaoNavegacao}
                     onPress={() => navigation.navigate('Maleta')}>
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/maleta-de-medico.png')} />
-                    <Text style={styles.textoBotaoNavegacao}>Maleta</Text></TouchableOpacity>
+                    <Text style={styles.textoBotaoNavegacao}>Maleta</Text>
+                </TouchableOpacity>
             </View>
+
+            {/* Pop-up na tela. */}
+            <Toast
+                position='top'
+                bottomOffset={40}
+                visibilityTime={3500}
+            />
         </View >
     )
 };

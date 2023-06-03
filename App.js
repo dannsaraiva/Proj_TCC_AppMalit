@@ -27,8 +27,9 @@ const App = () => {
         // initialRouteName='Agenda'
         initialRouteName='Cadastro medicamento'
         // initialRouteName='Teste maleta'
-      // initialRouteName='Login'
-      // initialRouteName='Agenda'
+        // initialRouteName='Login'
+      // initialRouteName='Meus medicamentos'
+      // initialRouteName='Meus medicamentos'
       >
         <Stack.Screen name="Logo" component={Logo} />
         <Stack.Screen name="Login" component={Login} />

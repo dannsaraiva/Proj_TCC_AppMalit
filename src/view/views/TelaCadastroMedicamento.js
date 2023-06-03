@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert } from "react-native";
 
 //Estilização da página.
 import styles from '../styles/Style';
@@ -15,6 +15,8 @@ import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
 //Importação do hookform.
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 //Importação da API.
 import api from "../../services/api";
@@ -35,36 +37,30 @@ const mensagemErro = () => {
     });
 };
 
-//
+//Código da tela.
 const TelaCadastroMedicamento = ({ navigation }) => {
 
     //Parâmetros do Datapicker.
     const [data, setData] = useState(new Date());
     const [openModalData, setOpenModalData] = useState(false);
     const [openModalHora, setOpenModalHora] = useState(false);
-    const [textoHora, setTextoHora] = useState("Horário consumo:");
     const [textoData, setTextoData] = useState("Data consumo:");
+    const [textoHora, setTextoHora] = useState("Horário consumo:");
+
+    //Variáveis para manipular o estado do DataPicker.
+    const [validaDataPicker, setValidaDataPicker] = useState(false);
+    const [errorhorarioprimeiroconsumo, setErrorhorarioprimeiroconsumo] = useState(false);
+    const [errordatarioprimeiroconsumo, setErrordatarioprimeiroconsumo] = useState(false);
 
     //Variáveis para ações do Modal da data.
-    const [acaoHora, setAcaoHora] = useState(false);
     const [acaoData, setAcaoData] = useState(false);
+    const [acaoHora, setAcaoHora] = useState(false);
 
     //Variáveis para tratar os dados da tela.
     const [dataPrimeiroConsumo, setDataPrimeiroConsumo] = useState(null);
     const [horaPrimeiroConsumo, setHoraPrimeiroConsumo] = useState(null);
 
     //Função para seta valores nos inputs.
-    useEffect(() => {
-
-        if (acaoHora === true) {
-
-            let hora = data.toLocaleTimeString(["pt-br"], { hour: '2-digit', minute: '2-digit' });
-            setHoraPrimeiroConsumo(hora);
-
-            setTextoHora(hora);
-            setAcaoHora(false);
-        }
-    }, [acaoHora]);
     useEffect(() => {
 
         if (acaoData === true) {
@@ -74,13 +70,30 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
             setTextoData(dataT.split('/').join('-'));
             setAcaoData(false);
+
+            setValidaDataPicker(false);
+            setErrordatarioprimeiroconsumo(false);
         }
     }, [acaoData]);
+    useEffect(() => {
+
+        if (acaoHora === true) {
+
+            let hora = data.toLocaleTimeString(["pt-br"], { hour: '2-digit', minute: '2-digit' });
+            setHoraPrimeiroConsumo(hora);
+
+            setTextoHora(hora);
+            setAcaoHora(false);
+
+            setValidaDataPicker(false);
+            setErrorhorarioprimeiroconsumo(false);
+        }
+    }, [acaoHora]);
 
     //Reset DropList.
     const [resetDropdown, setResetDropdown] = useState(false);
 
-    //Base do DropLiost.
+    //Base do DropList.
     const intervaloHoras = [
         { key: '1', value: '1 - Em uma hora' },
         { key: '2', value: '2 - Em duas horas' },
@@ -113,10 +126,31 @@ const TelaCadastroMedicamento = ({ navigation }) => {
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
     });
 
-    //Captura os dados e atribui ao data.
-    const onSubmit = data => {
+    //Captura os dados e atribui a variaveç.
+    const onSubmit = (data) => {
         setFormulario(data)
     };
+
+    //Captura os dados e atribui ao data.
+    const onError = () => {
+        setValidaDataPicker(true)
+    }
+
+    //Função para verificar se os Inputs estão vazios.
+    useEffect(() => {
+
+        if (validaDataPicker === true) {
+            //Valida o campo de Data.
+            textoHora === "Horário consumo:" ?
+                setErrorhorarioprimeiroconsumo(true) :
+                setErrorhorarioprimeiroconsumo(false)
+
+            //Valida o campo de Data.
+            textoData === "Data consumo:" ?
+                setErrordatarioprimeiroconsumo(true) :
+                setErrordatarioprimeiroconsumo(false)
+        }
+    }, [validaDataPicker]);
 
     //Variaveis do firebase.
     const [apiFire, setApiFire] = useState(false);
@@ -129,27 +163,37 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
     //Executa uma função para percorrer e tratar todos os dados enviados ao firebase.
     useEffect(() => {
+
         if (formulario != null) {
 
-            let hora = horaPrimeiroConsumo.slice(0, 2);
-            setHorarioInicialFirebase(hora);
+            if (textoData === "Data consumo:" && textoHora === "Horário consumo:") {
+                setValidaDataPicker(true);
+                console.log(1);
 
-            let minuto = horaPrimeiroConsumo.slice(3, 5);
-            setMinutoInicialFirebase(minuto);
+                Alert.alert("Digite data e horário de consumo!")
 
-            let dia = dataPrimeiroConsumo.slice(0, 2);
-            setDiaInicialFirebase(dia);
+            } else if (textoData !== "Data consumo:" && textoHora !== "Horário consumo:") {
 
-            let mes = dataPrimeiroConsumo.slice(3, 5);
-            setMesInicialFirebase(mes);
+                let hora = horaPrimeiroConsumo.slice(0, 2);
+                setHorarioInicialFirebase(hora);
 
-            let intervalo = formulario.intervaloHoras;
-            setIntervaloHorasFirebase(intervalo);
+                let minuto = horaPrimeiroConsumo.slice(3, 5);
+                setMinutoInicialFirebase(minuto);
 
-            let dias = formulario.diasConsumo;
-            setDiasConsumoFirebase(dias);
+                let dia = dataPrimeiroConsumo.slice(0, 2);
+                setDiaInicialFirebase(dia);
 
-            setApiFire(true);
+                let mes = dataPrimeiroConsumo.slice(3, 5);
+                setMesInicialFirebase(mes);
+
+                let intervalo = formulario.intervaloHoras;
+                setIntervaloHorasFirebase(intervalo);
+
+                let dias = formulario.diasConsumo;
+                setDiasConsumoFirebase(dias);
+
+                setApiFire(true);
+            }
         }
     }, [formulario]);
 
@@ -194,11 +238,11 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         }
     }, [apiFire]);
 
-    // Codigo da tela:
+    // Codigo do front.
     return (
         <View style={styles.container}>
 
-            {/* Navegação inferior: */}
+            {/* Navegação inferior. */}
             <View style={styles.cabecalhoChat}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}>
@@ -263,9 +307,45 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                     />
 
                     {/*Componente do DataPicker. */}
-                    {/*Hora */}
+                    {/*Data */}
+                    {errordatarioprimeiroconsumo && <Text style={styles.textoAlertaInput}>Selecione a data do primeiro consumo:</Text>}
                     <View style={styles.textoInputMedicamento}>
+                        <TextInput style={{ textAlign: "center" }} editable={false} placeholderTextColor={"#000"}>
+                            <Text style={styles.textoInputMedicamento}>
+                                {textoData}
+                            </Text>
+                        </TextInput>
 
+                        <TouchableOpacity style={{ position: "absolute", bottom: 10, right: 35 }}
+                            onPress={() => { setOpenModalData(true) }}>
+                            <Image style={{ width: 25, height: 25 }} source={require('../images/calend.png')} />
+                        </TouchableOpacity>
+
+                        <DatePicker
+                            title={"Selecione a data do primeiro consumo:"}
+                            confirmText="Confirmar"
+                            cancelText="Cancelar"
+                            textColor="#000"
+
+                            mode="date"
+                            locale="pt-BR"
+
+                            modal
+                            open={openModalData}
+                            date={data}
+                            onConfirm={(data) => {
+                                setData(data)
+                                setOpenModalData(false)
+                                setAcaoData(true)
+                            }}
+                            onCancel={() => {
+                                setOpenModalData(false)
+                            }} />
+                    </View>
+
+                    {/*Hora */}
+                    {errorhorarioprimeiroconsumo && <Text style={styles.textoAlertaInput}>Selecione a hora do primeiro consumo:</Text>}
+                    <View style={styles.textoInputMedicamento}>
 
                         <TextInput style={{ textAlign: "center" }} editable={false} placeholderTextColor={"#000"}>
 
@@ -303,41 +383,6 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                                 setOpenModalHora(false)
                             }}
                         />
-                    </View>
-
-                    {/*Data */}
-                    <View style={styles.textoInputMedicamento}>
-                        <TextInput style={{ textAlign: "center" }} editable={false} placeholderTextColor={"#000"}>
-                            <Text style={styles.textoInputMedicamento}>
-                                {textoData}
-                            </Text>
-                        </TextInput>
-
-                        <TouchableOpacity style={{ position: "absolute", bottom: 10, right: 35 }}
-                            onPress={() => { setOpenModalData(true) }}>
-                            <Image style={{ width: 25, height: 25 }} source={require('../images/calend.png')} />
-                        </TouchableOpacity>
-
-                        <DatePicker
-                            title={"Selecione a data do primeiro consumo:"}
-                            confirmText="Confirmar"
-                            cancelText="Cancelar"
-                            textColor="#000"
-
-                            mode="date"
-                            locale="pt-BR"
-
-                            modal
-                            open={openModalData}
-                            date={data}
-                            onConfirm={(data) => {
-                                setData(data)
-                                setOpenModalData(false)
-                                setAcaoData(true)
-                            }}
-                            onCancel={() => {
-                                setOpenModalData(false)
-                            }} />
                     </View>
 
                     {/* Espaco para o dropList: */}
@@ -418,7 +463,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
                     <View style={styles.espacoBotaoSalvar}>
                         <TouchableOpacity style={styles.botaoSalvar}
                             onPress={
-                                handleSubmit(onSubmit)
+                                handleSubmit(onSubmit, onError)
                             }>
                             <Text style={styles.textoBotaoSalvar}>Salvar</Text>
                         </TouchableOpacity>

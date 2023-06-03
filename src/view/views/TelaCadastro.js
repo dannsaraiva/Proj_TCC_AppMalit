@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
 
 //Estilização da página.
@@ -74,6 +74,7 @@ const TelaCadastro = ({ navigation }) => {
       console.log("Usuário cadastrado !");
       mensagemSucesso();
       reset();
+
     }).catch((error) => {
 
       console.log(`Erro ao cadastrar ${error}`);
@@ -231,23 +232,27 @@ const TelaCadastro = ({ navigation }) => {
           <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
-      <Toast
-        position='top'
-        bottomOffset={40}
-        visibilityTime={3000}
-      />
 
+      {/* Botão ja tenho conta.  */}
       <View style={styles.tenhoConta}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')}>
           <Text style={styles.textoFooter}>Já tenho uma conta</Text>
         </TouchableOpacity>
 
+        {/* Botão para ajuda. */}
         <TouchableOpacity style={styles.espacoLogoAjudaCadastro}>
           <Image style={styles.logoAjudaCadastro}
             source={require('../images/help.png')} />
         </TouchableOpacity>
       </View>
+
+      {/* Componente para exibir o Pop-up. */}
+      < Toast
+        position='top'
+        bottomOffset={40}
+        visibilityTime={3000}
+      />
     </View >
   )
 };
