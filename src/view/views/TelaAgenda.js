@@ -36,20 +36,18 @@ const TelaAgenda = ({ navigation }) => {
     };
 
     //Variável para identificar os dados para ir ao Firebase.
+    const [apiFire, setApiFire] = useState(false);
     const [idMedicamento, setIdMedicamento] = useState(null);
     const [idCompartimento, setIdCompartimento] = useState(null);
 
     //Habilitar o componete Modal.
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalAtribuir, setModalAtribuir] = useState(false);
 
     //Configuração do DropList.
     const [resetDropdown, setResetDropdown] = useState(false);
 
     //Variáveis para prencher os DropList.
-    const [medicamentos, setMedicamentos] = useState("");
     const [dropList, setDropList] = useState("");
-
-    const [medicamentoCadastrados, setMedicamentoCadastrados] = useState("");
 
     //Compartimento da API.
     const compartimentos = [
@@ -79,43 +77,33 @@ const TelaAgenda = ({ navigation }) => {
             });
             setDropList(dadosDropList);
 
-            console.log("Listagem ao carregar")
+            console.log("Listagem ao carregar");
 
         }).catch((error) => {
 
-            console.log("Erro API Listagem:" + error)
+            console.log("Erro API Listagem: " + error)
         })
-
     }, []);
-
-    //Função para rodar após seleciona o compartimento
-    useEffect(() => {
-
-        if (idMedicamento != null) {
-
-            listagemId()
-            console.log("useEffect ID");
-
-        }
-    }, [idCompartimento]);
 
     //Variável para armazenar os medicamentos listado por ID.
     const [medicamentoListado, setMedicamentoListado] = useState(null);
 
     //API para listar os medicamentos por ID.
-    const listagemId = () => {
+    useEffect(() => {
 
-        api.get(rotaID + idMedicamento, {
-        }).then((response) => {
+        if (idMedicamento != null) {
+            api.get(rotaID + idMedicamento, {
+            }).then((response) => {
 
-            setMedicamentoListado(response.data.data);
-            console.log("Listagem - ID")
+                setMedicamentoListado(response.data.data);
+                console.log("Listagem - ID")
 
-        }).catch((error) => {
+            }).catch((error) => {
 
-            console.log("Erro API Listagem por ID:" + error)
-        })
-    };
+                console.log("Erro API Listagem por ID:" + error)
+            })
+        }
+    }, [idMedicamento]);
 
     //Função para chamar a API Firebase.
     useEffect(() => {
@@ -123,53 +111,53 @@ const TelaAgenda = ({ navigation }) => {
         if (medicamentoListado != null) {
 
             console.log("useEffect medicamento");
-            enviaFirebase();
+            setApiFire(true);
         }
     }, [medicamentoListado]);
 
-    //Função para exibir os detalhes do medicamento
-    const [mostrarInputs, setMostrarInputs] = useState(false);
-
-    const mostrarInput = () => {
-        setMostrarInputs(true)
-    };
-
     //Parâmetros do hook-form.
+    const [formulario, setFormulario] = useState(null);
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
     });
 
     //Captura os dados e atribui ao data.
     const onSubmit = data => {
 
+        setFormulario(data);
         setIdMedicamento(data.medicamento);
         setIdCompartimento(data.compartimento);
     };
 
     //API para mandar os dados para a Maleta.
-    const enviaFirebase = () => {
-        console.log("API Firebase");
-        //Manda o valor para o firebase e atribui ao compartimento.
-        update(ref(bd, "maleta/" + "C" + idCompartimento),
-            {
+    useEffect(() => {
 
-                horarioInicial: medicamentoListado.horarioInicialFirebase,
-                minutoInicial: medicamentoListado.minutoInicialFirebase,
-                diaInicial: medicamentoListado.diaInicialFirebase,
-                mesInicial: medicamentoListado.mesInicialFirebase,
-                intervaloHoras: medicamentoListado.intervaloHorasFirebase,
-                diasConsumo: medicamentoListado.diasConsumoFirebase,
+        if (apiFire === true) {
+            //Manda o valor para o firebase e atribui ao compartimento.
+            set(ref(bd, "maleta/" + "C" + idCompartimento),
+                {
 
-            })
-            .then((response) => {
+                    horarioInicial: medicamentoListado.horarioInicialFirebase,
+                    minutoInicial: medicamentoListado.minutoInicialFirebase,
+                    diaInicial: medicamentoListado.diaInicialFirebase,
+                    mesInicial: medicamentoListado.mesInicialFirebase,
+                    intervaloHoras: medicamentoListado.intervaloHorasFirebase,
+                    diasConsumo: medicamentoListado.diasConsumoFirebase,
 
-                console.log("Foi" + response);
-                setModalVisible(!modalVisible);
+                })
+                .then((response) => {
 
-            }).catch((error) => {
+                    setModalAtribuir(false);
+                    setResetDropdown(true);
+                    mensagemSucesso();
+                    setApiFire(false);
+                    console.log("API Firebase" + response);
 
-                console.log("Erro API Firebase:" + error);
-            });
-    };
+                }).catch((error) => {
+
+                    console.log("Erro API Firebase:" + error);
+                });
+        }
+    }, [apiFire]);
 
     //Codigo da tela.
     return (
@@ -231,7 +219,7 @@ const TelaAgenda = ({ navigation }) => {
             {/* Botão para atribui medicamento */}
             <TouchableOpacity style={styles.espacoLogoAdicionaRemedio}
 
-                onPress={() => setModalVisible(true)}>
+                onPress={() => setModalAtribuir(true)}>
 
                 <Image style={styles.logoAdicionaRemedio} source={require('../images/plus.png')} />
             </TouchableOpacity>
@@ -242,9 +230,9 @@ const TelaAgenda = ({ navigation }) => {
                 <Modal
                     animationType="slide"
                     transparent={false}
-                    visible={modalVisible}
+                    visible={modalAtribuir}
                     onRequestClose={() => {
-                        setModalVisible(!modalVisible);
+                        setModalAtribuir(true);
                     }}>
 
                     <View style={styles.espacoModalAgenda}>
@@ -269,8 +257,6 @@ const TelaAgenda = ({ navigation }) => {
                                             dropdownStyles={styles.dropStyleAgenda}
                                             dropdownItemStyles={styles.dropListCadastroMedicamentos}
                                             dropdownTextStyles={styles.dropTextCadastroMedicamentos}
-                                            disabledItemStyles={{ color: "#000" }}
-                                            disabledTextStyles={{ color: "#000" }}
 
                                             searchicon={true}
                                             arrowicon={true}
@@ -300,15 +286,12 @@ const TelaAgenda = ({ navigation }) => {
                                     rules={{ required: true }}
                                     render={({ field: { onChange, value } }) => (
 
-
                                         <SelectList
                                             boxStyles={styles.listCadastroMedicamento}
                                             inputStyles={styles.inputListCadastroMedicamentos}
                                             dropdownStyles={styles.dropStyleAgenda}
                                             dropdownItemStyles={styles.dropListCadastroMedicamentos}
                                             dropdownTextStyles={styles.dropTextCadastroMedicamentos}
-                                            // disabledItemStyles={}
-                                            // disabledTextStyles={false}
 
                                             searchicon={true}
                                             arrowicon={true}
@@ -324,30 +307,16 @@ const TelaAgenda = ({ navigation }) => {
                                             data={compartimentos}
                                             value={value}
                                             save="Key"
-
-                                            onSelect={mostrarInput}
                                         />
                                     )}
                                     name="compartimento"
                                 />
-
-                                {
-                                    mostrarInputs && (
-                                        <View style={styles.espacoTextoPerfil}>
-
-                                            {/* <Text style={styles.tituloNomeAgenda}>Nome:</Text>
-                                            <Text style={styles.textoInputPerfil}>Nome</Text>
-                                            <Text style={styles.tituloDescricaoAgenda}>Descrição:</Text>
-                                            <Text style={styles.textoInputPerfil}>Horário</Text> */}
-                                        </View>
-                                    )
-                                }
                             </View>
 
                             <View style={styles.espacoBotaoModalAgenda}>
                                 <TouchableOpacity
                                     style={styles.botaoVoltar}
-                                    onPress={() => setModalVisible(!modalVisible)}>
+                                    onPress={() => setModalAtribuir(false)}>
                                     <Text style={styles.textStyle}>Voltar</Text>
                                 </TouchableOpacity>
 

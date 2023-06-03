@@ -188,11 +188,10 @@ const TelaCadastroMedicamento = ({ navigation }) => {
 
             }).catch((response) => {
 
-                console.log(`Erro ao salvar o medicamento. ${response}`)
+                console.log(`Erro ao salvar o medicamento. ${response}`);
                 mensagemErro();
             });
         }
-
     }, [apiFire]);
 
     // Codigo da tela:

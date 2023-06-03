@@ -12,7 +12,6 @@ const TelaTeste = ({ navigation }) => {
 
     //Habilitando a maleta para entrar em teste.
     useEffect(() => {
-
         update(ref(bd, 'maleta/'),
             {
 
