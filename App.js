@@ -25,10 +25,10 @@ const App = () => {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
         // initialRouteName='Agenda'
-        initialRouteName='Cadastro medicamento'
+        // initialRouteName='Cadastro medicamento'
         // initialRouteName='Teste maleta'
         // initialRouteName='Login'
-      // initialRouteName='Meus medicamentos'
+        initialRouteName='Meus medicamentos'
       // initialRouteName='Meus medicamentos'
       >
         <Stack.Screen name="Logo" component={Logo} />

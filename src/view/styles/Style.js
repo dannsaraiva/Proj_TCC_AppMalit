@@ -665,8 +665,8 @@ const styles = StyleSheet.create({
     },
     logoNavegacaoEditMedicamentos: {
         marginTop: 20,
-        width: 25,
-        height: 25
+        width: 20,
+        height: 20
     },
     espacoTextosMeusMedicamentos: {
         fontFamily: "Alata-Regular",
@@ -691,7 +691,7 @@ const styles = StyleSheet.create({
     },
     modalViewMeusMedicamentos: {
         width: 365,
-        height: 650,
+        height: 600,
         backgroundColor: corFundo,
         borderRadius: 20,
         alignItems: "center",

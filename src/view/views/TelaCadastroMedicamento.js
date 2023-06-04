@@ -238,7 +238,7 @@ const TelaCadastroMedicamento = ({ navigation }) => {
         }
     }, [apiFire]);
 
-    // Codigo do front.
+    //Código do front.
     return (
         <View style={styles.container}>
 
