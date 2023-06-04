@@ -28,8 +28,8 @@ const App = () => {
         // initialRouteName='Cadastro medicamento'
         // initialRouteName='Teste maleta'
         // initialRouteName='Login'
-        initialRouteName='Meus medicamentos'
-      // initialRouteName='Meus medicamentos'
+        // initialRouteName='Meus medicamentos'
+      initialRouteName='Menu'
       >
         <Stack.Screen name="Logo" component={Logo} />
         <Stack.Screen name="Login" component={Login} />
