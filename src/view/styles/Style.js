@@ -469,28 +469,80 @@ const styles = StyleSheet.create({
     },
 
     //Estilização da tela agenda.
+    espacoCalendario: {
+        elevation: 4,
+        borderRadius: 15,
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 20,
+        marginBottom: 25,
+        paddingBottom: 10
+    },
     logoRemedioAgenda: {
         width: 40,
         height: 40,
         marginLeft: 15,
         marginRight: 20
     },
-    remedioAgenda: {
+    espacoAgendaMedicamentos: {
+        marginBottom: 10
+    },
+    NavegacaoAgendaMedicamentos: {
         backgroundColor: corMenu,
+        width: "90%",
+        height: 75,
         borderRadius: 15,
-        marginBottom: 20,
-        height: 70,
-        alignItems: "center",
+        paddingTop: 10,
+        paddingLeft: 20,
+        paddingRight: 10,
+        marginBottom: 15,
         flexDirection: "row",
+        alignItems: "center",
     },
-    espacoRemedio: {
-        marginLeft: 30,
-        marginRight: 30,
-        marginBottom: 80,
+
+    espacoTextosAgendaMedicamentos: {
+        flex: 1,
+        marginLeft: 10,
+        textAlign: "center"
     },
-    textoRemedio: {
-        fontSize: 20,
+    espacoDoisTextosAgendaMedicamentos: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginRight: 15,
+
     },
+    nomeMedicamentoAgendaMedicamentos: {
+        fontFamily: "Alata-Regular",
+        color: "#000",
+        fontSize: 18
+
+    },
+
+    nomeAgendaMedicamentos: {
+        color: "#000",
+        fontSize: 18
+    },
+
+    descricaoAgendaMedicamentos: {
+        color: "#000",
+        fontSize: 18,
+        fontWeight: "bold"
+    },
+    logoAgendaEditMedicamentos: {
+        marginTop: 20,
+        width: 22,
+        height: 22
+    },
+    modalViewAgendaMedicamentos: {
+        width: 350,
+        height: 320,
+        backgroundColor: corFundo,
+        borderRadius: 20,
+        alignItems: "center",
+        elevation: 5,
+        shadowRadius: 4,
+    },
+
     logoAdicionaRemedio: {
         width: 45,
         height: 45,
@@ -500,7 +552,6 @@ const styles = StyleSheet.create({
         right: 15,
         bottom: 15,
     },
-
     tituloDropListAgenda: {
         fontFamily: "Alata-Regular",
         color: "#000",

@@ -1,9 +1,14 @@
 //Configuração do calendário.
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
+
+//Biblioteca para renderizar o calendário.
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 
+//Estilização.
+import styles from '../styles/Style';
 
+//Configuração do calendário.
 LocaleConfig.locales['dias'] = {
     monthNames: [
         'JANEIRO ',
@@ -26,10 +31,15 @@ LocaleConfig.locales['dias'] = {
 };
 LocaleConfig.defaultLocale = 'dias';
 
+//
 const Calendario = () => {
     return (
         <View>
-            <Calendar style={{ margin: 30, elevation: 4, borderRadius: 15 }} />
+            <Calendar style={styles.espacoCalendario}
+                markedDates={{
+                    '2023-06-05': { selected: true, marked: true, selectedColor: 'red' }
+
+                }} />
         </View>
     )
 }

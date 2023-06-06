@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Modal, Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput, Modal, VirtualizedList } from 'react-native';
 
 //Estilização.
 import styles from '../styles/Style';
@@ -20,9 +20,12 @@ import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import api from "../../services/api";
 const rota = "/ListagemMed";
 const rotaID = "/ListagemMedId/";
+const rotaComp = "/AtualizarMedCompartimento/";
+const rotaListComp = "/ListagemMedCompartimento";
+const rotaExclusao = "/DeletarMed/";
 
 // Importação do firebase.
-import { ref, set, update } from "firebase/database";
+import { ref, update } from "firebase/database";
 import { bd } from '../../services/config.firebase';
 
 const TelaAgenda = ({ navigation }) => {
@@ -34,14 +37,26 @@ const TelaAgenda = ({ navigation }) => {
             text1: 'Medicamento atribuido'
         });
     };
+    const mensagemSucessoExcluir = () => {
+        Toast.show({
+            type: 'info',
+            text1: 'Medicamento excluído'
+        });
+    };
 
     //Variável para identificar os dados para ir ao Firebase.
-    const [apiFire, setApiFire] = useState(false);
     const [idMedicamento, setIdMedicamento] = useState(null);
     const [idCompartimento, setIdCompartimento] = useState(null);
 
+    //Variáveis para chamar as API.
+    const [apiFire, setApiFire] = useState(false);
+    const [apiComp, setApiCom] = useState(false);
+    const [apiListComp, setApiListComp] = useState(false);
+    const [apiCalendario, setCalendario] = useState(false);
+
     //Habilitar o componete Modal.
     const [modalAtribuir, setModalAtribuir] = useState(false);
+    const [modalEditar, setModalEditar] = useState(false);
 
     //Configuração do DropList.
     const [resetDropdown, setResetDropdown] = useState(false);
@@ -84,6 +99,57 @@ const TelaAgenda = ({ navigation }) => {
             console.log("Erro API Listagem: " + error)
         })
     }, []);
+
+    const [medicamentoListadoCompartimentos, setMedicamentoListadoCompartimentos] = useState([]);
+
+    useEffect(() => {
+
+        api.get(rotaListComp, {
+        }).then((response) => {
+
+            setMedicamentoListadoCompartimentos(response.data.data);
+            console.log("Listou por compartimento");
+        }).catch((erro) => {
+
+            console.log("Erro listagem por compartimento " + erro);
+        })
+    }, [apiListComp]);
+
+    //Parâmetros do VirtualizedList.
+    const getItemCount = () => medicamentoListadoCompartimentos.length;
+
+    const getItem = (medicamentoListadoCompartimentos, index) => medicamentoListadoCompartimentos[index];
+
+    const [editarMedicamento, setEditarMedicamento] = useState(false);
+
+    //Renderiza a tela do VirtualizedList.
+    const renderItem = ({ item }) => (
+        <View style={{ alignItems: 'center' }}>
+            <View style={styles.NavegacaoAgendaMedicamentos} >
+                <Image style={styles.logoMeusMedicamentos} source={require('../images/medicine.png')} />
+
+                <View style={styles.espacoTextosAgendaMedicamentos}>
+                    <View style={styles.espacoDoisTextosAgendaMedicamentos}>
+                        <Text style={styles.nomeMedicamentoAgendaMedicamentos}>{item.nome_med} - {item.hora} </Text>
+                    </View>
+
+                    <Text style={styles.descricaoAgendaMedicamentos}>Compartimento: {item.CompartimentosFirebase}</Text>
+                </View>
+
+                <TouchableOpacity onPress={() => {
+                    setModalEditar(true)
+                    setEditarMedicamento(item)
+                }}
+
+                    style={{
+                        position: 'absolute', right: 10,
+                        bottom: 5
+                    }}>
+                    <Image style={styles.logoAgendaEditMedicamentos} source={require('../images/trash.png')} />
+                </TouchableOpacity>
+            </View >
+        </View >
+    );
 
     //Variável para armazenar os medicamentos listado por ID.
     const [medicamentoListado, setMedicamentoListado] = useState(null);
@@ -133,7 +199,7 @@ const TelaAgenda = ({ navigation }) => {
 
         if (apiFire === true) {
             //Manda o valor para o firebase e atribui ao compartimento.
-            set(ref(bd, "maleta/" + "C" + idCompartimento),
+            update(ref(bd, "maleta/" + "C" + idCompartimento),
                 {
 
                     horarioInicial: medicamentoListado.horarioInicialFirebase,
@@ -150,6 +216,8 @@ const TelaAgenda = ({ navigation }) => {
                     setResetDropdown(true);
                     mensagemSucesso();
                     setApiFire(false);
+                    setApiCom(true);
+                    setApiListComp(true);
                     console.log("API Firebase" + response);
 
                 }).catch((error) => {
@@ -158,6 +226,42 @@ const TelaAgenda = ({ navigation }) => {
                 });
         }
     }, [apiFire]);
+
+    //Api para enviar o compartimento selecionado pelo usuário.
+    useEffect(() => {
+
+        if (apiComp === true) {
+
+            api.put(rotaComp + idMedicamento, {
+
+                CompartimentosFirebase: idCompartimento
+            }).then((response) => {
+
+                console.log("COMPAR")
+                setApiCom(false);
+
+            }).catch((error) => {
+
+                console.log("Erro API Compartimento: " + error)
+            })
+        };
+    }, [apiComp]);
+
+    //Construção da API, para excluir os medicamentos.
+    const excluirMedicamento = (valor) => {
+        api.delete(rotaExclusao + valor, {
+
+        }).then((response) => {
+
+            mensagemSucessoExcluir();
+            setModalEditar(false);
+            setApiListComp(true);
+
+        }).catch((error) => {
+
+            mensagemErro()
+        })
+    };
 
     //Codigo da tela.
     return (
@@ -176,45 +280,64 @@ const TelaAgenda = ({ navigation }) => {
             {/* Calendario */}
             <Calendario />
 
-            <ScrollView>
-                <View style={styles.espacoRemedio}>
-                    <TouchableOpacity style={styles.remedioAgenda}>
-                        <Image style={styles.logoRemedioAgenda} source={require('../images/medicine.png')} />
-                        <View>
-                            <Text style={styles.textoRemedio}>Dorflex</Text>
-                            <Text style={styles.textoRemedio}>08:00</Text>
+
+            {/* Função para carregar todos os medicamentos. */}
+            <VirtualizedList
+                style={styles.espacoAgendaMedicamentos}
+                data={medicamentoListadoCompartimentos}
+                getItemCount={getItemCount}
+                getItem={getItem}
+                renderItem={renderItem}
+                keyExtractor={item => item.id_med}
+            />
+
+            {/* Mini janela para edição do medicamento: */}
+            <View style={styles.centeredView}>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={modalEditar}
+                    onRequestClose={() => {
+                        setModalEditar(modalEditar);
+                    }}>
+                    <View style={styles.espacoModal}>
+                        <View style={styles.modalViewAgendaMedicamentos}>
+
+                            <Text style={styles.modalTitulo}>Alterar o medicamento:</Text>
+
+                            <Text style={styles.tituloSenha}>Nome:</Text>
+                            <TextInput editable={false} style={styles.textoInputPerfil}>{editarMedicamento.nome_med} </TextInput>
+
+                            <Text style={styles.tituloSenha}>Compartimento:</Text>
+                            <TextInput editable={false} style={styles.textoInputPerfil}>{editarMedicamento.CompartimentosFirebase}</TextInput>
+
+                            <View style={styles.espacoBotaoModal}>
+                                <TouchableOpacity
+                                    style={styles.botaoVoltar}
+                                    onPress={() => setModalEditar(false)}>
+                                    <Text style={styles.textStyle}>Voltar</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.botaoSalvarPerfil}
+                                    onPress={() =>
+                                        excluirMedicamento(editarMedicamento.id_med)
+                                    }>
+                                    <Text style={styles.textStyle}>Excluir</Text>
+                                </TouchableOpacity>
+
+                                {/* <TouchableOpacity
+                                        style={styles.botaoSalvarPerfil}
+                                        onPress={() =>
+                                            atualizarMedicamento(item.id_med)
+                                        }>
+                                        <Text style={styles.textStyle}>Salvar</Text>
+                                    </TouchableOpacity> */}
+                            </View>
                         </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.remedioAgenda}>
-                        <Image style={styles.logoRemedioAgenda} source={require('../images/medicine.png')} />
-                        <View>
-                            <Text style={styles.textoRemedio}>Dorflex</Text>
-                            <Text style={styles.textoRemedio}>08:00</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.remedioAgenda}>
-                        <Image style={styles.logoRemedioAgenda} source={require('../images/medicine.png')} />
-                        <View>
-                            <Text style={styles.textoRemedio}>Dorflex</Text>
-                            <Text style={styles.textoRemedio}>08:00</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.remedioAgenda}>
-                        <Image style={styles.logoRemedioAgenda} source={require('../images/medicine.png')} />
-                        <View>
-                            <Text style={styles.textoRemedio}>Dorflex</Text>
-                            <Text style={styles.textoRemedio}>08:00</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.remedioAgenda}>
-                        <Image style={styles.logoRemedioAgenda} source={require('../images/medicine.png')} />
-                        <View>
-                            <Text style={styles.textoRemedio}>Dorflex</Text>
-                            <Text style={styles.textoRemedio}>08:00</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+                    </View>
+                </Modal>
+            </View>
 
             {/* Botão para atribui medicamento */}
             <TouchableOpacity style={styles.espacoLogoAdicionaRemedio}
