@@ -149,7 +149,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                         <Image style={styles.logoPesquisarMedicamentos} source={require('../images/search.png')} />
                         <TextInput style={styles.inputPesquisarMedicamentos} placeholder='Pesquisar ...'
                             placeholderTextColor={"#000"}
-                            autoCapitalize='none'
+                            // autoCapitalize='none'
 
                             onChangeText={(nome) => pesquisaMedicamento(nome)}
                         />

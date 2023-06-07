@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "120786147536",
-    "firebase_url": "https://malit-3b137-default-rtdb.firebaseio.com",
-    "project_id": "malit-3b137",
-    "storage_bucket": "malit-3b137.appspot.com"
+    "project_number": "621662774462",
+    "firebase_url": "https://malitapp-default-rtdb.firebaseio.com",
+    "project_id": "malitapp",
+    "storage_bucket": "malitapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:120786147536:android:8bff83eae3026ec78a66d5",
+        "mobilesdk_app_id": "1:621662774462:android:623d1ca6a6103922162aef",
         "android_client_info": {
           "package_name": "com.appmalit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "120786147536-6og1keeu2qokj2oevvbus29ngbf856h6.apps.googleusercontent.com",
+          "client_id": "621662774462-h3t1vkvvqihnq3ia8uukn03a4gsq6bc5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCf_ReapLnxxHhg6ckHViGdE6RPmY0yJv4"
+          "current_key": "AIzaSyC4fn1kryUL1xopzO0DELuVJggLkNe24Ns"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "120786147536-6og1keeu2qokj2oevvbus29ngbf856h6.apps.googleusercontent.com",
+              "client_id": "621662774462-h3t1vkvvqihnq3ia8uukn03a4gsq6bc5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
