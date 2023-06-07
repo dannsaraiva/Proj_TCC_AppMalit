@@ -4,15 +4,32 @@ import { View, Text, TouchableOpacity, Image, ScrollView, BackHandler, Alert } f
 //Estilização.
 import styles from '../styles/Style';
 
-
+// Importação do firebase.
+import { ref, update, get } from "firebase/database";
+import { bd } from '../../services/config.firebase';
 
 //Construção da tela.
 const TelaMenu = ({ navigation, route }) => {
+
+  //Ação para o botão sair.
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
       return true
     }, [])
   });
+
+  //Valida se o firebase esta funcionando.
+  useEffect(() => {
+    get(ref(bd, 'maleta/'), {
+    }).then(() => {
+
+      console.log("Firebase - ok");
+    }).catch((error) => {
+
+      console.log(error);
+    });
+  }, []);
+
 
   //Codigo do front.
   return (
