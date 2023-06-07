@@ -18,7 +18,7 @@ import * as yup from "yup";
 //Esquema em yup para validar os dados.
 const esquema = yup.object().shape({
   cpf: yup.string().min(14, "CPF precisa ter 11 dígitos").required('CPF é obrigatório'),
-  senha: yup.string().required("Digite sua senha"),
+  senha: yup.string().min(10, 'Senha deve ter no mínimo 10 caracteres').required("Digite sua senha"),
 });
 
 //Importação do AsyncStorage.
@@ -32,18 +32,19 @@ const rota = "/Login";
 const TelaLogin = ({ navigation }) => {
 
   //Dados salvos.
-  const [user, setUser] = useState(null);
   const [login, setLogin] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [dados, setDados] = useState([]);
-  const [formulario, setFormulario] = useState([]);
-  const [asyncLogin, setAsyncLogin] = useState([]);
+  const [formulario, setFormulario] = useState(null);
+
+  //Variáveis para chamar à Api e validação.
+  const [apiLogin, setApiLogin] = useState(false);
+  const [valida, setValida] = useState(false);
+  const [erroRetorno, setErroRetorno] = useState(null);
 
   //Mensagens para exibir para o usuário.
-  const mensagemErroCPF = () => {
+  const mensagemUsuario = () => {
     Toast.show({
       type: 'error',
-      text1: 'CPF não cadastrado',
+      text1: 'Usuário não encontrado',
     });
   };
 
@@ -57,27 +58,9 @@ const TelaLogin = ({ navigation }) => {
   const mensagemErroAPI = () => {
     Toast.show({
       type: 'error',
-      text1: 'Tente novamente',
+      text1: 'Erro ao realizar login',
     });
   };
-
-  //Estruta de decisão para validar e realizar o login.
-  useEffect(() => {
-
-    if (login != null) {
-
-      if (login === formulario.cpf && password != formulario.senha) {
-
-        mensagemErroSenha();
-      } else if (login != formulario.cpf) {
-
-        mensagemErroCPF();
-      } else {
-
-        mensagemErroAPI();
-      }
-    };
-  });
 
   //Botão sair.
   useEffect(() => {
@@ -94,33 +77,62 @@ const TelaLogin = ({ navigation }) => {
   //Captura os dados e atribui ao data.
   const onSubmit = data => {
     setFormulario(data);
-    searchUsuario(data);
-  }
+    setApiLogin(true);
+  };
 
   //Chamando a API.
-  const searchUsuario = data => {
+  useEffect(() => {
 
-    //Pega o cpf digitado pelo usuário e realiza a pesquisa.
-    api.post(rota, {
+    if (apiLogin === true) {
+      //Pega o cpf digitado pelo usuário e realiza a pesquisa.
+      api.post(rota, {
 
-      cpf: formulario.cpf,
-      senha: formulario.senha
+        cpf: formulario.cpf,
+        senha: formulario.senha
 
-    })
-      .then((response) => {
+      })
+        .then((response) => {
 
-        //Armazena os valores recebido via API.
-        let retorno = JSON.parse(response.config.data);
+          setApiLogin(false);
+          setLogin(formulario.cpf);
+          navigation.navigate('Loading');
+        }).catch((error) => {
 
-        setLogin(retorno.cpf);
-        setPassword(retorno.senha);
+          setErroRetorno(error.message.slice(32, 35));
+          console.log(erroRetorno)
+          setValida(true);
+        })
+    }
+  }, [apiLogin]);
 
-        navigation.navigate('Loading');
-      }).catch((error) => {
+  //Estruta de decisão para validar e realizar o login.
+  useEffect(() => {
 
-        console.log(error)
-      });
-  };
+    if (valida === true) {
+      if (erroRetorno === "400") {
+
+        mensagemUsuario();
+        setValida(false);
+        setFormulario(null);
+        setErroRetorno(null);
+        setApiLogin(false);
+      } else if (erroRetorno === "401") {
+
+        mensagemErroSenha();
+        setValida(false);
+        setFormulario(null);
+        setErroRetorno(null);
+        setApiLogin(false);
+      } else if (erroRetorno === "500") {
+
+        mensagemErroAPI();
+        setValida(false);
+        setFormulario(null);
+        setErroRetorno(null);
+        setApiLogin(false);
+      }
+    }
+  }, [valida]);
 
   //AsyncStorage armazena os dados.
   const Armazenar = (chave, valor) => {
