@@ -52,7 +52,6 @@ const TelaAgenda = ({ navigation }) => {
     const [apiFire, setApiFire] = useState(false);
     const [apiComp, setApiCom] = useState(false);
     const [apiListComp, setApiListComp] = useState(false);
-    const [apiCalendario, setCalendario] = useState(false);
 
     //Habilitar o componete Modal.
     const [modalAtribuir, setModalAtribuir] = useState(false);
@@ -259,7 +258,7 @@ const TelaAgenda = ({ navigation }) => {
 
         }).catch((error) => {
 
-            mensagemErro()
+            mensagemErro();
         })
     };
 
