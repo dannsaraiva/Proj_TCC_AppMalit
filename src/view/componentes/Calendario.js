@@ -5,9 +5,6 @@ import { View, Text } from 'react-native';
 //Biblioteca para renderizar o calendário.
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 
-// 
-import moment from 'moment';
-
 //Estilização.
 import styles from '../styles/Style';
 
@@ -45,80 +42,39 @@ const Calendario = () => {
     const [apiCalendario, setCalendario] = useState(false);
     const [dadosCalendario, setDadosCalendario] = useState(null);
 
-    const [dataPrimeiroConsumo, setDataPrimeiroConsumo] = useState(null);
-    const [teste, setTeste] = useState(null);
-
-
-    const [selected, setSelected] = useState('');
-
-    const [diasConsumo, setDiasConsumo] = useState(null);
-
     //Api para buscar as datas para alimentar o calendário.
-    useEffect(() => {
+    // useEffect(() => {
 
-        api.get(rotaListComp, {
-        }).then((response) => {
+    //     api.get(rotaListComp, {
+    //     }).then((response) => {
 
-            setDadosCalendario(response.data.data[0]);
+    //         setDadosCalendario(response.data.data);
 
-            setDataPrimeiroConsumo(response.data.data[0].data);
-            setDiasConsumo(response.data.data[0].diasConsumoFirebase);
+    //     }).catch((erro) => {
 
-        }).catch((erro) => {
+    //         console.log("Erro listagem para calendário " + erro);
+    //     })
+    // }, [apiCalendario]);
 
-            console.log("Erro listagem para calendário " + erro);
-        })
-    }, [apiCalendario]);
-
-
-
-    useEffect(() => {
-        if (dadosCalendario != null) {
-            console.log('Diferente');
-
-            const dia = parseFloat(diasConsumo);
-            const dataa = new Date(dataPrimeiroConsumo);
-            const listaDatas = [];
-
-            for (let i = 0; i < dia; i++) {
-                const dataMultiplicada = new Date(dataa.getTime());
-                dataMultiplicada.setDate(dataMultiplicada.getDate() + i);
-                listaDatas.push(dataMultiplicada.toISOString().split('T')[0]);
-            }
-
-            setTeste(listaDatas);
-            const tratada = listaDatas.join(',');
-
-            const ttt = String(dataPrimeiroConsumo);
-            setSelected(ttt);
-
-            // console.log(ttt)
-            console.log(selected)
-
-        }
-    }, []);
-
-
-
-
-
-
-
+    //Função para marca no calendário os dias de consumo.
     const getMarked = () => {
         let marked = {};
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 1; i <= 30; i++) {
             let day = i.toString().padStart(2, '0');
             let periods = [
-                {
-                    startingDay: i == 1,
-                    endingDay: i == 10,
-                    color: 'teal',
+                (i >= 1 && i <= 5) && {
+                    color: 'red',
                 },
-                (i >= 2 && i <= 6) && {
-                    startingDay: i == 2,
-                    endingDay: i == 6,
+                (i >= 6 && i <= 10) && {
                     color: 'orange',
+                },
+                (i >= 11 && i <= 15) && {
+                    color: 'black',
+                },
+                (i >= 16 && i <= 30) && {
+                    color: 'green',
                 }
+
             ];
             marked[`2023-06-${day}`] = {
                 periods
@@ -127,20 +83,17 @@ const Calendario = () => {
         return marked;
     };
 
+    //Front do Calendário.
     return (
         <View>
+
             <Calendar style={styles.espacoCalendario}
 
-                markingType={'period'}
-                markedDates={{
-                    '2023-06-06': { marked: true, dotColor: '#50cebb' }
-                }}
-min
-
-
+                markingType="multi-period"
+                markedDates={getMarked()}
             />
         </View>
     )
-}
+};
 
 export default Calendario
