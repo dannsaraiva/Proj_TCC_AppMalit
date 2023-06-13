@@ -8,10 +8,12 @@ const TelaMaleta = ({ navigation }) => {
     return (
         <View style={styles.container}>
 
+            {/* Cabeçalho. */}
             <View style={styles.cabecalho}>
                 <Text style={styles.textoCabecalho}>Maleta</Text>
             </View>
 
+            {/* Botões para navegação. */}
             <ScrollView>
                 <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                     <TouchableOpacity style={styles.NavegacaoMenu}
@@ -19,21 +21,25 @@ const TelaMaleta = ({ navigation }) => {
                         <Image style={styles.logoNavegacaoMenu} source={require('../images/calendario.png')} />
                         <Text style={styles.textoNavegacaoMenu}>Agenda / Alarme</Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity style={styles.NavegacaoMenu}
                         onPress={() => navigation.navigate('Meus medicamentos')}>
                         <Image style={styles.logoNavegacaoMenu} source={require('../images/comprimidos.png')} />
                         <Text style={styles.textoNavegacaoMenu}>Meus medicamentos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.NavegacaoMenu}
-                        onPress={() => navigation.navigate('Chat compra')}>
-                        <Image style={styles.logoNavegacaoMenu} source={require('../images/carrinho-de-compras.png')} />
-                        <Text style={styles.textoNavegacaoMenu}>Comprar maleta</Text>
-                    </TouchableOpacity>
+
                     <TouchableOpacity style={styles.NavegacaoMenu}
                         onPress={() => navigation.navigate('Teste maleta')}>
                         <Image style={styles.logoNavegacaoMenu} source={require('../images/controles.png')} />
                         <Text style={styles.textoNavegacaoMenu}>Testar maleta</Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.NavegacaoMenu}
+                        onPress={() => navigation.navigate('Chat compra')}>
+                        <Image style={styles.logoNavegacaoMenu} source={require('../images/carrinho-de-compras.png')} />
+                        <Text style={styles.textoNavegacaoMenu}>Comprar maleta</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity style={styles.NavegacaoMenuBaixo}
                         onPress={() => navigation.navigate('Ajuda')}>
                         <Image style={styles.logoNavegacaoMenu} source={require('../images/help.png')} />
