@@ -166,6 +166,10 @@ const styles = StyleSheet.create({
         fontFamily: "Alata-Regular",
         textAlign: "center",
     },
+    logoMostrarSenha: {
+        width: 30,
+        height: 30
+    },
     botaoLogin: {
         backgroundColor: corBotao,
         width: 215,

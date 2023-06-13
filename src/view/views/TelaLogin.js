@@ -141,6 +141,14 @@ const TelaLogin = ({ navigation }) => {
 
   Armazenar("01", `${login}`);
 
+  //Mostrar a senha.
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const exibirSenha = () => {
+
+    setMostrarSenha(!mostrarSenha);
+    
+  };
+
   //Codigo do front.
   return (
     <View style={styles.container}>
@@ -178,14 +186,22 @@ const TelaLogin = ({ navigation }) => {
           name='senha'
           render={({ field: { onChange, onBlur, value } }) => (
 
-            <TextInput style={styles.textoInputLogin} placeholder='Senha:'
-              placeholderTextColor={"#000"}
-              secureTextEntry={true}
+            <View>
+              <TextInput style={styles.textoInputLogin} placeholder='Senha:'
+                placeholderTextColor={"#000"}
+                secureTextEntry={!mostrarSenha}
 
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+
+              <TouchableOpacity style={{ position: 'absolute', right: 30, bottom: 35 }}
+                onPress={exibirSenha}>
+                <Image style={styles.logoMostrarSenha} source={require('../images/show.png')} />
+              </TouchableOpacity>
+            </View>
+
           )} />
 
         <View style={styles.espacoEsqueciSenha}>
