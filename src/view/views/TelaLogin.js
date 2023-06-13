@@ -160,7 +160,7 @@ const TelaLogin = ({ navigation }) => {
 
       <View style={styles.dadosLogin}>
 
-        {/* Input CPF */}
+        {/* Input CPF. */}
         {errors.cpf && <Text style={styles.textoAlertaInputLogin}>{errors.cpf.message}</Text>}
         <Controller
           control={control}
@@ -179,6 +179,7 @@ const TelaLogin = ({ navigation }) => {
             />
           )} />
 
+        {/* Input Senha. */}
         {errors.senha && <Text style={styles.textoAlertaInputLogin}>{errors.senha.message}</Text>}
         <Controller
           control={control}
@@ -202,12 +203,12 @@ const TelaLogin = ({ navigation }) => {
             </View>
           )} />
 
+        {/* Link para recuperar senha. */}
         <View style={styles.espacoEsqueciSenha}>
           <TouchableOpacity
             onPress={() => navigation.navigate('Recuperar senha')}>
             <Text style={styles.textoEsqueciSenha}>Esqueci minha senha</Text>
           </TouchableOpacity>
-
         </View>
       </View>
 
@@ -218,11 +219,11 @@ const TelaLogin = ({ navigation }) => {
         visibilityTime={3500}
       />
 
+      {/* Botões para logar ou cadastrar. */}
       <View style={styles.footerLogin}>
         <TouchableOpacity style={styles.botaoLogin}
           onPress={handleSubmit(onSubmit)}
         >
-
           <Text style={styles.textoBotaoLogin}>Entrar</Text>
         </TouchableOpacity>
 
@@ -238,7 +239,6 @@ const TelaLogin = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
-
     </View >
   )
 };
