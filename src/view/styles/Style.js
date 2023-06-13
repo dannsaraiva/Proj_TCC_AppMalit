@@ -72,6 +72,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontFamily: "Alata-Regular",
     },
+    logoCadastroMostrarSenha: {
+        width: 25,
+        height: 25
+    },
     espacoBotaoCadastrar: {
         position: "absolute",
         left: "25%",

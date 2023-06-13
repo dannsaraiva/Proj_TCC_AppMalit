@@ -146,7 +146,6 @@ const TelaLogin = ({ navigation }) => {
   const exibirSenha = () => {
 
     setMostrarSenha(!mostrarSenha);
-    
   };
 
   //Codigo do front.
@@ -201,7 +200,6 @@ const TelaLogin = ({ navigation }) => {
                 <Image style={styles.logoMostrarSenha} source={require('../images/show.png')} />
               </TouchableOpacity>
             </View>
-
           )} />
 
         <View style={styles.espacoEsqueciSenha}>

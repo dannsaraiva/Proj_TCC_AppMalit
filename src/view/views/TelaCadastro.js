@@ -82,6 +82,13 @@ const TelaCadastro = ({ navigation }) => {
     })
   };
 
+  //Mostrar a senha.
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const exibirSenha = () => {
+
+    setMostrarSenha(!mostrarSenha);
+  };
+
   //Início o codigo da tela.
   return (
     <View style={styles.container}>
@@ -189,20 +196,27 @@ const TelaCadastro = ({ navigation }) => {
               />
             )} />
 
-          {errors.senha && <Text style={styles.textoAlertaInputCadastro}>{errors.senha.message}</Text>}
+          {errors.senha && <Text style={styles.textoAlertaInputLogin}>{errors.senha.message}</Text>}
           <Controller
             control={control}
             name='senha'
             render={({ field: { onChange, onBlur, value } }) => (
 
-              <TextInput style={styles.textoInputCadastroFooter} placeholder='Senha:'
-                placeholderTextColor={"#000"}
-                secureTextEntry={true}
+              <View>
+                <TextInput style={styles.textoInputCadastro} placeholder='Senha:'
+                  placeholderTextColor={"#000"}
+                  secureTextEntry={!mostrarSenha}
 
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+
+                <TouchableOpacity style={{ position: 'absolute', right: 30, bottom: 30 }}
+                  onPress={exibirSenha}>
+                  <Image style={styles.logoCadastroMostrarSenha} source={require('../images/show.png')} />
+                </TouchableOpacity>
+              </View>
             )} />
 
           {/* Código para confirmar senha. */}
