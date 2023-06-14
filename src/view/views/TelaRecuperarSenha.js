@@ -1,15 +1,59 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, BackHandler } from 'react-native';
 
 //Estilização.
 import styles from '../styles/Style';
 
+//Importação das bibliotecas para validação de dados.
+import { useForm, Controller } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup";
+
+//Importação da API.
+import api from "../../services/api";
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
+const rota = "/RecuperarSenha";
+
+//Esquema em yup para validar os dados.
+const esquema = yup.object().shape({
+  email: yup.string().email('Email inválido').required('Email é obrigatório')
+});
+
 const RecuperarSenha = ({ navigation }) => {
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      return true
-    }, [])
-  })
+
+  //Parâmetros do hook-form.
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: yupResolver(esquema)
+  });
+
+  //Captura os dados e atribui ao data.
+  const [email, setEmail] = useState(null);
+  const onSubmit = (data) => setEmail(data.email);
+
+  console.log(email);
+  //Chamando a API.
+  useEffect(() => {
+
+    if (email !== null) {
+      api.post(rota, {
+
+        email: email
+
+      }).then((data) => {
+
+        console.log("Senha enviada!");
+        // mensagemSucesso();
+        // reset();
+
+      }).catch((error) => {
+
+        console.log(`Erro ao enviar a senha ${error}`);
+        // mensagemErro();
+      })
+    };
+  }, [email]);
+
+  // 
   return (
     <View style={styles.container}>
 
@@ -17,19 +61,35 @@ const RecuperarSenha = ({ navigation }) => {
         <Text style={styles.textoCabecalho}>Recuperar a senha</Text>
       </View>
 
-      <View style={styles.logoLogin}>
+      <View style={styles.logoRecuperarSenha}>
         <Image style={styles.logo}
           source={require('../images/Logo_Malit.png')} />
       </View>
 
-      <View style={styles.dadosLogin}>
-        <Text style={styles.textoRecuperar}>Digite seu CPF, telefone ou e-mail:</Text>
-        <TextInput style={styles.textoInputLogin} placeholder='Digite ...' placeholderTextColor={"#000"} />
+      <View style={styles.dadosRecuperarSenha}>
+        {errors.email && <Text style={styles.textoAlertaInputCadastro}>{errors.email.message}</Text>}
+        <Controller
+          control={control}
+          name='email'
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.textoInputLogin} placeholder='E-mail:'
+              placeholderTextColor={"#000"}
+
+              keyboardType='email-address'
+
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )} />
       </View>
 
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.botao}>
-          <Text style={styles.textoBotao}>Recuperar</Text>
+      {/* Botões para logar ou cadastrar. */}
+      <View style={styles.footerLogin}>
+        <TouchableOpacity style={styles.botaoLogin}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={styles.textoBotaoLogin}>Recuperar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -40,7 +100,8 @@ const RecuperarSenha = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Ajuda')}>
           <Image style={styles.logoAjuda}
-            source={require('../images/help.png')} />
+            source={require('../images/help.png')}
+          />
         </TouchableOpacity>
       </View>
 

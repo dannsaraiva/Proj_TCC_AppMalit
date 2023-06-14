@@ -261,10 +261,26 @@ const styles = StyleSheet.create({
 
     //Estilização da tela recuperar a senha.
     textoRecuperar: {
+        color: "#000",
         fontSize: 25,
+        fontFamily: "Alata-Regular",
         width: 250,
         textAlign: "center",
-        marginBottom: 25
+        marginTop: 15,
+        marginBottom: 15,
+    },
+    logoRecuperarSenha: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: 80
+    },
+    dadosRecuperarSenha: {
+        position: "absolute",
+        marginTop: 390,
+        alignItems: "center",
+        left: "10%",
+        height: "10%",
     },
 
     // 
@@ -287,28 +303,22 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
-        margin: -50,
-
-
+        margin: -50
     },
     dropListCadastroMedicamentos: {
         color: "#000"
-
     },
     dropTextCadastroMedicamentos: {
         color: "#000",
         textAlign: "center",
         fontSize: 20,
         fontFamily: "Alata-Regular"
-
-
     },
     dropStyleCadastroMedicamentos: {
         marginLeft: 20,
         marginRight: 20,
         marginTop: 2,
         borderColor: corPesquisar
-
     },
 
     //Estilização da tela - menu.
