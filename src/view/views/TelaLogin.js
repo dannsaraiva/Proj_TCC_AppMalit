@@ -70,7 +70,7 @@ const TelaLogin = ({ navigation }) => {
   });
 
   //Parâmetros do hook-form.
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(esquema)
   });
 
@@ -228,12 +228,18 @@ const TelaLogin = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => { navigation.navigate('Cadastro') }}>
+          onPress={() => {
+            navigation.navigate('Cadastro');
+            reset();
+          }}>
           <Text style={styles.textoFooter}>Cadastrar-se</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('Ajuda')}>
+          onPress={() => {
+            navigation.navigate('Ajuda');
+            reset();
+          }}>
           <Image style={styles.logoAjuda}
             source={require('../images/help.png')}
           />
