@@ -196,7 +196,7 @@ const TelaCadastro = ({ navigation }) => {
               />
             )} />
 
-          {errors.senha && <Text style={styles.textoAlertaInputLogin}>{errors.senha.message}</Text>}
+          {errors.senha && <Text style={styles.textoAlertaInputCadastro}>{errors.senha.message}</Text>}
           <Controller
             control={control}
             name='senha'
@@ -218,22 +218,6 @@ const TelaCadastro = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             )} />
-
-          {/* Código para confirmar senha. */}
-          {/* {errors.confirmarSenha && <Text style={styles.textoAlertaInputCadastro}>{errors.confirmarSenha.message}</Text>}
-          <Controller
-            control={control}
-            name='confirmarSenha'
-            render={({ field: { onChange, onBlur, value } }) => (
-
-              <TextInput style={styles.textoInputCadastro} placeholder='Confirmar Senha:'
-                placeholderTextColor={"#000"} keyboardType='numeric'
-
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )} /> */}
         </View>
       </ScrollView>
 
