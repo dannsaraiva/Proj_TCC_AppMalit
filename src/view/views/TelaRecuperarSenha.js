@@ -4,6 +4,9 @@ import { View, Text, Image, TextInput, TouchableOpacity, BackHandler } from 'rea
 //Estilização.
 import styles from '../styles/Style';
 
+//Importação biblioteca para exibir o alerta.
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+
 //Importação das bibliotecas para validação de dados.
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -19,6 +22,22 @@ const esquema = yup.object().shape({
   email: yup.string().email('Email inválido').required('Email é obrigatório')
 });
 
+//Pop-up para mostrat ao usuário.
+const mensagemSucesso = () => {
+  Toast.show({
+    type: 'info',
+    text1: 'Senha enviada, acesse o seu e-mail.'
+  });
+};
+const mensagemErro = () => {
+  Toast.show({
+    type: 'error',
+    text1: 'Erro, tente novamente.',
+  });
+};
+
+
+//Construção da tela.
 const RecuperarSenha = ({ navigation }) => {
 
   //Parâmetros do hook-form.
@@ -42,13 +61,12 @@ const RecuperarSenha = ({ navigation }) => {
       }).then((data) => {
 
         console.log("Senha enviada!");
-        // mensagemSucesso();
-        // reset();
-
+        mensagemSucesso();
+        reset();
       }).catch((error) => {
 
         console.log(`Erro ao enviar a senha ${error}`);
-        // mensagemErro();
+        mensagemErro();
       })
     };
   }, [email]);
@@ -84,6 +102,13 @@ const RecuperarSenha = ({ navigation }) => {
           )} />
       </View>
 
+      {/* Componente para exibir o Pop-up */}
+      < Toast
+        position='top'
+        bottomOffset={40}
+        visibilityTime={3000}
+      />
+
       {/* Botões para logar ou cadastrar. */}
       <View style={styles.footerLogin}>
         <TouchableOpacity style={styles.botaoLogin}
@@ -104,7 +129,6 @@ const RecuperarSenha = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
-
     </View>
   )
 };
