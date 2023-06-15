@@ -27,14 +27,13 @@ const TelaTeste = ({ navigation }) => {
 
     //Desativando a maleta para testes.
     const desativaTeste = () => {
-        console.log("Desativa")
         update(ref(bd, 'maleta/'),
             {
 
                 funcaoalarme: true,
             }).then(() => {
 
-
+                console.log("Desativa")
             }).catch((error) => {
 
                 console.log(error);
@@ -190,7 +189,7 @@ const TelaTeste = ({ navigation }) => {
             });
     };
 
-    // //Buzzer.
+    //Buzzer.
     const testeBuzzer = () => {
         update(ref(bd, 'maleta/'), {
 
@@ -205,7 +204,7 @@ const TelaTeste = ({ navigation }) => {
             })
     };
 
-    // //Todas as leds.
+    //Todas as leds.
     const testeLEDS = () => {
         update(ref(bd, 'maleta/'), {
 
@@ -331,7 +330,7 @@ const TelaTeste = ({ navigation }) => {
                 </View>
             </View>
 
-            {/* Mini janela para tratativa da senha: */}
+            {/* Mini janela para validar o compartimento: */}
             <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"
@@ -451,12 +450,10 @@ const TelaTeste = ({ navigation }) => {
             {/* Navegação inferior: */}
             <View style={styles.footerNavegacao}>
                 <TouchableOpacity style={styles.botaoNavegacao}
-
                     onPress={() => {
                         navigation.goBack();
                         desativaTeste();
                     }}>
-
                     <Image style={styles.logoBotaoNavegacao} source={require('../images/botao-voltar.png')} />
                     <Text style={styles.textoBotaoNavegacao}>Voltar</Text>
                 </TouchableOpacity>
@@ -481,6 +478,6 @@ const TelaTeste = ({ navigation }) => {
             </View>
         </View >
     )
-}
+};
 
 export default TelaTeste;
