@@ -255,7 +255,11 @@ const TelaCadastro = ({ navigation }) => {
         </TouchableOpacity>
 
         {/* Botão para ajuda. */}
-        <TouchableOpacity style={styles.espacoLogoAjudaCadastro}>
+        <TouchableOpacity style={styles.espacoLogoAjudaCadastro}
+          onPress={() => {
+            navigation.navigate('Ajuda');
+            reset();
+          }}>
           <Image style={styles.logoAjudaCadastro}
             source={require('../images/help.png')} />
         </TouchableOpacity>
