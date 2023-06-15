@@ -228,7 +228,7 @@ const TelaTeste = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.cabecalho}>
-                <Text style={styles.textoCabecalho}>Teste da maleta</Text>
+                <Text style={styles.textoCabecalho}>Teste maleta</Text>
             </View>
 
             {/* Espaço dos botões: */}
