@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "#000",
         fontFamily: "Alata-Regular",
+        marginTop: -10
     },
     logoAjuda: {
         width: 45,
@@ -188,6 +189,11 @@ const styles = StyleSheet.create({
         fontFamily: "Alata-Regular",
         fontSize: 32,
         color: "#000"
+    },
+    textoFooterLogin: {
+        fontSize: 20,
+        color: "#000",
+        fontFamily: "Alata-Regular"
     },
     footerLogin: {
         position: "absolute",

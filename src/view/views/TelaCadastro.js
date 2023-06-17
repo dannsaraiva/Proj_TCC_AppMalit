@@ -87,6 +87,10 @@ const TelaCadastro = ({ navigation }) => {
   const exibirSenha = () => {
 
     setMostrarSenha(!mostrarSenha);
+
+    setTimeout(() => {
+      setMostrarSenha(false);
+    }, 3000);
   };
 
   //Início o codigo da tela.

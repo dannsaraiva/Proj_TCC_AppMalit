@@ -146,6 +146,10 @@ const TelaLogin = ({ navigation }) => {
   const exibirSenha = () => {
 
     setMostrarSenha(!mostrarSenha);
+
+    setTimeout(() => {
+      setMostrarSenha(false);
+    }, 3000);
   };
 
   //Codigo do front.
@@ -232,7 +236,7 @@ const TelaLogin = ({ navigation }) => {
             navigation.navigate('Cadastro');
             reset();
           }}>
-          <Text style={styles.textoFooter}>Cadastrar-se</Text>
+          <Text style={styles.textoFooterLogin}>Cadastrar-se</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
