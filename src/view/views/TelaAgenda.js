@@ -30,7 +30,7 @@ import { bd } from '../../services/config.firebase';
 
 const TelaAgenda = ({ navigation }) => {
 
-    //Pop-up para mostrat ao usuário.
+    //Pop-up para mostrar ao usuário.
     const mensagemSucesso = () => {
         Toast.show({
             type: 'info',
@@ -133,7 +133,7 @@ const TelaAgenda = ({ navigation }) => {
                         <Text style={styles.nomeMedicamentoAgendaMedicamentos}>{item.nome_med} - {item.hora} </Text>
                     </View>
 
-                    <Text style={styles.descricaoAgendaMedicamentos}>Compartimento: {item.CompartimentosFirebase}</Text>
+                    <Text style={styles.descricaoAgendaMedicamentos}>Compartimento: {item.compartimentosFirebase}</Text>
                 </View>
 
                 <TouchableOpacity onPress={() => {
@@ -234,7 +234,7 @@ const TelaAgenda = ({ navigation }) => {
 
             api.put(rotaComp + idMedicamento, {
 
-                CompartimentosFirebase: idCompartimento
+                compartimentosFirebase: idCompartimento
             }).then((response) => {
 
                 console.log("API salvar o compartimento")
@@ -312,7 +312,7 @@ const TelaAgenda = ({ navigation }) => {
                             <TextInput editable={false} style={styles.textoInputPerfil}>{editarMedicamento.nome_med} </TextInput>
 
                             <Text style={styles.tituloSenha}>Compartimento:</Text>
-                            <TextInput editable={false} style={styles.textoInputPerfil}>{editarMedicamento.CompartimentosFirebase}</TextInput>
+                            <TextInput editable={false} style={styles.textoInputPerfil}>{editarMedicamento.compartimentosFirebase}</TextInput>
 
                             <View style={styles.espacoBotaoModal}>
                                 <TouchableOpacity

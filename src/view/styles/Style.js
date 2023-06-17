@@ -697,7 +697,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     inputPesquisarMedicamentos: {
-        marginLeft: 15
+        fontFamily: "Alata-Regular",
+        color: "#000",
+        fontSize: 18,
+        marginLeft: 15,
+        marginBottom: -5
     },
     logoPesquisarMedicamentos: {
         width: 25,
