@@ -47,7 +47,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
         api.get(rota, {
 
         }).then((response) => {
-            
+
             setMedicamentos(response.data.data);
             setMedicamentosPes(response.data.data);
             setApiListagem(true);
@@ -178,7 +178,7 @@ const TelaMeusMedicamentos = ({ navigation }) => {
                         <View style={styles.espacoModal}>
                             <View style={styles.modalViewMeusMedicamentos}>
 
-                                <Text style={styles.modalTitulo}>Alterar o medicamento:</Text>
+                                <Text style={styles.modalTitulo}>Excluir o medicamento:</Text>
 
                                 <Text style={styles.tituloSenha}>Nome:</Text>
                                 <TextInput editable={false} style={styles.textoInputPerfil}>{editarMedicamento.nome_med} </TextInput>
