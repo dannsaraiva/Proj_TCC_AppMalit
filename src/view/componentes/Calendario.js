@@ -33,7 +33,7 @@ LocaleConfig.defaultLocale = 'dias';
 
 //Importação da API.
 import api from "../../services/api";
-const rotaListComp = "/ListagemMedCompartimento";
+const rotaListComp = "/ListagemMedCalendario";
 
 //Códio do componente.
 const Calendario = () => {
@@ -43,18 +43,19 @@ const Calendario = () => {
     const [dadosCalendario, setDadosCalendario] = useState(null);
 
     //Api para buscar as datas para alimentar o calendário.
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     api.get(rotaListComp, {
-    //     }).then((response) => {
+        api.get(rotaListComp, {
+        }).then((response) => {
 
-    //         setDadosCalendario(response.data.data);
+            setDadosCalendario(response.data.data);
+            console.log("Listagem calendário")
 
-    //     }).catch((erro) => {
+        }).catch((erro) => {
 
-    //         console.log("Erro listagem para calendário " + erro);
-    //     })
-    // }, [apiCalendario]);
+            console.log("Erro listagem para calendário " + erro);
+        })
+    }, [apiCalendario]);
 
     //Função para marca no calendário os dias de consumo.
     const getMarked = () => {

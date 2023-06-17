@@ -18,11 +18,11 @@ import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
 //Importação da API.
 import api from "../../services/api";
-const rota = "/ListagemMed";
+const rota = "/ListagemMedNullCompartimento";
 const rotaID = "/ListagemMedId/";
 const rotaComp = "/AtualizarMedCompartimento/";
 const rotaListComp = "/ListagemMedCompartimento";
-const rotaExclusao = "/DeletarMed/";
+const rotaExclusao = "/DeletarCompartimento/";
 
 // Importação do firebase.
 import { ref, update } from "firebase/database";
@@ -40,7 +40,8 @@ const TelaAgenda = ({ navigation }) => {
     const mensagemSucessoExcluir = () => {
         Toast.show({
             type: 'info',
-            text1: 'Medicamento excluído'
+            text1: 'Medicamento alterado',
+            onHide: setApiListComp(true)
         });
     };
 
@@ -91,11 +92,11 @@ const TelaAgenda = ({ navigation }) => {
             });
             setDropList(dadosDropList);
 
-            console.log("Listagem ao carregar");
+            console.log("Listagem do DropList");
 
         }).catch((error) => {
 
-            console.log("Erro API Listagem: " + error)
+            console.log("Erro API DropList: " + error)
         })
     }, []);
 
@@ -161,11 +162,11 @@ const TelaAgenda = ({ navigation }) => {
             }).then((response) => {
 
                 setMedicamentoListado(response.data.data);
-                console.log("Listagem - ID")
+                console.log("Listagem por ID")
 
             }).catch((error) => {
 
-                console.log("Erro API Listagem por ID:" + error)
+                console.log("Erro API listagem por ID: " + error)
             })
         }
     }, [idMedicamento]);
@@ -175,7 +176,7 @@ const TelaAgenda = ({ navigation }) => {
 
         if (medicamentoListado != null) {
 
-            console.log("useEffect medicamento");
+            console.log("Chama API Firebase");
             setApiFire(true);
         }
     }, [medicamentoListado]);
@@ -236,12 +237,12 @@ const TelaAgenda = ({ navigation }) => {
                 CompartimentosFirebase: idCompartimento
             }).then((response) => {
 
-                console.log("COMPAR")
+                console.log("API salvar o compartimento")
                 setApiCom(false);
 
             }).catch((error) => {
 
-                console.log("Erro API Compartimento: " + error)
+                console.log("Erro ao salvar o compartimento: " + error)
             })
         };
     }, [apiComp]);
@@ -252,6 +253,7 @@ const TelaAgenda = ({ navigation }) => {
 
         }).then((response) => {
 
+            console.log("Medicamento sem compartimento");
             mensagemSucessoExcluir();
             setModalEditar(false);
             setApiListComp(true);
@@ -259,6 +261,8 @@ const TelaAgenda = ({ navigation }) => {
         }).catch((error) => {
 
             mensagemErro();
+            console.log("Erro medicamento sem compartimento");
+
         })
     };
 
@@ -302,7 +306,7 @@ const TelaAgenda = ({ navigation }) => {
                     <View style={styles.espacoModal}>
                         <View style={styles.modalViewAgendaMedicamentos}>
 
-                            <Text style={styles.modalTitulo}>Alterar o medicamento:</Text>
+                            <Text style={styles.modalTitulo}>Desatribuir o medicamento:</Text>
 
                             <Text style={styles.tituloSenha}>Nome:</Text>
                             <TextInput editable={false} style={styles.textoInputPerfil}>{editarMedicamento.nome_med} </TextInput>
@@ -314,7 +318,7 @@ const TelaAgenda = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.botaoVoltar}
                                     onPress={() => setModalEditar(false)}>
-                                    <Text style={styles.textStyle}>Voltar</Text>
+                                    <Text style={styles.textStyle}>Não</Text>
                                 </TouchableOpacity>
 
                                 <TouchableOpacity
@@ -322,7 +326,7 @@ const TelaAgenda = ({ navigation }) => {
                                     onPress={() =>
                                         excluirMedicamento(editarMedicamento.id_med)
                                     }>
-                                    <Text style={styles.textStyle}>Excluir</Text>
+                                    <Text style={styles.textStyle}>Sim</Text>
                                 </TouchableOpacity>
 
                                 {/* <TouchableOpacity
