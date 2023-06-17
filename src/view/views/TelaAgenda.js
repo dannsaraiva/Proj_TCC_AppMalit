@@ -28,22 +28,25 @@ const rotaExclusao = "/DeletarCompartimento/";
 import { ref, update } from "firebase/database";
 import { bd } from '../../services/config.firebase';
 
+//Pop-up para mostrar ao usuário.
+const mensagemSucesso = () => {
+    Toast.show({
+        type: 'info',
+        text1: 'Medicamento atribuido'
+    });
+};
+const mensagemSucessoExcluir = () => {
+    Toast.show({
+        type: 'info',
+        text1: 'Medicamento alterado'
+    });
+};
+
 const TelaAgenda = ({ navigation }) => {
 
-    //Pop-up para mostrar ao usuário.
-    const mensagemSucesso = () => {
-        Toast.show({
-            type: 'info',
-            text1: 'Medicamento atribuido'
-        });
-    };
-    const mensagemSucessoExcluir = () => {
-        Toast.show({
-            type: 'info',
-            text1: 'Medicamento alterado',
-            onHide: setApiListComp(true)
-        });
-    };
+    //Variáveis para chamar API.
+    const [apiListComp, setApiListComp] = useState(false);
+    const [apiListDrop, setApiListDrop] = useState(false);
 
     //Variável para identificar os dados para ir ao Firebase.
     const [idMedicamento, setIdMedicamento] = useState(null);
@@ -52,7 +55,6 @@ const TelaAgenda = ({ navigation }) => {
     //Variáveis para chamar as API.
     const [apiFire, setApiFire] = useState(false);
     const [apiComp, setApiCom] = useState(false);
-    const [apiListComp, setApiListComp] = useState(false);
 
     //Habilitar o componete Modal.
     const [modalAtribuir, setModalAtribuir] = useState(false);
@@ -91,15 +93,15 @@ const TelaAgenda = ({ navigation }) => {
                 }
             });
             setDropList(dadosDropList);
-
-            console.log("Listagem do DropList");
+            setApiListDrop(false);
 
         }).catch((error) => {
 
             console.log("Erro API DropList: " + error)
         })
-    }, []);
+    }, [apiListDrop]);
 
+    //API para abastecer o VirtualList.
     const [medicamentoListadoCompartimentos, setMedicamentoListadoCompartimentos] = useState([]);
 
     useEffect(() => {
@@ -108,7 +110,8 @@ const TelaAgenda = ({ navigation }) => {
         }).then((response) => {
 
             setMedicamentoListadoCompartimentos(response.data.data);
-            console.log("Listou por compartimento");
+            setApiListComp(false);
+
         }).catch((erro) => {
 
             console.log("Erro listagem por compartimento " + erro);
@@ -145,7 +148,7 @@ const TelaAgenda = ({ navigation }) => {
                         position: 'absolute', right: 10,
                         bottom: 5
                     }}>
-                    <Image style={styles.logoAgendaEditMedicamentos} source={require('../images/trash.png')} />
+                    <Image style={styles.logoAgendaEditMedicamentos} source={require('../images/edit.png')} />
                 </TouchableOpacity>
             </View >
         </View >
@@ -162,7 +165,6 @@ const TelaAgenda = ({ navigation }) => {
             }).then((response) => {
 
                 setMedicamentoListado(response.data.data);
-                console.log("Listagem por ID")
 
             }).catch((error) => {
 
@@ -173,23 +175,19 @@ const TelaAgenda = ({ navigation }) => {
 
     //Função para chamar a API Firebase.
     useEffect(() => {
-
         if (medicamentoListado != null) {
 
-            console.log("Chama API Firebase");
             setApiFire(true);
+
         }
     }, [medicamentoListado]);
 
     //Parâmetros do hook-form.
-    const [formulario, setFormulario] = useState(null);
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
     });
 
     //Captura os dados e atribui ao data.
     const onSubmit = data => {
-
-        setFormulario(data);
         setIdMedicamento(data.medicamento);
         setIdCompartimento(data.compartimento);
     };
@@ -210,7 +208,7 @@ const TelaAgenda = ({ navigation }) => {
                     diasConsumo: medicamentoListado.diasConsumoFirebase,
 
                 })
-                .then((response) => {
+                .then(() => {
 
                     setModalAtribuir(false);
                     setResetDropdown(true);
@@ -218,7 +216,7 @@ const TelaAgenda = ({ navigation }) => {
                     setApiFire(false);
                     setApiCom(true);
                     setApiListComp(true);
-                    console.log("API Firebase" + response);
+                    setApiListDrop(true);
 
                 }).catch((error) => {
 
@@ -237,7 +235,6 @@ const TelaAgenda = ({ navigation }) => {
                 compartimentosFirebase: idCompartimento
             }).then((response) => {
 
-                console.log("API salvar o compartimento")
                 setApiCom(false);
 
             }).catch((error) => {
@@ -251,17 +248,16 @@ const TelaAgenda = ({ navigation }) => {
     const excluirMedicamento = (valor) => {
         api.delete(rotaExclusao + valor, {
 
-        }).then((response) => {
+        }).then(() => {
 
-            console.log("Medicamento sem compartimento");
             mensagemSucessoExcluir();
             setModalEditar(false);
             setApiListComp(true);
+            setApiListDrop(true);
 
-        }).catch((error) => {
+        }).catch(() => {
 
             mensagemErro();
-            console.log("Erro medicamento sem compartimento");
 
         })
     };
