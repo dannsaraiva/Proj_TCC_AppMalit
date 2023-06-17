@@ -23,17 +23,14 @@ const TelaMeusMedicamentos = ({ navigation }) => {
     const mensagemSucesso = () => {
         Toast.show({
             type: 'error',
-            text1: 'Medicamento excluído',
-            onHide: (
-                setApiListagem(true)
-            )
+            text1: 'Medicamento excluído'
         });
     };
 
     const mensagemErro = () => {
         Toast.show({
             type: 'error',
-            text1: 'Tente novamente',
+            text1: 'Tente novamente'
         });
     };
 
@@ -50,8 +47,10 @@ const TelaMeusMedicamentos = ({ navigation }) => {
         api.get(rota, {
 
         }).then((response) => {
+            
             setMedicamentos(response.data.data);
             setMedicamentosPes(response.data.data);
+            setApiListagem(true);
 
         }).catch((error) => {
 
@@ -67,10 +66,11 @@ const TelaMeusMedicamentos = ({ navigation }) => {
 
             mensagemSucesso();
             setModalEditar(false);
+            setApiListagem(false);
 
         }).catch((error) => {
 
-            mensagemErro()
+            mensagemErro();
         })
     };
 
