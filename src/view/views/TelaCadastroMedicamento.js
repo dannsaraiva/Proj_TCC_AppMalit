@@ -22,23 +22,28 @@ import * as yup from "yup";
 import api from "../../services/api";
 const rota = "/CadastroMed";
 
-//Pop-up para mostrat ao usuário.
-const mensagemSucesso = () => {
-    Toast.show({
-        type: 'info',
-        text1: 'Medicamento foi cadastrado'
-    });
-};
 
-const mensagemErro = () => {
-    Toast.show({
-        type: 'error',
-        text1: 'Medicamento não foi cadastrado, tente novamente'
-    });
-};
 
 //Código da tela.
 const TelaCadastroMedicamento = ({ navigation }) => {
+
+    //Pop-up para mostrat ao usuário.
+    const mensagemSucesso = () => {
+        Toast.show({
+            type: 'info',
+            text1: 'Medicamento foi cadastrado',
+            onHide: (
+                setResetDropdown(false)
+            )
+        });
+    };
+
+    const mensagemErro = () => {
+        Toast.show({
+            type: 'error',
+            text1: 'Medicamento não foi cadastrado, tente novamente'
+        });
+    };
 
     //Parâmetros do Datapicker.
     const [data, setData] = useState(new Date());
