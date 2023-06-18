@@ -14,7 +14,6 @@ import * as yup from "yup";
 
 //Importação da API.
 import api from "../../services/api";
-import { useSafeAreaFrame } from 'react-native-safe-area-context';
 const rota = "/RecuperarSenha";
 
 //Esquema em yup para validar os dados.
@@ -36,7 +35,6 @@ const mensagemErro = () => {
   });
 };
 
-
 //Construção da tela.
 const RecuperarSenha = ({ navigation }) => {
 
@@ -47,29 +45,38 @@ const RecuperarSenha = ({ navigation }) => {
 
   //Captura os dados e atribui ao data.
   const [email, setEmail] = useState(null);
-  const onSubmit = (data) => setEmail(data.email);
+  const [apiTrocar, setApiTrocar] = useState(false);
 
-  console.log(email);
+
+  const onSubmit = (data) => {
+    setEmail(data.email)
+    setApiTrocar(true);
+  };
+
+  console.log(apiTrocar)
+
   //Chamando a API.
   useEffect(() => {
 
-    if (email !== null) {
+    if (apiTrocar === true) {
       api.post(rota, {
 
         email: email
 
       }).then((data) => {
 
-        console.log("Senha enviada!");
         mensagemSucesso();
         reset();
+        setApiTrocar(false);
+
       }).catch((error) => {
 
         console.log(`Erro ao enviar a senha ${error}`);
         mensagemErro();
+
       })
     };
-  }, [email]);
+  }, [apiTrocar]);
 
   // 
   return (
@@ -119,7 +126,7 @@ const RecuperarSenha = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')} >
-          <Text style={styles.textoFooter}>Voltar para o login</Text>
+          <Text style={styles.textoFooterLogin}>Voltar para o login</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
