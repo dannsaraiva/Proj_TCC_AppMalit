@@ -1,3 +1,8 @@
+
+<div align="center">
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/view/images/Logo_Malit.png" alt="logo"/>
+</div>
+
 # Proj_TCC_Malit
 Repositório para armazenar a parte do front do projeto. 
 
