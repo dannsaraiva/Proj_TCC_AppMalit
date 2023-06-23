@@ -19,7 +19,7 @@ const esquema = yup.object().shape({
   dataDeNascimento: yup.string().required('Data obrigatória'),
   telefone: yup.string().required('Telefone é obrigatório'),
   cpf: yup.string().min(14, "CPF precisa ter 11 dígitos").required('CPF é obrigatório'),
-  senha: yup.string().min(10, 'Senha deve ter no mínimo 10 caracteres').required('Senha é obrigatória'),
+  senha: yup.string().min(6, 'Senha deve ter no mínimo 6 caracteres').required('Senha é obrigatória'),
 });
 
 //Mascara do Input.

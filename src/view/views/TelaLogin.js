@@ -18,7 +18,7 @@ import * as yup from "yup";
 //Esquema em yup para validar os dados.
 const esquema = yup.object().shape({
   cpf: yup.string().min(14, "CPF precisa ter 11 dígitos").required('CPF é obrigatório'),
-  senha: yup.string().min(10, 'Senha deve ter no mínimo 10 caracteres').required("Digite sua senha"),
+  senha: yup.string().min(6, 'Senha deve ter no mínimo 6 caracteres').required("Digite sua senha"),
 });
 
 //Importação do AsyncStorage.
@@ -99,7 +99,6 @@ const TelaLogin = ({ navigation }) => {
         }).catch((error) => {
 
           setErroRetorno(error.message.slice(32, 35));
-          console.log(erroRetorno)
           setValida(true);
         })
     }

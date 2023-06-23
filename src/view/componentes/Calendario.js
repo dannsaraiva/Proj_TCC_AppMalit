@@ -42,20 +42,64 @@ const Calendario = () => {
     const [apiCalendario, setCalendario] = useState(false);
     const [dadosCalendario, setDadosCalendario] = useState(null);
 
+
+    const [preencherCalendario, setPreencherCalendario] = useState(false);
+
+    const [diaData, setDiaData] = useState(null);
+    const [mesAnoData, setMesAnoData] = useState(null);
+    const [diasConsumo, setDiasConsumo] = useState(null);
+
+
+
     //Api para buscar as datas para alimentar o calendário.
-    useEffect(() => {
+    // useEffect(() => {
 
-        api.get(rotaListComp, {
-        }).then((response) => {
+    //     api.get(rotaListComp, {
+    //     }).then((response) => {
 
-            setDadosCalendario(response.data.data);
-            console.log("Listagem calendário")
+    //         setDadosCalendario(response.data.data);
+    //         // console.log("Listagem calendário")
 
-        }).catch((erro) => {
+    //     }).catch((erro) => {
 
-            console.log("Erro listagem para calendário " + erro);
-        })
-    }, [apiCalendario]);
+    //         console.log("Erro listagem para calendário " + erro);
+    //     })
+    // }, [apiCalendario]);
+
+    // setPreencherCalendario(true);
+
+    // useEffect(() => {
+
+    //     if (dadosCalendario != null) {
+
+    //         console.log(dadosCalendario);
+
+    //         setMesAnoData(dadosCalendario[0].data.slice(0, 8));
+    //         setDiaData(dadosCalendario[0].data.slice(8, 10));
+    //         setDiasConsumo(dadosCalendario[0].diasConsumoFirebase);
+
+
+    //         for (let i = 1; i <= diasConsumo; i++) {
+
+
+    //             var dia = 10;
+    //             var resultado = dia + i;
+    //             console.log(i + " " + resultado);
+
+
+    //         }
+
+
+    //     }
+
+
+    // }, [preencherCalendario]);
+
+    // console.log(mesAnoData);
+    // console.log(diaData);
+
+
+
 
     //Função para marca no calendário os dias de consumo.
     const getMarked = () => {
@@ -69,7 +113,7 @@ const Calendario = () => {
                 (i >= 6 && i <= 10) && {
                     color: 'orange',
                 },
-                (i >= 11 && i <= 15) && {
+                (i >= 8 && i <= 15) && {
                     color: 'black',
                 },
                 (i >= 16 && i <= 30) && {
@@ -83,6 +127,22 @@ const Calendario = () => {
         }
         return marked;
     };
+
+
+
+    //Função para marca no calendário os dias de consumo.
+    // const getMarked = () => {
+
+
+    //     let marked = {
+    //         `${mesAnoData}`: {
+    //             periods: [
+    //                 { startingDay: true, endingDay: false, color: 'red' }
+    //             ]
+    //         }
+    //     }
+    //     return marked;
+    // };
 
     //Front do Calendário.
     return (

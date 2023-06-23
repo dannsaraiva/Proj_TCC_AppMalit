@@ -212,7 +212,7 @@ const TelaTeste = ({ navigation }) => {
         })
             .then(() => {
 
-                setModalVisibleAltoFalante(true)
+                setModalVisibleTodasLeds(true)
             }).catch((error) => {
 
                 console.log(error);
