@@ -48,7 +48,7 @@
 <hr></br>
 
 <div>
-<h2>:iphone:Imagens Demonstrativas do App</h2>
+<h2>:iphone: Imagens Demonstrativas do App</h2>
 
 <ul>
   <li>Tela de Loading:</li>
@@ -80,6 +80,15 @@
   width="300"/></br></br>
 </ul>
 </div>
+
+<div>
+  <h2>:camera: Imagem Demonstrativa da Maleta</h2>
+  <ul>
+    <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/assets/104029744/27099bee-f8ab-4ffe-aaa8-57440c5054e3"
+  width="300"/></br></br>
+  </ul>
+</div>
+
 </main>
 </body>
 
