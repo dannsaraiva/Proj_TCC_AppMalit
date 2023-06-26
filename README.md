@@ -51,31 +51,36 @@
 <h2>:iphone:Imagens Demonstrativas do App</h2>
 
 <ul>
-  <li>Tela de Login:</li>
-  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/assets/104029744/03dfab7d-e3f6-4159-b2f8-c81a07a22ac7"
-  width="200"/>
+  <li>Tela de Loading:</li>
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Loading.png"
+  width="300"/></br></br>
   
   <li>Tela de Login:</li>
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Login.png"
+  width="300"/></br></br>
+  
   <li>Tela de Cadastro:</li>
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Cadastro.png"
+  width="300"/></br></br>
+  
   <li>Tela de Meus Medicamentos:</li>
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Lista%20Medicamentos.png"
+  width="300"/></br></br>
+  
   <li>Tela de Cadastrar Medicamentos:</li>
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Cadastro%20Medicamento.png"
+  width="300"/></br></br>
+  
   <li>Tela de Teste Maleta:</li>
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Teste%20Maleta.png"
+  width="300"/></br></br>
+
   <li>Tela de Agenda / Alarme:</li>
+  <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Agenda%20-%20Alarme.png"
+  width="300"/></br></br>
 </ul>
-
-  
 </div>
-
-
-
 </main>
-
-<footer>
-
-  
-</footer>
-
-  
 </body>
 
 
