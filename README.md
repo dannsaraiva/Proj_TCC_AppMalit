@@ -90,6 +90,13 @@
 </div>
 
 </main>
+
+<footer>
+<div>
+    <p>📄Link da documentação:</p>
+     <a target="_blank" href="https://etecspgov-my.sharepoint.com/:w:/r/personal/talita_marcondes_etec_sp_gov_br/Documents/TCC_2022_2023/Documenta%C3%A7%C3%A3o_TCC.docx?d=w0ef1903ebee6408f9ca01e5c4367b241&csf=1&web=1&e=wfrSFR">Documentação</a>
+</div>
+</footer>
 </body>
 
 
