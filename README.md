@@ -79,7 +79,7 @@
   <img src="https://github.com/dannsaraiva/Proj_TCC_AppMalit/blob/main/src/assets/screenshots/Agenda%20-%20Alarme.png"
   width="300"/></br></br>
 </ul>
-</div>
+</div><hr>
 
 <div>
   <h2>:camera: Imagem Demonstrativa da Maleta</h2>
@@ -89,11 +89,11 @@
   </ul>
 </div>
 
-</main>
+</main><hr>
 
 <footer>
 <div>
-    <p>📄Link da documentação:</p>
+    <h2>📄 Link da documentação:</h2>
      <a target="_blank" href="https://etecspgov-my.sharepoint.com/:w:/g/personal/talita_marcondes_etec_sp_gov_br/ET6Q8Q7mvo9AnKAeXENnskEBAbV4PdQTt7CC0tA04CcbmA?e=KKIecG">Documentação</a>
 </div>
 </footer>
