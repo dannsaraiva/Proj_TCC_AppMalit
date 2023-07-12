@@ -35,7 +35,7 @@ local.properties
 !debug.keystore
 
 # Credenciais do banco
-src\services
+src\services/
 
 
 # node.js
